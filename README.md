@@ -29,10 +29,17 @@ ME GUSTARIA TENER UNA IDEA DE ALGUNA PRUEBA QUE SE PUEDA REALIZAR PARA TENER MAS
 
 
 
-Notas/dudas: 
+Notas
+- Formulario donde cada centro mete sus datos de contacto.
+
+
+
+- Dudas: 
 - Sigo sin entender la multiplicidad de experimento a material, entiendo que un experimento es para probar un material que tiene una composicion, un codigo y un nombre. En caso de estar entendiendolo mal y que a lo que me refiero ahi es a una muestra, no tendria sentido que
 - En material no se si hace falta nombre, ella dice que vale con el codigo.
-- No seria un test el que tiene asociado un material en vez de la clase test instructions? Y deberia ser con multiplicidad n porque se pueden mandar varias muestras a cada lab no? Puede que haga falta la relacion esa de test instructions para saber esas instrucciones a que material corresponden pero tambien haria faltra la relacion de n de test a material llamada samples.
+- Las muestras tienen un id o algo identificativo? El codigo es para reconocer un material verdad? 
+- No seria un test el que tiene asociado un material en vez de la clase test instructions? Y deberia ser con multiplicidad n porque se pueden mandar varias muestras a cada lab no? Puede que haga falta la relacion esa de test instructions para saber esas instrucciones a que material corresponden (Esto se sabria ya si se sabe a que experimento pertenecen las instrucciones no?) pero tambien haria faltra la relacion de n de test a material llamada samples.
+- PReguntar a Yael que termino utilizan para el material, si usan material, muestra, compuesto...
 
 
 
