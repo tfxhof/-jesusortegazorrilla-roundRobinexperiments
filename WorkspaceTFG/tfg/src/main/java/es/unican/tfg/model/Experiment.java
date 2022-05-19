@@ -2,6 +2,7 @@ package es.unican.tfg.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,11 +21,14 @@ public class Experiment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	@Column(unique=true) 
+	private String name;
 	private String description;
 	
 	//TODO: should this be 'creator_fk'?
 	@OneToOne
-	@JoinColumn(name="research_center_fk")
+	@JoinColumn(name="creator_center_fk")
 	private ResearchCenter creator;
 	
 	@OneToMany
@@ -42,32 +46,43 @@ public class Experiment {
 	//Empty constructor
 	public Experiment() {}
 	
+	
 	/**
+	 * @param name
 	 * @param description
-	 * @param material
 	 * @param creator
+	 * @param material
 	 * @param participants
 	 * @param measures
 	 */
-	public Experiment(String description, List<Sample> material, 
-			ResearchCenter creator, List<ResearchCenter> participants,
-			List<Measure> measures) {
+	public Experiment(String name, String description, ResearchCenter creator, List<Sample> material,
+			List<ResearchCenter> participants, List<Measure> measures) {
 		super();
+		this.name = name;
 		this.description = description;
-		this.material = material;
 		this.creator = creator;
+		this.material = material;
 		this.participants = participants;
 		this.measures = measures;
 	}
 
-	
-	
+
 	public long getId() {
 		return id;
 	}
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {

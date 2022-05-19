@@ -6,7 +6,7 @@ import es.unican.tfg.model.Experiment;
 
 
 public interface ExperimentRepository extends JpaRepository<Experiment, Long>{
-
-	//public Experiment findById(String id);
+	
+	public Experiment findByName(String name);
 	
 }
