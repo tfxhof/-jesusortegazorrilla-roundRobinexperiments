@@ -1,17 +1,42 @@
-package es.unican.domain;
+package es.unican.tfg.model;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+/**
+ * @author jesus
+ *
+ */
+@Entity
 public class Experiment {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	private String description;
 	
-	private Sample material;
-	
+	//TODO: should this be 'creator_fk'?
+	@OneToOne
+	@JoinColumn(name="research_center_fk")
 	private ResearchCenter creator;
 	
+	@OneToMany
+	@JoinColumn(name="experiment_fk")
+	private List<Sample> material;
+
+	@OneToMany
+	@JoinColumn(name="experiment_fk")
 	private List<ResearchCenter> participants;
 	
+	@OneToMany
+	@JoinColumn(name="experiment_fk")
 	private List<Measure> measures;
 
 	//Empty constructor
@@ -24,7 +49,8 @@ public class Experiment {
 	 * @param participants
 	 * @param measures
 	 */
-	public Experiment(String description, Sample material, ResearchCenter creator, List<ResearchCenter> participants,
+	public Experiment(String description, List<Sample> material, 
+			ResearchCenter creator, List<ResearchCenter> participants,
 			List<Measure> measures) {
 		super();
 		this.description = description;
@@ -32,6 +58,16 @@ public class Experiment {
 		this.creator = creator;
 		this.participants = participants;
 		this.measures = measures;
+	}
+
+	
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getDescription() {
@@ -42,11 +78,11 @@ public class Experiment {
 		this.description = description;
 	}
 
-	public Sample getMaterial() {
+	public List<Sample> getMaterial() {
 		return material;
 	}
 
-	public void setMaterial(Sample material) {
+	public void setMaterial(List<Sample> material) {
 		this.material = material;
 	}
 

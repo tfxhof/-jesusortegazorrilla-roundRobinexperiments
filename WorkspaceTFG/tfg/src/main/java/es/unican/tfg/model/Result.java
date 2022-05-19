@@ -1,23 +1,40 @@
-package es.unican.domain;
+package es.unican.tfg.model;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
 
 /**
  * Results about one test
  * @author Jesus
  *
  */
+@Entity
 public class Result {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	private String name;
-	
 	private String comments;
-	
 	private boolean satisfactory;
 	
+	
 	//private blob? file;
+//	@Lob
+//	@Basic(fetch = FetchType.LAZY)
+//	@Column(columnDefinition = "BLOB", nullable = false)
+//	private byte[] files;
+
 
 	//Empty constructor
 	public Result() {}
-	
+
 	/**
 	 * @param name
 	 * @param comments
@@ -30,10 +47,18 @@ public class Result {
 		this.satisfactory = satisfactory;
 	}
 
-	
-	
-	
-	
+
+
+
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -56,5 +81,5 @@ public class Result {
 	public void setSatisfactory(boolean satisfactory) {
 		this.satisfactory = satisfactory;
 	}
-	
+
 }

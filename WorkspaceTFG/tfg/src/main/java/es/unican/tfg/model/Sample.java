@@ -1,18 +1,28 @@
-package es.unican.domain;
+package es.unican.tfg.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * 
  * @author Jesus
  *
  */
+@Entity
 public class Sample {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
+	@Column(name="material_name")
 	private String material;
 	
 	private String composition;
-	
 	private String code;
-	
 	private String description;
 
 	
@@ -34,6 +44,16 @@ public class Sample {
 	}
 
 	
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getMaterial() {
 		return material;
 	}

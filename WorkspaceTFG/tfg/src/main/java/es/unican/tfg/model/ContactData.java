@@ -1,18 +1,33 @@
-package es.unican.domain;
+package es.unican.tfg.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * Contact data to contact with a center
  * @author Jesus
  *
  */
-public class ContactData {
 
+
+@Embeddable
+public class ContactData implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String country;
 	private String city;
 	private String address;
 	private String dutyManagerName;
 	
 	//Empty constructor
+	
 	public ContactData () {}
 	
 	/**
@@ -28,6 +43,9 @@ public class ContactData {
 		this.address = address;
 		this.dutyManagerName = dutyManagerName;
 	}
+	
+	
+	
 
 	public String getCountry() {
 		return country;

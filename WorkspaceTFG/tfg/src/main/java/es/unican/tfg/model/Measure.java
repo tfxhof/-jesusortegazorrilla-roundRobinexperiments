@@ -1,14 +1,27 @@
-package es.unican.domain;
+package es.unican.tfg.model;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 /**
  * Instructions about how to carry out a test which could take place in different centers
  * @author Jesus
  *
  */
+@Entity
 public class Measure {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	private String instructions;
 	
+	@OneToOne
+	@JoinColumn(name="sample_fk")
 	private Sample sample;
 
 	
@@ -23,6 +36,16 @@ public class Measure {
 		super();
 		this.instructions = instructions;
 		this.sample = sample;
+	}
+	
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getInstructions() {

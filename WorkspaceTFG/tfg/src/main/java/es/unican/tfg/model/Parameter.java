@@ -1,12 +1,21 @@
-package es.unican.domain;
+package es.unican.tfg.model;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Parameter that are going to be used during a test
  * @author Jesus
  *
  */
+@Entity
 public class Parameter {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	private String magnitude;
 	private double value;
 	
@@ -25,6 +34,16 @@ public class Parameter {
 	}
 	
 	
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getMagnitude() {
 		return magnitude;
 	}

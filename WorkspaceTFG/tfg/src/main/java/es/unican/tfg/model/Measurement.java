@@ -1,24 +1,49 @@
-package es.unican.domain;
+package es.unican.tfg.model;
 
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  * measurement of a measure in a specific center
  * @author Jesus
  *
  */
+@Entity
 public class Measurement {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
+	@OneToOne
+	@JoinColumn(name="researchCenter_fk")
 	private ResearchCenter executingCenter;
 	
+	@OneToOne
+	@JoinColumn(name="measure_fk")
 	private Measure measure;
 	
+	@OneToOne
+	@JoinColumn(name="instrument_fk")
 	private Instrument instrument;
 	
+	@OneToMany
+	@JoinColumn(name="measurement_fk")
 	private List<Parameter> parameters;
 	
+	@OneToMany
+	@JoinColumn(name="measurement_fk")
 	private List<Result> results;
 	
+	@OneToMany
+	@JoinColumn(name="measurement_fk")
 	private List<Sample> samples;
 
 	//Empty constructor
@@ -44,6 +69,14 @@ public class Measurement {
 
 	
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public ResearchCenter getExecutingCenter() {
 		return executingCenter;
 	}
