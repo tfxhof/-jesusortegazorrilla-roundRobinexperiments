@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import es.unican.tfg.model.Experiment;
-import es.unican.tfg.service.ExperimentService;
+import es.unican.tfg.model.ResearchCenter;
+import es.unican.tfg.service.ResearchCenterService;
 
 @RestController
-@RequestMapping("/experiments")
+@RequestMapping("/centers")
 @CrossOrigin
-public class ExperimentController {
+public class ResearchCenterController {
 
 	@Autowired
-	private ExperimentService experimentService;
+	private ResearchCenterService centerService;
 
 	/**
 	 * Get the list of experiments or 404 if there are no experiments
@@ -37,17 +37,17 @@ public class ExperimentController {
 	 * @throws ExecutionException
 	 */
 	@GetMapping
-	public ResponseEntity<List<Experiment>> getExperiments() {
-		List<Experiment> experiments = experimentService.experiments();
-		if (experiments == null) {
+	public ResponseEntity<List<ResearchCenter>> getAll() {
+		List<ResearchCenter> centers = centerService.researchCenters();
+		if (centers == null) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(experiments);
+		return ResponseEntity.ok(centers);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Experiment> modifyExperiment(@RequestBody Experiment e, @PathVariable Long id) {
-		Experiment created = experimentService.modifyExperiment(e);
+	public ResponseEntity<ResearchCenter> modify(@RequestBody ResearchCenter r, @PathVariable Long id) {
+		ResearchCenter created = centerService.modifyResearchCenter(r);
 		if (created == null) //if null, already exists the experiment
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		return ResponseEntity.ok(created);
@@ -61,11 +61,11 @@ public class ExperimentController {
 	 * @throws ExecutionException
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Experiment> getExperiment(@PathVariable Long id) throws InterruptedException, ExecutionException {
-		Experiment e = experimentService.experimentById(id);
-		if (e == null)
+	public ResponseEntity<ResearchCenter> getOne(@PathVariable Long id) throws InterruptedException, ExecutionException {
+		ResearchCenter r = centerService.researchCenterById(id);
+		if (r == null)
 			return ResponseEntity.notFound().build();
-		return ResponseEntity.ok(e);
+		return ResponseEntity.ok(r);
 	}
 
 	/**
@@ -76,12 +76,12 @@ public class ExperimentController {
 	 * @throws ExecutionException
 	 */
 	@PostMapping
-	public ResponseEntity<Experiment> createExperiment(@RequestBody Experiment exp) throws InterruptedException, ExecutionException {
-		Experiment e = experimentService.createExperiment(exp);
-		if (e == null)
+	public ResponseEntity<ResearchCenter> create(@RequestBody ResearchCenter r) throws InterruptedException, ExecutionException {
+		ResearchCenter rc = centerService.createResearchCenter(r);
+		if (rc == null)
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-		return ResponseEntity.created(location).body(e);
+		return ResponseEntity.created(location).body(rc);
 	}
 
 	/**
@@ -90,11 +90,11 @@ public class ExperimentController {
 	 * @return
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Experiment> deleteExperiment(@PathVariable Long id) {
-		Experiment e = experimentService.deleteExperiment(id);
-		if (e == null)
+	public ResponseEntity<ResearchCenter> delete(@PathVariable Long id) {
+		ResearchCenter r = centerService.deleteResearchCenter(id);
+		if (r == null)
 			return ResponseEntity.notFound().build();
-		return ResponseEntity.ok(e);    	
+		return ResponseEntity.ok(r);    	
 	}
 
 
