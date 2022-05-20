@@ -26,7 +26,6 @@ public class Experiment {
 	private String name;
 	private String description;
 	
-	//TODO: should this be 'creator_fk'?
 	@OneToOne
 	@JoinColumn(name="creator_center_fk")
 	private ResearchCenter creator;
