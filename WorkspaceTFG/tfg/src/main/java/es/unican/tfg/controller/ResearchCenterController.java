@@ -30,7 +30,7 @@ public class ResearchCenterController {
 	private ResearchCenterService centerService;
 
 	/**
-	 * Get the list of experiments or 404 if there are no experiments
+	 * Get the list of Research centers or 404 if there are no RC
 	 * @param id
 	 * @return
 	 * @throws InterruptedException
@@ -54,7 +54,7 @@ public class ResearchCenterController {
 	}
 
 	/**
-	 * Get an experiment or 404 if does not exist
+	 * Get a research Center or 404 if does not exist
 	 * @param id
 	 * @return
 	 * @throws InterruptedException
@@ -69,7 +69,7 @@ public class ResearchCenterController {
 	}
 
 	/**
-	 * Method to create an experiment (Unknown id so POST instead of PUT)
+	 * Method to create a research Center (Unknown id so POST instead of PUT)
 	 * @param exp
 	 * @return
 	 * @throws InterruptedException
@@ -85,7 +85,7 @@ public class ResearchCenterController {
 	}
 
 	/**
-	 * Delete an experiment
+	 * Delete an Research Center
 	 * @param userName
 	 * @return
 	 */

@@ -24,13 +24,13 @@ public interface IResearchCenterService {
 	 * @return the created exp or null if already exists an 
 	 * experiment with given name
 	 */
-	public ResearchCenter createResearchCenter(ResearchCenter exp);
+	public ResearchCenter createResearchCenter(ResearchCenter r);
 	
 	/**
 	 * modify an existing experiment
 	 * @return the modified experiment
 	 */
-	public ResearchCenter modifyResearchCenter(ResearchCenter e);
+	public ResearchCenter modifyResearchCenter(ResearchCenter r);
 	
 	/**
 	 * delete an experiment
