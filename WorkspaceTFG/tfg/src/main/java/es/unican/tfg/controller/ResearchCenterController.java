@@ -77,6 +77,7 @@ public class ResearchCenterController {
 	 */
 	@PostMapping
 	public ResponseEntity<ResearchCenter> create(@RequestBody ResearchCenter r) throws InterruptedException, ExecutionException {
+		System.out.println(r.getContactInfo().getCity());
 		ResearchCenter rc = centerService.createResearchCenter(r);
 		if (rc == null)
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();

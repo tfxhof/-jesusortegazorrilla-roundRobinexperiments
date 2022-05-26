@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -34,8 +35,8 @@ public class Experiment {
 	@JoinColumn(name="experiment_fk")
 	private List<Sample> material;
 
-	@OneToMany
-	@JoinColumn(name="experiment_fk")
+	@ManyToMany(mappedBy="experiments")
+	//@JoinColumn(name="experiment_fk")
 	private List<ResearchCenter> participants;
 	
 	@OneToMany
