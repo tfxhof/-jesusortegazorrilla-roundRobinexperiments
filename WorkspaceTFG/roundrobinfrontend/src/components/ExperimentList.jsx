@@ -1,18 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { ExperimentItem } from './ExperimentItem';
 
-export function ExperimentList( { experiments }) {
+export function ExperimentList({ experiments }) {
   return (
-    <ul>
+    <ul> 
         {experiments.map((experiment) => (
-            <div>
-                {experiment}
-                <li>
-                    Exp 1
-                </li>
-                <li>
-                    Exp 2
-                </li>
-            </div>
+            <ExperimentItem experiment={experiment} />
         ))}
     </ul>
   )

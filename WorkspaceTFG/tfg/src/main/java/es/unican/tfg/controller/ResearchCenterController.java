@@ -49,6 +49,7 @@ public class ResearchCenterController {
 			@RequestParam(value="creator", required=true) boolean creator,
 			@PathVariable Long id) {
 		
+		System.out.println(creator);
 		List<Experiment> experiments = null;
 		experiments = centerService.experiments(id, creator);
 		
