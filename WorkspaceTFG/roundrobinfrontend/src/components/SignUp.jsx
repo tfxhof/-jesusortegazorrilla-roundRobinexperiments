@@ -61,6 +61,7 @@ export default function ResearchCenter() {
                 <h1 style={{ color: "blue" }}>Add new Research Center</h1>
 
                 <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '95%' }, }} noValidate autoComplete="off">
+                    
                     <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -91,7 +92,7 @@ export default function ResearchCenter() {
 
             </Paper>
 
-            <Paper elevation={3} style={paperStyle}>
+            {/* <Paper elevation={3} style={paperStyle}>
 
                 {researchCenters.map(researchCenter => (
                     <Paper elevation={6} style={{ margin: "10px", padding: "15px", textAlign: "left" }} key={researchCenter.id}>
@@ -103,24 +104,7 @@ export default function ResearchCenter() {
                         Duty Manager Name: {researchCenter.dutyManagerName}<br></br>
                     </Paper>
                 ))}
-
-            </Paper>
-
-            <Paper elevation={3} style={paperStyle}>
-                <Paper elevation={6} style={{ margin: "10px", padding: "15px", textAlign: "left" }}>
-                    Id: {searchedResearchCenter.id} <br></br>
-                    Name: {searchedResearchCenter.name}<br></br>
-
-                    Address: {searchedResearchCenter.address}<br></br>
-                    City: {searchedResearchCenter.city}<br></br>
-                    Country: {searchedResearchCenter.country}<br></br>
-                    Duty Manager Name: {searchedResearchCenter.dutyManagerName}<br></br>
-                </Paper>
-            </Paper>
-
-
-
-
+            </Paper> */}
         </Fragment>
     );
 }

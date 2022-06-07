@@ -21,8 +21,8 @@ function Navigation() {
               </li>
 
               <li className="nav-item">
-                <NavLink className="nav-link" to="/researchCenters">
-                  Research Centers
+                <NavLink className="nav-link" to="/SignUp">
+                  Sign up
                   <span className="sr-only">(current)</span>
                 </NavLink>
               </li>
