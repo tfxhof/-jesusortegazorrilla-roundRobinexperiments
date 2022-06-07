@@ -1,4 +1,4 @@
-package es.unican.tfg.model;
+package DTOs;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,48 +15,38 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-/**
- * Center involucrated in an experiment
- * @author Jesus
- *
- */
-/**
- * @author jesus
- *
- */
+import es.unican.tfg.model.ContactData;
+import es.unican.tfg.model.Experiment;
+import es.unican.tfg.model.ResearchCenter;
+
+
 @Entity
 @Table(name = "research_center")
-public class ResearchCenter implements Serializable{
+public class ResearchCenterDTO implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private Long id;
 	private String name;
 	private String instructions;
-	@Embedded
 	private ContactData contactInfo;
-	
-	@ManyToMany
-	@JoinTable(name="experiment_research_center", 
-	joinColumns=@JoinColumn(name="research_center_fk"), 
-	inverseJoinColumns=@JoinColumn(name="experiment_fk"))
-	private List<Experiment> experiments;
 
 	//Empty constructor
-	public ResearchCenter () {}
+	public ResearchCenterDTO () {}
 	
 	/**
 	 * @param instructions
 	 * @param contactInfo
 	 */
-	public ResearchCenter(String instructions, ContactData contactInfo) {
+	public ResearchCenterDTO(ResearchCenter r) {
 		super();
-		this.instructions = instructions;
-		this.contactInfo = contactInfo;
+		this.id = r.getId();
+		this.name = r.getName();
+		this.instructions = r.getInstructions();
+		this.contactInfo = r.getContactInfo();
 	}
 
 
@@ -92,17 +82,6 @@ public class ResearchCenter implements Serializable{
 		this.name = name;
 	}
 
-	public List<Experiment> getExperiments() {
-		return experiments;
-	}
-
-	public void setExperiments(List<Experiment> experiments) {
-		this.experiments = experiments;
-	}
-	
-	
-	
-	
-	
 	
 }
+

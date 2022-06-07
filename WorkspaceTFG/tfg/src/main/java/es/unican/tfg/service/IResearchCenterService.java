@@ -17,7 +17,7 @@ public interface IResearchCenterService {
 	 * get one experiments by its ID
 	 * @return the searched experiment or null
 	 */
-	public ResearchCenter researchCenterById(long id);
+	public ResearchCenter researchCenterById(Long id);
 	
 	/**
 	 * create a new experiment

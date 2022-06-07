@@ -1,6 +1,7 @@
 package es.unican.tfg.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -15,10 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import DTOs.ExperimentDTO;
+import DTOs.ResearchCenterDTO;
+import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.ResearchCenter;
+import es.unican.tfg.service.ExperimentService;
 import es.unican.tfg.service.ResearchCenterService;
 
 @RestController
@@ -29,6 +35,32 @@ public class ResearchCenterController {
 	@Autowired
 	private ResearchCenterService centerService;
 
+	
+	
+	/**
+	 * Get the list of experiments for a center
+	 * @param id
+	 * @return
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 */
+	@GetMapping({"/{id}/experiments"})
+	public ResponseEntity<List<ExperimentDTO>> getExperimentsFromCenter(
+			@RequestParam(value="creator", required=true) boolean creator,
+			@PathVariable Long id) {
+		
+		List<Experiment> experiments = null;
+		experiments = centerService.experiments(id, creator);
+		
+		List<ExperimentDTO> exp = new ArrayList<ExperimentDTO>();
+		for(Experiment e: experiments) {
+			exp.add(new ExperimentDTO(e));
+		}
+		//Maybe error management needed but not yet
+		return ResponseEntity.ok(exp);
+	}
+	
+	
 	/**
 	 * Get the list of Research centers or 404 if there are no RC
 	 * @param id
@@ -61,13 +93,30 @@ public class ResearchCenterController {
 	 * @throws ExecutionException
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<ResearchCenter> getOne(@PathVariable Long id) throws InterruptedException, ExecutionException {
+	public ResponseEntity<ResearchCenterDTO> getOne(@PathVariable Long id) throws InterruptedException, ExecutionException {
 		ResearchCenter r = centerService.researchCenterById(id);
-		System.out.println("Probando el get de un centro" + r.toString());
 		if (r == null)
 			return ResponseEntity.notFound().build();
-		return ResponseEntity.ok(r);
+		ResearchCenterDTO rc = new ResearchCenterDTO(r);
+		return ResponseEntity.ok(rc);
 	}
+	
+	
+//	/**
+//	 * Get a research Center or 404 if does not exist
+//	 * @param id
+//	 * @return
+//	 * @throws InterruptedException
+//	 * @throws ExecutionException
+//	 */
+//	@GetMapping("/{email}")
+//	public ResponseEntity<ResearchCenter> getOne(@PathVariable String email) throws InterruptedException, ExecutionException {
+//		ResearchCenter r = centerService.researchCenterByEmail(email);
+//		if (r == null)
+//			return ResponseEntity.notFound().build();
+//		return ResponseEntity.ok(r);
+//	}
+	
 
 	/**
 	 * Method to create a research Center (Unknown id so POST instead of PUT)

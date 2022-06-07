@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import DTOs.ExperimentDTO;
 import es.unican.tfg.model.Experiment;
 import es.unican.tfg.service.ExperimentService;
 
@@ -61,11 +62,13 @@ public class ExperimentController {
 	 * @throws ExecutionException
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Experiment> getExperiment(@PathVariable Long id) throws InterruptedException, ExecutionException {
+	public ResponseEntity<ExperimentDTO> getExperiment(@PathVariable Long id) throws InterruptedException, ExecutionException {
 		Experiment e = experimentService.experimentById(id);
-		if (e == null)
+		if (e == null) {
 			return ResponseEntity.notFound().build();
-		return ResponseEntity.ok(e);
+		}
+		ExperimentDTO ex = new ExperimentDTO(e);
+		return ResponseEntity.ok(ex);
 	}
 
 	/**
