@@ -63,6 +63,7 @@ public class ResearchCenterController {
 	@GetMapping("/{id}")
 	public ResponseEntity<ResearchCenter> getOne(@PathVariable Long id) throws InterruptedException, ExecutionException {
 		ResearchCenter r = centerService.researchCenterById(id);
+		System.out.println("Probando el get de un centro" + r.toString());
 		if (r == null)
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(r);

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Container, Paper, Button } from '@material-ui/core';
+import { Paper, Button } from '@material-ui/core';
 
 export default function ResearchCenter() {
     const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
@@ -12,12 +12,15 @@ export default function ResearchCenter() {
     const [city, setCity] = useState('')
     const [country, setCountry] = useState('')
     const [dutyManagerName, setDutyManagerName] = useState('')
+    const [searchedResearchCenter, setSearchedResearchCenter] = useState('')
     const [researchCenters, setResearchCenters] = useState([])
 
+    //To add a new research center
     const handleClick = (e) => {
         e.preventDefault()
-        const contactInfo = { country: country, city: city, address: address, dutyManagerName: dutyManagerName };
-        const researchCenter = { name, contactInfo }
+        //const contactInfo = { country: country, city: city, address: address, dutyManagerName: dutyManagerName };
+        //create the research center with the info of it
+        const researchCenter = { name: name, country: country, city: city, address: address, dutyManagerName: dutyManagerName }
         fetch("http://localhost:8080/centers", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -28,11 +31,24 @@ export default function ResearchCenter() {
     }
 
 
+    //To get the research centers
     useEffect(() => {
         fetch("http://localhost:8080/centers")
             .then(res => res.json())
             .then((result) => {
                 setResearchCenters(result);
+                console.log(result);
+            }
+            )
+    }, [])
+
+    //To get the research centers
+    useEffect(() => {
+        fetch("http://localhost:8080/centers/1")
+            .then(res => res.json())
+            .then((result) => {
+                setSearchedResearchCenter(result);
+                console.log(result);
             }
             )
     }, [])
@@ -40,7 +56,7 @@ export default function ResearchCenter() {
 
     return (
 
-        <Container>
+        <Fragment>
             <Paper elevation={3} style={paperStyle}>
                 <h1 style={{ color: "blue" }}>Add new Research Center</h1>
 
@@ -70,7 +86,6 @@ export default function ResearchCenter() {
                         onChange={(e) => setDutyManagerName(e.target.value)}
                     />
 
-
                 </Box>
                 <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }} onClick={handleClick}>Submit</Button>
 
@@ -82,7 +97,6 @@ export default function ResearchCenter() {
                     <Paper elevation={6} style={{ margin: "10px", padding: "15px", textAlign: "left" }} key={researchCenter.id}>
                         Id: {researchCenter.id} <br></br>
                         Name: {researchCenter.name}<br></br>
-
                         Address: {researchCenter.address}<br></br>
                         City: {researchCenter.city}<br></br>
                         Country: {researchCenter.country}<br></br>
@@ -92,9 +106,21 @@ export default function ResearchCenter() {
 
             </Paper>
 
+            <Paper elevation={3} style={paperStyle}>
+                <Paper elevation={6} style={{ margin: "10px", padding: "15px", textAlign: "left" }}>
+                    Id: {searchedResearchCenter.id} <br></br>
+                    Name: {searchedResearchCenter.name}<br></br>
+
+                    Address: {searchedResearchCenter.address}<br></br>
+                    City: {searchedResearchCenter.city}<br></br>
+                    Country: {searchedResearchCenter.country}<br></br>
+                    Duty Manager Name: {searchedResearchCenter.dutyManagerName}<br></br>
+                </Paper>
+            </Paper>
 
 
 
-        </Container>
+
+        </Fragment>
     );
 }
