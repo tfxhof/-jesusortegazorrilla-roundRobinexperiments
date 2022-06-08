@@ -1,12 +1,16 @@
 import React from 'react';
 import { ExperimentItem } from './ExperimentItem';
 
+
 export function ExperimentList({ experiments }) {
-  return (
-    <ul> 
-        {experiments.map((experiment) => (
-            <ExperimentItem experiment={experiment} />
-        ))}
-    </ul>
-  )
+
+
+    return (
+        experiments.map((experiment) => (
+            <ExperimentItem key={experiment.name} experiment={experiment} />
+        ))
+
+    )
 }
+
+export default ExperimentList;

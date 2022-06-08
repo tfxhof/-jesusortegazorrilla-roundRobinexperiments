@@ -6,7 +6,7 @@ function Navigation() {
 
   return (
     <div className="navigation">
-      <nav className="navbar navbar-expand navbar-dark bg-dark" >
+      <nav className="navbar navbar-expand navbar-dark bg-navigation" >
         <div className="container" >
           <NavLink className="navbar-brand" to="/">
             Round-Robin

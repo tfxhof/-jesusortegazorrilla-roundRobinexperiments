@@ -1,28 +1,37 @@
 import './App.css';
-import React from 'react';
-//import Appbar from './components/Appbar';
-import SignUp from './components/SignUp';
-import CenterHome from './components/CenterHome';
-
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Navigation, Footer, Home } from "./components";
 //import { AppBar } from '@mui/material';
+//import Appbar from './components/Appbar';
+import SignUp from './components/SignUp';
+import CenterHome from './components/CenterHome';
+import ExperimentOverview from './components/ExperimentOverview';
+import { AppContext } from './providers/ExperimentContext';
+
 
 function App() {
+
+  const [expName, setExpName] = useState(null);
+
   return (
-    <div className="App">
+    <Router>
+      <div className="App">
+        <Navigation />
+        <AppContext.Provider value={{ expName, setExpName }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/SignUp" element={<SignUp />} />
+            <Route path="/CenterHome" element={<CenterHome />} />
+            <Route path="/ExperimentOverview" element={<ExperimentOverview />} />
+          </Routes>
+        </AppContext.Provider>
+        <Footer />
+      </div>
+    </Router>
 
-      <Router>
-          <Navigation />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/CenterHome" element={<CenterHome />} />
-        </Routes>
-      </Router>
-      <Footer />
 
-    </div>
+
   );
 }
 

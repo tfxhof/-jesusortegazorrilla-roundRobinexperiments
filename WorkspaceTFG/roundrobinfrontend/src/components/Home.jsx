@@ -11,16 +11,16 @@ function Home() {
   const [email, setEmail] = useState('')
 
   //To log in
-  const logInHandleClick = (e) => {
-    //TODO: Verify that this center exists
-    fetch("http://localhost:8080/centers", {
-      //method: "POST",
-      //headers: { "Content-Type": "application/json" },
-      //body: JSON.stringify(researchCenter)
-    }).then(() => {
-      console.log("Research Center Added")
-    })
-  }
+  // const logInHandleClick = (e) => {
+  //   //TODO: Verify that this center exists
+  //   fetch("http://localhost:8080/centers", {
+  //     //method: "POST",
+  //     //headers: { "Content-Type": "application/json" },
+  //     //body: JSON.stringify(researchCenter)
+  //   }).then(() => {
+  //     console.log("Research Center Added")
+  //   })
+  // }
 
 
   return (
@@ -47,6 +47,10 @@ function Home() {
 
               <NavLink className="nav-link" to="/SignUp">
                 <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "auto" , width: "100px"}}>Sign Up</Button>
+              </NavLink>
+
+              <NavLink className="nav-link" to="/ExperimentOverView">
+                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "auto" , width: "100px"}}>Prueba context</Button>
               </NavLink>
 
             </Paper>
