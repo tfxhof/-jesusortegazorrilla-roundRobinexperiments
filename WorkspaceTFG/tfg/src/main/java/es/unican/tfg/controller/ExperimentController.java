@@ -61,9 +61,9 @@ public class ExperimentController {
 	 * @throws InterruptedException
 	 * @throws ExecutionException
 	 */
-	@GetMapping("/{id}")
-	public ResponseEntity<ExperimentDTO> getExperiment(@PathVariable Long id) throws InterruptedException, ExecutionException {
-		Experiment e = experimentService.experimentById(id);
+	@GetMapping("/{name}")
+	public ResponseEntity<ExperimentDTO> getExperiment(@PathVariable String name) throws InterruptedException, ExecutionException {
+		Experiment e = experimentService.experimentByName(name);
 		if (e == null) {
 			return ResponseEntity.notFound().build();
 		}

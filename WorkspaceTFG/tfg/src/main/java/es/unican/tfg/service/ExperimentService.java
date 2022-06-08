@@ -22,6 +22,16 @@ public class ExperimentService implements IExperimentService{
 	public Experiment experimentById(long id) {
 		return expRepository.findById(id).orElse(null);
 	}
+	public Experiment experimentByName(String name) {
+		Experiment e = expRepository.findByName(name);
+		if (e != null) {
+			return e;
+		}
+		return null;
+	}
+
+
+
 
 	public Experiment createExperiment(Experiment exp) {	
 		if (expRepository.findByName(exp.getName()) == null)//if null it creates the experiment
