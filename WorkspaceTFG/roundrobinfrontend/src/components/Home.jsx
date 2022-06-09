@@ -1,14 +1,15 @@
-import React, { Fragment, useState} from "react";
+import React, { Fragment, useState, useContext } from "react";
 import TextField from '@mui/material/TextField';
 import { Paper } from '@material-ui/core';
 import { NavLink } from "react-router-dom";
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import { Box, Button } from '@mui/material';
+import { CenterContext } from '../providers/CenterContext';
 
 function Home() {
   const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
-
   const [email, setEmail] = useState('')
+
+  const { centerEmail, setCenterEmail } = useContext(CenterContext);
 
   //To log in
   // const logInHandleClick = (e) => {
@@ -31,26 +32,30 @@ function Home() {
           <div class="row align-items-center my-5">
             <Paper elevation={3} style={paperStyle}>
               <h1 class="font-weight-light">Log in</h1>
-              
+
               <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '95%' }, }} noValidate autoComplete="off">
-                
+
                 <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </Box>
 
-              
-              <NavLink className="nav-link" to="/CenterHome"> 
-                <Button variant="contained" color="success" style={{marginTop: "20px", width: "100px"}} /*onClick={logInHandleClick}*/>Log In</Button>
+
+              <NavLink className="nav-link" to="/CenterHome"
+                onClick={() => {
+                  setCenterEmail("UC@gmail.com");
+                  console.log(centerEmail);
+                }}>
+                <Button variant="contained" color="success" style={{ marginTop: "20px", width: "100px" }} /*onClick={logInHandleClick}*/>Log In</Button>
               </NavLink>
 
               <NavLink className="nav-link" to="/SignUp">
-                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "auto" , width: "100px"}}>Sign Up</Button>
+                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "auto", width: "100px" }}>Sign Up</Button>
               </NavLink>
 
               <NavLink className="nav-link" to="/ExperimentOverView">
-                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "auto" , width: "100px"}}>Prueba context</Button>
+                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "auto", width: "100px" }}>Prueba context</Button>
               </NavLink>
 
             </Paper>

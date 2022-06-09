@@ -5,6 +5,7 @@ create database round_robin;
 use round_robin;
 
 select * from experiment;
+select * from research_center;
 select * from instrument;
 select * from measure;
 select * from measurement;
@@ -19,9 +20,9 @@ insert into research_center (address, email, city, country, duty_manager_name, i
 insert into research_center (address, email, city, country, duty_manager_name, instructions, name) values ('PCTCAN', 'atlantico@gmail.com', 'Santander', 'Esp', 'Javier', 'no se', 'Universidad del Atlantico');
 insert into research_center (address, email, city, country, duty_manager_name, instructions, name) values ('Gran Via', 'madrid@gmail.com', 'Madrid', 'Esp', 'Alicia', 'no se', 'Universidad de Madrid');
 
-insert into research_center (address, city, country, duty_manager_name, instructions, name) values ('Los castro sn', 'Santander', 'Esp', 'Jesus', 'no se', 'UC');
-insert into research_center (address, city, country, duty_manager_name, instructions, name) values ('PCTCAN', 'Santander', 'Esp', 'Javier', 'no se', 'Universidad del Atlantico');
-insert into research_center (address, city, country, duty_manager_name, instructions, name) values ('Gran Via', 'Madrid', 'Esp', 'Alicia', 'no se', 'Universidad de Madrid');
+#insert into research_center (address, city, country, duty_manager_name, instructions, name) values ('Los castro sn', 'Santander', 'Esp', 'Jesus', 'no se', 'UC');
+#insert into research_center (address, city, country, duty_manager_name, instructions, name) values ('PCTCAN', 'Santander', 'Esp', 'Javier', 'no se', 'Universidad del Atlantico');
+#insert into research_center (address, city, country, duty_manager_name, instructions, name) values ('Gran Via', 'Madrid', 'Esp', 'Alicia', 'no se', 'Universidad de Madrid');
 
 
 insert into experiment (name, description, creator_center_fk) values ('First Ever Experiment', 'experiment to check if database works', 1);

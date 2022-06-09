@@ -5,6 +5,7 @@ import { ExperimentList } from "./ExperimentList";
 //import { AppContext } from '../providers/ExperimentContext';
 import { NavLink } from "react-router-dom";
 
+
 function CenterHome() {
 
     const paperStyle = { padding: '20px', width: 'auto', margin: "20px auto" };
@@ -41,11 +42,14 @@ function CenterHome() {
         <Fragment>
 
             <div id="createExperimentButton">
-                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "10px", width: "200px" }}>Create Experiment</Button>
+                <Button variant="contained"
+                    style={{ backgroundColor: "blue", color: "white", margin: "10px", width: "200px" }}>
+                    Create Experiment
+                </Button>
             </div>
 
             <NavLink className="nav-link" to="/CreateExperiment">
-                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "auto", width: "200px" }}>Create Experiment</Button>
+                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "auto", width: "200px" }} >Create Experiment</Button>
             </NavLink>
 
             <div className="centerHome">

@@ -20,7 +20,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import DTOs.ExperimentDTO;
 import es.unican.tfg.model.Experiment;
+import es.unican.tfg.model.ResearchCenter;
 import es.unican.tfg.service.ExperimentService;
+import es.unican.tfg.service.ResearchCenterService;
 
 @RestController
 @RequestMapping("/experiments")
@@ -29,6 +31,9 @@ public class ExperimentController {
 
 	@Autowired
 	private ExperimentService experimentService;
+	
+	@Autowired
+	private ResearchCenterService centerService;
 
 	/**
 	 * Get the list of experiments or 404 if there are no experiments
@@ -80,6 +85,13 @@ public class ExperimentController {
 	 */
 	@PostMapping
 	public ResponseEntity<Experiment> createExperiment(@RequestBody Experiment exp) throws InterruptedException, ExecutionException {
+		System.out.println("Creador: " + exp.getCreator().getEmail());
+		ResearchCenter rc = centerService.researchCenterByEmail(exp.getCreator().getEmail());
+		if(rc == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		
+		exp.setCreator(rc);
 		Experiment e = experimentService.createExperiment(exp);
 		if (e == null)
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();

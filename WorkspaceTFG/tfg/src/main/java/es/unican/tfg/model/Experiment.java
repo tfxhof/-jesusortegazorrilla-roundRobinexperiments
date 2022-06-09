@@ -2,6 +2,7 @@ package es.unican.tfg.model;
 
 import java.util.List;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * @author jesus
@@ -29,6 +33,7 @@ public class Experiment {
 	
 	@OneToOne
 	@JoinColumn(name="creator_center_fk")
+	//@Cascade(value=CascadeType.ALL)
 	private ResearchCenter creator;
 	
 	@OneToMany

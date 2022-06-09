@@ -7,20 +7,23 @@ import { Navigation, Footer, Home, CreateExperiment } from "./components";
 import SignUp from './components/SignUp';
 import CenterHome from './components/CenterHome';
 import ExperimentOverview from './components/ExperimentOverview';
-import { AppContext } from './providers/ExperimentContext';
+import { ExpContext } from './providers/ExperimentContext';
+import { CenterContext } from './providers/CenterContext';
 
 
 function App() {
 
   const [expName, setExpName] = useState(null);
+  const [centerEmail, setCenterEmail] = useState(null);
 
   return (
     <Router>
       <div className="App">
         <Navigation />
-        <AppContext.Provider value={{ expName, setExpName }}>
+        <ExpContext.Provider value={{ expName, setExpName }}>
+        <CenterContext.Provider value={{ centerEmail, setCenterEmail }}>
           <Routes>
-            
+
             <Route path="/" element={<Home />} />
             <Route path="/SignUp" element={<SignUp />} />
             <Route path="/CenterHome" element={<CenterHome />} />
@@ -28,7 +31,8 @@ function App() {
             <Route path="/CreateExperiment" element={<CreateExperiment />} />
 
           </Routes>
-        </AppContext.Provider>
+          </CenterContext.Provider>
+        </ExpContext.Provider>
         <Footer />
       </div>
     </Router>

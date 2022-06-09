@@ -1,13 +1,13 @@
 import React, { useState, Fragment, useContext } from 'react';
 import { Paper } from '@material-ui/core';
 import { NavLink } from "react-router-dom";
-import { AppContext } from '../providers/ExperimentContext';
+import { ExpContext } from '../providers/ExperimentContext';
 
 export function ExperimentItem({ experiment }) {
 
     const { name, description } = experiment;
     //this component subscribe to the context
-    const { expName, setExpName } = useContext(AppContext);
+    const { expName, setExpName } = useContext(ExpContext);
 
     const paperStyle = { padding: '20px', width: 'auto', margin: "20px auto", };
     return (

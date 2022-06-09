@@ -1,13 +1,16 @@
+import React, { Fragment, useState, useContext } from 'react';
+import { CenterContext } from '../providers/CenterContext';
 import { Button } from '@material-ui/core';
 import { Box, TextField } from '@mui/material';
-import React, { Fragment, useState } from 'react';
 //import TextField from '@mui/material/TextField';
 
 export function CreateExperiment() {
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-    const [creatorName, setCreatorName] = useState('')
+
+    const { centerEmail } = useContext(CenterContext);
+    const [creatorEmail, setCreatorEmail] = useState('')
 
     //To add a new experiment
     const createExperimentButton = (e) => {
@@ -15,13 +18,14 @@ export function CreateExperiment() {
         //const contactInfo = { country: country, city: city, address: address, dutyManagerName: dutyManagerName };
         //create the research center with the info of it
         //const experiment = { name: name, description: description, creatorName: creatorName }
-        const experiment = { name: name, description: description }
+        const experiment = { name: name, description: description, creator: { email: centerEmail } }
+        console.log({ centerEmail })
         fetch("http://localhost:8080/experiments", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(experiment)
         }).then(() => {
-            console.log("Research Center Added")
+            console.log("Experiment Added")
         })
     }
 
@@ -29,6 +33,9 @@ export function CreateExperiment() {
         <Fragment>
 
             <h1 style={{ color: "blue", margin: "20px" }}>Create Experiment</h1>
+            <div>
+                {centerEmail}
+            </div>
 
             <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '50%' }, marginTop: "20px" }} noValidate autoComplete="off">
 

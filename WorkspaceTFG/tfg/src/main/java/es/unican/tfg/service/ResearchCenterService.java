@@ -28,10 +28,10 @@ public class ResearchCenterService implements IResearchCenterService{
 		return centerRepository.findById(id).orElse(null);
 	}
 	
-//	public ResearchCenter researchCenterByEmail(String email) {
-//		ResearchCenter rc = centerRepository.findByEmail(email);
-//		return rc;
-//	}
+	public ResearchCenter researchCenterByEmail(String email) {
+		ResearchCenter rc = centerRepository.findByEmail(email);
+		return rc;
+	}
 	
 	
 

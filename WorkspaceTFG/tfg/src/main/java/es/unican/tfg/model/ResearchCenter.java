@@ -20,10 +20,6 @@ import javax.persistence.Table;
  * @author Jesus
  *
  */
-/**
- * @author jesus
- *
- */
 @Entity
 @Table(name = "research_center")
 public class ResearchCenter implements Serializable{
@@ -35,7 +31,10 @@ public class ResearchCenter implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(unique=true) 
 	private String name;
+	@Column(unique=true) 
+	private String email;
 	private String instructions;
 	@Embedded
 	private ContactData contactInfo;
@@ -53,8 +52,10 @@ public class ResearchCenter implements Serializable{
 	 * @param instructions
 	 * @param contactInfo
 	 */
-	public ResearchCenter(String instructions, ContactData contactInfo) {
+	public ResearchCenter(String name, String email, String instructions, ContactData contactInfo) {
 		super();
+		this.name = name;
+		this.email = email;
 		this.instructions = instructions;
 		this.contactInfo = contactInfo;
 	}
@@ -99,6 +100,17 @@ public class ResearchCenter implements Serializable{
 	public void setExperiments(List<Experiment> experiments) {
 		this.experiments = experiments;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	
+	
 	
 	
 	

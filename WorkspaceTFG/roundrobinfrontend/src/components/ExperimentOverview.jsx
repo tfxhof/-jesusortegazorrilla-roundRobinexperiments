@@ -1,10 +1,10 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { AppContext } from '../providers/ExperimentContext';
+import { ExpContext } from '../providers/ExperimentContext';
 import { Button } from '@material-ui/core';
 
 export function ExperimentOverview() {
 
-    const { expName } = useContext(AppContext);
+    const { expName } = useContext(ExpContext);
     const [experiment, setExperiment] = useState('');
 
     let url = "http://localhost:8080/experiments/";
