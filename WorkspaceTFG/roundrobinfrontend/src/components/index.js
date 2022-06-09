@@ -4,6 +4,8 @@ export { default as Footer } from "./Footer";
 export { default as Home } from "./Home";
 export { default as SignUp} from "./SignUp";
 export { default as CenterHome } from "./CenterHome";
+export { default as CreateExperiment } from "./CreateExperiment.jsx";
+
 // export { default as ExperimentList } from "./ExperimentList";
 // export { default as ExperimentItem } from "./ExperimentItem";
 

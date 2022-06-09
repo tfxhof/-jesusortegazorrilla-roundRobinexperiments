@@ -1,8 +1,9 @@
-import React, { Fragment, useState, useEffect, useContext } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Paper } from '@material-ui/core';
 import Button from '@mui/material/Button';
 import { ExperimentList } from "./ExperimentList";
-import { AppContext } from '../providers/ExperimentContext';
+//import { AppContext } from '../providers/ExperimentContext';
+import { NavLink } from "react-router-dom";
 
 function CenterHome() {
 
@@ -43,6 +44,10 @@ function CenterHome() {
                 <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "10px", width: "200px" }}>Create Experiment</Button>
             </div>
 
+            <NavLink className="nav-link" to="/CreateExperiment">
+                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "auto", width: "200px" }}>Create Experiment</Button>
+            </NavLink>
+
             <div className="centerHome">
                 <div class="container">
                     <div class="row align-items-center my-4">
@@ -50,7 +55,7 @@ function CenterHome() {
                             <h3 class="font-weight-light">EXPERIMENTS AS CREATOR</h3>
                             <Paper elevation={3} style={paperStyle}>
 
-                                <ExperimentList experiments={creatorExperiments}/>
+                                <ExperimentList experiments={creatorExperiments} />
 
                             </Paper>
                         </div>
