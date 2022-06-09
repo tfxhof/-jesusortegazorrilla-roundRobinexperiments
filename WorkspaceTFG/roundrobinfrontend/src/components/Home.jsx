@@ -7,7 +7,7 @@ import { CenterContext } from '../providers/CenterContext';
 
 function Home() {
   const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
-  const [email, setEmail] = useState('')
+  const [ email, setEmail ] = useState('')
 
   const { centerEmail, setCenterEmail } = useContext(CenterContext);
 
@@ -44,7 +44,7 @@ function Home() {
 
               <NavLink className="nav-link" to="/CenterHome"
                 onClick={() => {
-                  setCenterEmail("UC@gmail.com");
+                  setCenterEmail(email);
                   console.log(centerEmail);
                 }}>
                 <Button variant="contained" color="success" style={{ marginTop: "20px", width: "100px" }} /*onClick={logInHandleClick}*/>Log In</Button>

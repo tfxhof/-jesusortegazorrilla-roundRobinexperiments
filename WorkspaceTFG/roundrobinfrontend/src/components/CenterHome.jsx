@@ -1,4 +1,5 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
+import { CenterContext } from '../providers/CenterContext';
 import { Paper } from '@material-ui/core';
 import Button from '@mui/material/Button';
 import { ExperimentList } from "./ExperimentList";
@@ -12,22 +13,34 @@ function CenterHome() {
     const [creatorExperiments, setCreatorExperiments] = useState([]);
     const [participantExperiments, setParticipantExperiments] = useState([]);
 
+    const { centerEmail } = useContext(CenterContext);
+
+    let url = "http://localhost:8080/centers/";
+    url = url.concat(String(centerEmail));
+    url = url.concat("/experiments");
+    console.log(url);
+    
+    
     //To get the research centers
     useEffect(() => {
         // fetch("http://localhost:8080/centers/"+ {id} + "/experiments?creator=true")
-        fetch("http://localhost:8080/centers/1/experiments?creator=true")
-            .then(res => res.json())
-            .then((result) => {
-                setCreatorExperiments(result);
-                console.log(result);
-            }
-            )
+        let url1 = url.concat("?creator=true");
+        fetch(url1)
+        .then(res => res.json())
+        .then((result) => {
+            setCreatorExperiments(result);
+            console.log(result);
+        }
+        )
     }, [])
 
+    
+    
     //To get the research centers
     useEffect(() => {
         // fetch("http://localhost:8080/centers/"+ {id} + "/experiments?creator=false")
-        fetch("http://localhost:8080/centers/2/experiments?creator=false")
+        let url2 = url.concat("?creator=false");
+        fetch(url2)
             .then(res => res.json())
             .then((result) => {
                 setParticipantExperiments(result);

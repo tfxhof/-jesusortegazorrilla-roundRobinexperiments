@@ -56,20 +56,20 @@ public class ResearchCenterService implements IResearchCenterService{
 	}
 
 	
-	public List<Experiment> experiments(Long id, boolean creator){
-		ResearchCenter rc = researchCenterById(id);
+	public List<Experiment> experiments(String email, boolean creator){
+		ResearchCenter rc = researchCenterByEmail(email);
 		
-//		if(rc == null) {
-//			return null;
-//		}
+		if(rc == null) {
+			return null;
+		}
 		
 		List<Experiment> experiments = null;
 		if(creator) { //To get the experiments where the given Center is the creator
 			experiments = experimentRepository.findByCreator(rc);
 		} else { //To get the experiments where the given center is a participant
 			experiments = experimentRepository.findByParticipants(rc);
+			return null;
 		}
-		
 		return experiments;
 	}
 

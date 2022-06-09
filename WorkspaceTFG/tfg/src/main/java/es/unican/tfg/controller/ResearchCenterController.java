@@ -44,14 +44,17 @@ public class ResearchCenterController {
 	 * @throws InterruptedException
 	 * @throws ExecutionException
 	 */
-	@GetMapping({"/{id}/experiments"})
+	@GetMapping({"/{email}/experiments"})
 	public ResponseEntity<List<ExperimentDTO>> getExperimentsFromCenter(
 			@RequestParam(value="creator", required=true) boolean creator,
-			@PathVariable Long id) {
+			@PathVariable String email) {
 		
-		System.out.println(creator);
+		System.out.println("Email del creador: " + email);
 		List<Experiment> experiments = null;
-		experiments = centerService.experiments(id, creator);
+		experiments = centerService.experiments(email, creator);
+		
+		if(experiments == null)
+			return null;
 		
 		List<ExperimentDTO> exp = new ArrayList<ExperimentDTO>();
 		for(Experiment e: experiments) {

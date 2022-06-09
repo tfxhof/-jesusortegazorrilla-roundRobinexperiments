@@ -31,6 +31,7 @@ insert into experiment (name, description, creator_center_fk) values ('Second Ex
 insert into experiment_research_center (research_center_fk, experiment_fk) values (2, 1);
 insert into experiment_research_center (research_center_fk, experiment_fk) values (2, 2);
 insert into experiment_research_center (research_center_fk, experiment_fk) values (3, 1);
+insert into experiment_research_center (research_center_fk, experiment_fk) values (1, 2);
 
 
 
