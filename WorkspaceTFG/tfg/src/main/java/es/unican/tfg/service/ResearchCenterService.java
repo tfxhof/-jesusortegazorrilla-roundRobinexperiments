@@ -36,7 +36,7 @@ public class ResearchCenterService implements IResearchCenterService{
 	
 
 	public ResearchCenter createResearchCenter(ResearchCenter r) {	
-		if (centerRepository.findByName(r.getName()) == null)//if null it creates the experiment
+		if (centerRepository.findByName(r.getName()) == null && centerRepository.findByEmail(r.getEmail()) == null)//if null it creates the experiment
 			return centerRepository.save(r);
 		return null;
 	}

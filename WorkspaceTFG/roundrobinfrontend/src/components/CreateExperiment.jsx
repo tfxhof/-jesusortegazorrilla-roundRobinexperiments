@@ -2,7 +2,7 @@ import React, { Fragment, useState, useContext } from 'react';
 import { CenterContext } from '../providers/CenterContext';
 import { Button } from '@material-ui/core';
 import { Box, TextField } from '@mui/material';
-//import TextField from '@mui/material/TextField';
+import { NavLink } from "react-router-dom";
 
 export function CreateExperiment() {
 
@@ -49,9 +49,9 @@ export function CreateExperiment() {
                     onChange={(e) => setDescription(e.target.value)}
                 />
             </Box>
-
-            <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={createExperimentButton}>Submit</Button>
-
+            <NavLink className="nav-link" to="/ExperimentOverview">
+                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={createExperimentButton}>Submit</Button>
+            </NavLink>
         </Fragment>
     )
 }

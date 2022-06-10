@@ -19,27 +19,27 @@ function CenterHome() {
     url = url.concat(String(centerEmail));
     url = url.concat("/experiments");
     console.log(url);
-    
-    
+
+
     //To get the research centers
     useEffect(() => {
-        // fetch("http://localhost:8080/centers/"+ {id} + "/experiments?creator=true")
         let url1 = url.concat("?creator=true");
+        // fetch("http://localhost:8080/centers/{id}/experiments?creator=true")
         fetch(url1)
-        .then(res => res.json())
-        .then((result) => {
-            setCreatorExperiments(result);
-            console.log(result);
-        }
-        )
+            .then(res => res.json())
+            .then((result) => {
+                setCreatorExperiments(result);
+                console.log(result);
+            }
+            )
     }, [])
 
-    
-    
+
+
     //To get the research centers
     useEffect(() => {
-        // fetch("http://localhost:8080/centers/"+ {id} + "/experiments?creator=false")
         let url2 = url.concat("?creator=false");
+        // fetch("http://localhost:8080/centers/{id}/experiments?creator=false")
         fetch(url2)
             .then(res => res.json())
             .then((result) => {
@@ -55,21 +55,25 @@ function CenterHome() {
         <Fragment>
 
             <div id="createExperimentButton">
-                <Button variant="contained"
-                    style={{ backgroundColor: "blue", color: "white", margin: "10px", width: "200px" }}>
-                    Create Experiment
-                </Button>
+                <NavLink className="nav-link" to="/CreateExperiment">
+                    <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", color: "white", margin: "auto" }} >Create Experiment</Button>
+                </NavLink>
+            </div>
+            <div>
+                {centerEmail}
             </div>
 
-            <NavLink className="nav-link" to="/CreateExperiment">
-                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "auto", width: "200px" }} >Create Experiment</Button>
-            </NavLink>
+
 
             <div className="centerHome">
                 <div class="container">
                     <div class="row align-items-center my-4">
+
+
                         <div class="col-lg-6">
-                            <h3 class="font-weight-light">EXPERIMENTS AS CREATOR</h3>
+                            <div className="title-experiment-overview">
+                                <h3 class="font-weight-light">EXPERIMENTS AS CREATOR</h3>
+                            </div>
                             <Paper elevation={3} style={paperStyle}>
 
                                 <ExperimentList experiments={creatorExperiments} />
@@ -78,7 +82,9 @@ function CenterHome() {
                         </div>
 
                         <div class="col-lg-6">
-                            <h3 class="font-weight-light">EXPERIMENTS AS PARTICIPANT</h3>
+                            <div className="title-experiment-overview">
+                                <h3 class="font-weight-light">EXPERIMENTS AS PARTICIPANT</h3>
+                            </div>
                             <Paper elevation={3} style={paperStyle}>
 
                                 <ExperimentList experiments={participantExperiments} />

@@ -130,13 +130,14 @@ public class ResearchCenterController {
 	 * @throws ExecutionException
 	 */
 	@PostMapping
-	public ResponseEntity<ResearchCenter> create(@RequestBody ResearchCenter r) throws InterruptedException, ExecutionException {
-		System.out.println(r.getContactInfo().getCity());
+	public ResponseEntity<ResearchCenterDTO> create(@RequestBody ResearchCenter r) throws InterruptedException, ExecutionException {
+		System.out.println(r.getEmail() + " " + r.getName());
 		ResearchCenter rc = centerService.createResearchCenter(r);
-		if (rc == null)
+		if (rc == null) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-		return ResponseEntity.created(location).body(rc);
+		return ResponseEntity.created(location).body(new ResearchCenterDTO(rc));
 	}
 
 	/**

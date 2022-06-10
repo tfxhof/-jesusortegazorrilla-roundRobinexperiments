@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import DTOs.ExperimentDTO;
 import es.unican.tfg.model.Experiment;
+import es.unican.tfg.model.ExperimentStatus;
 import es.unican.tfg.model.ResearchCenter;
 import es.unican.tfg.service.ExperimentService;
 import es.unican.tfg.service.ResearchCenterService;
@@ -85,7 +86,7 @@ public class ExperimentController {
 	 */
 	@PostMapping
 	public ResponseEntity<Experiment> createExperiment(@RequestBody Experiment exp) throws InterruptedException, ExecutionException {
-		System.out.println("Creador: " + exp.getCreator().getEmail());
+		exp.setStatus(ExperimentStatus.CREATED);
 		ResearchCenter rc = centerService.researchCenterByEmail(exp.getCreator().getEmail());
 		if(rc == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

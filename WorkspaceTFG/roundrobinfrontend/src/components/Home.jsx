@@ -47,15 +47,11 @@ function Home() {
                   setCenterEmail(email);
                   console.log(centerEmail);
                 }}>
-                <Button variant="contained" color="success" style={{ marginTop: "20px", width: "100px" }} /*onClick={logInHandleClick}*/>Log In</Button>
+                <Button variant="contained" color="success" className="buttons" style={{ marginTop: "20px" }} /*onClick={logInHandleClick}*/>Log In</Button>
               </NavLink>
 
               <NavLink className="nav-link" to="/SignUp">
-                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "auto", width: "100px" }}>Sign Up</Button>
-              </NavLink>
-
-              <NavLink className="nav-link" to="/ExperimentOverView">
-                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "auto", width: "100px" }}>Prueba context</Button>
+                <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", margin: "auto"}}>Sign Up</Button>
               </NavLink>
 
             </Paper>

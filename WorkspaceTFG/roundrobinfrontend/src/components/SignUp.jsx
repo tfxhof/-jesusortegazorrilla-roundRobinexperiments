@@ -1,57 +1,79 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Paper, Button } from '@material-ui/core';
+import { NavLink } from "react-router-dom";
+import { CenterContext } from '../providers/CenterContext';
 
-export default function ResearchCenter() {
+
+export function SignUp() {
     const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
     //margin goes like up-left-down-right
 
     const [name, setName] = useState('')
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
+    const [email, setEmail] = useState('')
     const [country, setCountry] = useState('')
+    const [city, setCity] = useState('')
+    const [address, setAddress] = useState('')
     const [dutyManagerName, setDutyManagerName] = useState('')
     const [searchedResearchCenter, setSearchedResearchCenter] = useState('')
     const [researchCenters, setResearchCenters] = useState([])
 
+    const { centerEmail, setCenterEmail } = useContext(CenterContext);
+
+    const aux = (e) => {
+        console.log(centerEmail);
+    }
+
     //To add a new research center
-    const handleClick = (e) => {
-        e.preventDefault()
-        //const contactInfo = { country: country, city: city, address: address, dutyManagerName: dutyManagerName };
-        //create the research center with the info of it
-        const researchCenter = { name: name, country: country, city: city, address: address, dutyManagerName: dutyManagerName }
-        fetch("http://localhost:8080/centers", {
+    async function handleClick() {
+        //e.preventDefault();
+        const researchCenter = { name: name, email, contactInfo: { country, city, address, dutyManagerName } }
+
+        let response = await fetch("http://localhost:8080/centers", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(researchCenter)
-        }).then(() => {
-            console.log("Research Center Added")
         })
+        // .then((result) => {
+        //     console.log(email);
+        //     setCenterEmail(email);
+        //     console.log("Correo del centro: ");
+        //     console.log(centerEmail);
+        // })
+        if (response.ok) {
+            setCenterEmail(email);
+            console.log("Research Center Added" + centerEmail);
+        } else {
+            // TODO: advertise that there is already a center with given email or name
+            console.log("Cannot add Research Center");
+        }
     }
 
 
-    //To get the research centers
-    useEffect(() => {
-        fetch("http://localhost:8080/centers")
-            .then(res => res.json())
-            .then((result) => {
-                setResearchCenters(result);
-                console.log(result);
-            }
-            )
-    }, [])
+    // //To get the research centers
+    // useEffect(() => {
+    //     fetch("http://localhost:8080/centers")
+    //         .then(res => res.json())
+    //         .then((result) => {
+    //             setResearchCenters(result);
+    //             console.log(result);
+    //         }
+    //         )
+    // }, [])
 
-    //To get the research centers
-    useEffect(() => {
-        fetch("http://localhost:8080/centers/1")
-            .then(res => res.json())
-            .then((result) => {
-                setSearchedResearchCenter(result);
-                console.log(result);
-            }
-            )
-    }, [])
+    // //To get the research centers
+    // useEffect(() => {
+    //     fetch("http://localhost:8080/centers/1")
+    //         .then(res => res.json())
+    //         .then((result) => {
+    //             setSearchedResearchCenter(result);
+    //             console.log(result);
+    //         }
+    //         )
+    // }, [])
 
 
     return (
@@ -61,10 +83,15 @@ export default function ResearchCenter() {
                 <h1 style={{ color: "blue" }}>Add new Research Center</h1>
 
                 <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '95%' }, }} noValidate autoComplete="off">
-                    
+
                     <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                    />
+
+                    <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
 
                     <TextField id="outlined-basic" label="Address" variant="outlined" fullWidth
@@ -88,7 +115,11 @@ export default function ResearchCenter() {
                     />
 
                 </Box>
-                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }} onClick={handleClick}>Submit</Button>
+
+                <NavLink className="nav-link" to="/CenterHome" >
+                    <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }} onClick={handleClick}>Submit</Button>
+                </NavLink>
+                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }} onClick={aux}>Aux</Button>
 
             </Paper>
 
@@ -108,3 +139,5 @@ export default function ResearchCenter() {
         </Fragment>
     );
 }
+
+export default SignUp;

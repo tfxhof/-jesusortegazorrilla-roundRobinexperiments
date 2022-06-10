@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,6 +32,9 @@ public class Experiment {
 	@Column(unique=true) 
 	private String name;
 	private String description;
+	
+	@Enumerated(EnumType.ORDINAL)
+	private ExperimentStatus status;
 	
 	@OneToOne
 	@JoinColumn(name="creator_center_fk")
@@ -69,6 +74,7 @@ public class Experiment {
 		this.material = material;
 		this.participants = participants;
 		this.measures = measures;
+		this.status = ExperimentStatus.CREATED;
 	}
 
 
@@ -129,6 +135,18 @@ public class Experiment {
 	public void setMeasures(List<Measure> measures) {
 		this.measures = measures;
 	}
+
+
+	public ExperimentStatus getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(ExperimentStatus status) {
+		this.status = status;
+	}
+	
+	
 	
 	
 	
