@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Paper, Button } from '@material-ui/core';
@@ -20,6 +21,8 @@ export function SignUp() {
     const [researchCenters, setResearchCenters] = useState([])
 
     const { centerEmail, setCenterEmail } = useContext(CenterContext);
+
+    let navigate = useNavigate();
 
     const aux = (e) => {
         console.log(centerEmail);
@@ -45,7 +48,8 @@ export function SignUp() {
         // })
         if (response.ok) {
             setCenterEmail(email);
-            console.log("Research Center Added" + centerEmail);
+            console.log("Research Center Added " + centerEmail);
+            navigate('/CenterHome');
         } else {
             // TODO: advertise that there is already a center with given email or name
             console.log("Cannot add Research Center");
@@ -80,7 +84,9 @@ export function SignUp() {
 
         <Fragment>
             <Paper elevation={3} style={paperStyle}>
-                <h1 style={{ color: "blue" }}>Add new Research Center</h1>
+                <div class="page-titles">
+                    Add new Research Center
+                </div>
 
                 <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '95%' }, }} noValidate autoComplete="off">
 
@@ -116,9 +122,20 @@ export function SignUp() {
 
                 </Box>
 
-                <NavLink className="nav-link" to="/CenterHome" >
-                    <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }} onClick={handleClick}>Submit</Button>
+                <NavLink className="nav-link" onClick={handleClick} to="/CenterHome" >
+                    <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }}
+                        onClick={() => {
+                            setCenterEmail(email);
+                        }}>
+                        Submit
+                    </Button>
                 </NavLink>
+                
+                    <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }}
+                        onClick={handleClick}>
+                        Submit
+                    </Button>
+               
                 <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }} onClick={aux}>Aux</Button>
 
             </Paper>

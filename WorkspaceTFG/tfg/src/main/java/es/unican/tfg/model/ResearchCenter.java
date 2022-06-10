@@ -3,6 +3,7 @@ package es.unican.tfg.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
@@ -14,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+
 
 /**
  * Center involucrated in an experiment
@@ -39,10 +43,8 @@ public class ResearchCenter implements Serializable{
 	@Embedded
 	private ContactData contactInfo;
 	
-	@ManyToMany
-	@JoinTable(name="experiment_research_center", 
-	joinColumns=@JoinColumn(name="research_center_fk"), 
-	inverseJoinColumns=@JoinColumn(name="experiment_fk"))
+	
+	@ManyToMany(mappedBy="participants", cascade = { CascadeType.ALL })
 	private List<Experiment> experiments;
 
 	//Empty constructor

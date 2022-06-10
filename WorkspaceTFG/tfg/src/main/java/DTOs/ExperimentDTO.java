@@ -13,7 +13,7 @@ public class ExperimentDTO {
 	private String name;
 	private String description;
 	private ResearchCenter creator;
-	private List<Sample> material;
+	private List<Sample> samples;
 	//private List<ResearchCenter> participants;
 	private List<Measure> measures;
 
@@ -34,7 +34,7 @@ public class ExperimentDTO {
 		this.id = e.getId();
 		this.name = e.getName();
 		this.description = e.getDescription();
-		this.material = e.getMaterial();
+		this.samples = e.getSamples();
 		this.measures = e.getMeasures();
 	}
 
@@ -65,12 +65,12 @@ public class ExperimentDTO {
 		this.description = description;
 	}
 
-	public List<Sample> getMaterial() {
-		return material;
+	public List<Sample> getSamples() {
+		return samples;
 	}
 
-	public void setMaterial(List<Sample> material) {
-		this.material = material;
+	public void setSamples(List<Sample> material) {
+		this.samples = material;
 	}
 
 	public ResearchCenter getCreator() {

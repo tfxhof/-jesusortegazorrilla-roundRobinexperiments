@@ -21,7 +21,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import DTOs.ExperimentDTO;
 import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.ExperimentStatus;
+import es.unican.tfg.model.Measure;
 import es.unican.tfg.model.ResearchCenter;
+import es.unican.tfg.model.Sample;
 import es.unican.tfg.service.ExperimentService;
 import es.unican.tfg.service.ResearchCenterService;
 
@@ -112,11 +114,66 @@ public class ExperimentController {
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(e);    	
 	}
+	
+	@PostMapping("/{name}/participants")
+	public ResponseEntity<ExperimentDTO> addParticipant(@PathVariable String name, @RequestBody ResearchCenter rc){
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+		
+		ResearchCenter r = centerService.researchCenterByEmail(rc.getEmail());
+		if (r == null)
+			return ResponseEntity.notFound().build();
+		
+//		r.getExperiments().add(e);
+//		centerService.modifyResearchCenter(r);
+		List <ResearchCenter> centers = e.getParticipants();
+		centers.add(r);
+		e.setParticipants(centers);
+		experimentService.modifyExperiment(e);
+		ExperimentDTO eDTO = new ExperimentDTO(e);
+		return ResponseEntity.ok(eDTO);
+	}
+	
+	
+	@PostMapping("/{name}/samples")
+	public ResponseEntity<ExperimentDTO> addSamples(@PathVariable String name, @RequestBody Sample sample){
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+		
+		Sample s = experimentService.addSample(sample);
 
+		List <Sample> samples = e.getSamples();
+		samples.add(s);
+		e.setSamples(samples);
+		experimentService.modifyExperiment(e);
+		
+		ExperimentDTO eDTO = new ExperimentDTO(e);
+		return ResponseEntity.ok(eDTO);
+	}
+	
+	@PostMapping("/{name}/measures")
+	public ResponseEntity<ExperimentDTO> addMeasure(@PathVariable String name, @RequestBody Measure measure){
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+		
+		Sample s = experimentService.findSampleByCode(measure.getSample().getCode());
+		if (s == null) {
+			return ResponseEntity.notFound().build();			
+		}
+		
+		measure.setSample(s);
+		Measure m = experimentService.addMeasure(measure);
 
-	@GetMapping("/test")
-	public String getHolaMundo() {
-		return "Hola Mundo!";
+		List <Measure> measures = e.getMeasures();
+		measures.add(m);
+		e.setMeasures(measures);
+		experimentService.modifyExperiment(e);
+		
+		ExperimentDTO eDTO = new ExperimentDTO(e);
+		return ResponseEntity.ok(eDTO);
 	}
 
 

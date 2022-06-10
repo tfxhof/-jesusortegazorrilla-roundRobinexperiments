@@ -2,7 +2,7 @@ package es.unican.tfg.model;
 
 import java.util.List;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,12 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 /**
  * @author jesus
@@ -43,10 +43,13 @@ public class Experiment {
 	
 	@OneToMany
 	@JoinColumn(name="experiment_fk")
-	private List<Sample> material;
+	private List<Sample> samples;
 
-	@ManyToMany(mappedBy="experiments")
-	//@JoinColumn(name="experiment_fk")
+	
+	@ManyToMany(cascade = {CascadeType.ALL})
+	@JoinTable(name="experiment_research_center", 
+	joinColumns=@JoinColumn(name="experiment_fk"), 
+	inverseJoinColumns=@JoinColumn(name="research_center_fk"))
 	private List<ResearchCenter> participants;
 	
 	@OneToMany
@@ -71,7 +74,7 @@ public class Experiment {
 		this.name = name;
 		this.description = description;
 		this.creator = creator;
-		this.material = material;
+		this.samples = material;
 		this.participants = participants;
 		this.measures = measures;
 		this.status = ExperimentStatus.CREATED;
@@ -104,12 +107,12 @@ public class Experiment {
 		this.description = description;
 	}
 
-	public List<Sample> getMaterial() {
-		return material;
+	public List<Sample> getSamples() {
+		return samples;
 	}
 
-	public void setMaterial(List<Sample> material) {
-		this.material = material;
+	public void setSamples(List<Sample> material) {
+		this.samples = material;
 	}
 
 	public ResearchCenter getCreator() {

@@ -6,13 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.unican.tfg.model.Experiment;
+import es.unican.tfg.model.Measure;
+import es.unican.tfg.model.Sample;
 import es.unican.tfg.repository.ExperimentRepository;
+import es.unican.tfg.repository.MeasureRepository;
+import es.unican.tfg.repository.SampleRepository;
 
 @Service
 public class ExperimentService implements IExperimentService{	
 
 	@Autowired
 	private ExperimentRepository expRepository;
+	
+	@Autowired
+	private SampleRepository sampleRepository;
+	
+	@Autowired
+	private MeasureRepository measureRepository;
 
 
 	public List<Experiment> experiments() {
@@ -48,6 +58,17 @@ public class ExperimentService implements IExperimentService{
 			return null;
 		expRepository.deleteById(e.getId());
 		return e;
+	}
+	
+	public Sample addSample(Sample sample) {
+		return sampleRepository.save(sample);
+	}
+	public Sample findSampleByCode(String code) {
+		return sampleRepository.findByCode(code);
+	}
+	
+	public Measure addMeasure(Measure measure) {
+		return measureRepository.save(measure);
 	}
 
 

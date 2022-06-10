@@ -96,9 +96,9 @@ public class ResearchCenterController {
 	 * @throws InterruptedException
 	 * @throws ExecutionException
 	 */
-	@GetMapping("/{id}")
-	public ResponseEntity<ResearchCenterDTO> getOne(@PathVariable Long id) throws InterruptedException, ExecutionException {
-		ResearchCenter r = centerService.researchCenterById(id);
+	@GetMapping("/{email}")
+	public ResponseEntity<ResearchCenterDTO> getOne(@PathVariable String email) throws InterruptedException, ExecutionException {
+		ResearchCenter r = centerService.researchCenterByEmail(email);
 		if (r == null)
 			return ResponseEntity.notFound().build();
 		ResearchCenterDTO rc = new ResearchCenterDTO(r);
@@ -153,11 +153,8 @@ public class ResearchCenterController {
 		return ResponseEntity.ok(r);    	
 	}
 
-
-	@GetMapping("/test")
-	public String getHolaMundo() {
-		return "Hola Mundo!";
-	}
+	
+	
 
 
 }

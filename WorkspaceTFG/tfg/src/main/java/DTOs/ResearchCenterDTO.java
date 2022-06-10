@@ -31,6 +31,7 @@ public class ResearchCenterDTO implements Serializable{
 
 	private Long id;
 	private String name;
+	private String email;
 	private String instructions;
 	private ContactData contactInfo;
 
@@ -45,6 +46,7 @@ public class ResearchCenterDTO implements Serializable{
 		super();
 		this.id = r.getId();
 		this.name = r.getName();
+		this.email = r.getEmail();
 		this.instructions = r.getInstructions();
 		this.contactInfo = r.getContactInfo();
 	}
@@ -81,6 +83,15 @@ public class ResearchCenterDTO implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 
 	
 }

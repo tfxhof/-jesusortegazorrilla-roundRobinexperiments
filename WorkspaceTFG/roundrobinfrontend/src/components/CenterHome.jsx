@@ -12,14 +12,29 @@ function CenterHome() {
     const paperStyle = { padding: '20px', width: 'auto', margin: "20px auto" };
     const [creatorExperiments, setCreatorExperiments] = useState([]);
     const [participantExperiments, setParticipantExperiments] = useState([]);
+    const [searchedResearchCenter, setSearchedResearchCenter] = useState('');
 
     const { centerEmail } = useContext(CenterContext);
+
+    //To get the research center's name
+    useEffect(() => {
+
+        let url3 = "http://localhost:8080/centers/";
+        url3 = url3.concat(String(centerEmail));
+        // fetch("http://localhost:8080/centers/{email}")
+        fetch(url3)
+            .then(res => res.json())
+            .then((result) => {
+                setSearchedResearchCenter(result);
+                console.log(result);
+            }
+            )
+    }, [])
+
 
     let url = "http://localhost:8080/centers/";
     url = url.concat(String(centerEmail));
     url = url.concat("/experiments");
-    console.log(url);
-
 
     //To get the research centers
     useEffect(() => {
@@ -53,6 +68,10 @@ function CenterHome() {
     return (
 
         <Fragment>
+
+            <div class="page-titles">
+                '{searchedResearchCenter.name}' Research Center
+            </div>
 
             <div id="createExperimentButton">
                 <NavLink className="nav-link" to="/CreateExperiment">
