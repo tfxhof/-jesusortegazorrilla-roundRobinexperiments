@@ -122,21 +122,13 @@ export function SignUp() {
 
                 </Box>
 
-                <NavLink className="nav-link" onClick={handleClick} to="/CenterHome" >
-                    <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }}
-                        onClick={() => {
-                            setCenterEmail(email);
-                        }}>
-                        Submit
-                    </Button>
-                </NavLink>
-                
-                    <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }}
-                        onClick={handleClick}>
-                        Submit
-                    </Button>
-               
-                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }} onClick={aux}>Aux</Button>
+                {/* Button to register the center */}
+                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }}
+                    onClick={handleClick}>
+                    Submit
+                </Button>
+
+                {/* <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }} onClick={aux}>Aux</Button> */}
 
             </Paper>
 

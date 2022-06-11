@@ -68,7 +68,6 @@ public class ResearchCenterService implements IResearchCenterService{
 			experiments = experimentRepository.findByCreator(rc);
 		} else { //To get the experiments where the given center is a participant
 			experiments = experimentRepository.findByParticipants(rc);
-			return null;
 		}
 		return experiments;
 	}

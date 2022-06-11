@@ -1,26 +1,16 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React , { Fragment, useContext, useState, useEffect } from 'react';
 import { ExpContext } from '../providers/ExperimentContext';
 import { Button } from '@material-ui/core';
 import { useNavigate } from 'react-router';
 import TextField from '@mui/material/TextField';
 import EditIcon from '@mui/icons-material/Edit';
 
-export function ExperimentOverview() {
-
-    const [experiment, setExperiment] = useState('');
+export function ParticipantOverview() {
     
+    const [experiment, setExperiment] = useState('');
+
     const { expName } = useContext(ExpContext);
 
-    let description = {
-        value: experiment.description,
-        isInEditMode: false
-    }
-
-    function changeEditMode() {
-        this.setDescription({
-            isInEditMode: !this.experiment.isInEditMode
-        });
-    }
 
     let url = "http://localhost:8080/experiments/";
     url = url.concat(String(expName));
@@ -38,22 +28,23 @@ export function ExperimentOverview() {
 
     let navigate = useNavigate();
 
-    function addSample() {
-        navigate('/addSample');
+    function addPersonalInfo() {
+        navigate('/AddPersonalInfo');
     }
-    function addMeasure() {
-        navigate('/addMeasure');
+    function addInstrument() {
+        navigate('/AddInstrument');
     }
-    function addParticipant() {
-        navigate('/addParticipant');
+    function addResult() {
+        navigate('/AddResult');
     }
+
 
     return (
         <Fragment>
-
             <div class="page-titles">
-                '{expName}' Experiment
+                Participating in '{expName}' Experiment
             </div>
+
 
 
             <div>
@@ -68,29 +59,26 @@ export function ExperimentOverview() {
                             <br></br>
                             <div class="experiments">
                                 {experiment.description}
-                                <Button onClick={changeEditMode}>
-                                    <EditIcon />
-                                </Button>
                             </div>
                         </div>
 
                         {/* To modify the experiment lists (add samples, test, participants...) */}
                         <div class="col-lg-6">
                             <div>
-                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addSample}>
-                                    ADD SAMPLES
+                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addPersonalInfo}>
+                                    ADD PERSONAL INFO
                                 </Button>
                             </div>
 
                             <div>
-                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addMeasure}>
-                                    ADD TEST
+                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addInstrument}>
+                                    ADD INSTRUMENT
                                 </Button>
                             </div>
 
                             <div>
-                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addParticipant}>
-                                    ADD PARTICIPANTS
+                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addResult}>
+                                    ADD RESULT
                                 </Button>
                             </div>
                         </div>
@@ -99,8 +87,10 @@ export function ExperimentOverview() {
             </div>
 
 
-        </Fragment >
+
+
+        </Fragment>
     )
 }
 
-export default ExperimentOverview;
+export default ParticipantOverview;

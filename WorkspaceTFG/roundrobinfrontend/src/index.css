@@ -12,9 +12,14 @@ code {
     monospace;
 }
 
-#createExperimentButton{
+#createExperimentButton {
   margin-top: 40px;
   margin-bottom: 0px;
+}
+
+#form-successful{
+  text-align: left;
+  font-weight: bold;
 }
 
 
@@ -27,22 +32,23 @@ code {
   .col-lg-6 {
     padding: 30px;
   }
+
   .title-experiment-overview {
     margin-bottom: 0px;
   }
 
-  .page-titles{
+  .page-titles {
     font-size: 30px;
     margin-top: 20px;
     margin-bottom: 20px;
     font-weight: 500;
     color: blue;
   }
-  
+
   .navigation {
     background-color: grey;
   }
-  
+
   .bg-footer {
     position: fixed-bottom;
     background-color: grey;
@@ -66,12 +72,42 @@ code {
     padding: 20px;
     padding-bottom: 0px;
     padding-left: 100px;
-    margin-bottom: -20px;
+    margin-top: -40px;
   }
 
-  .buttons{
+  .buttons {
     width: 200px;
   }
 
-  
+  .expBtn {
+    background-color: #E6F4F8;
+    outline: none;
+    outline-width: 0px;
+    border-width: 1px;
+    border-color: #000000;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+  }
+
+  /* Dont know what it is but dont delete it */
+  .expBtn:focus {
+    /* background: #325d88; */
+    background: #8EB8F8;
+    outline: none;
+  }
+
+  /* When you hover over the button */
+  .expBtn:hover {
+    /* background: #B1B3B6; */
+    background: #B3CDF5;
+  }
+
+  /* text color when clicked */
+  .expBtn:active:focus {
+    color: #000000;
+  }
+
+
+
 }

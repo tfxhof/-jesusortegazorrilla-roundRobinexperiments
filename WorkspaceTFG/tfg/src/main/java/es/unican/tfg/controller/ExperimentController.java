@@ -175,6 +175,16 @@ public class ExperimentController {
 		ExperimentDTO eDTO = new ExperimentDTO(e);
 		return ResponseEntity.ok(eDTO);
 	}
+	
+	
+	@GetMapping("/{name}/creator")
+	public ResponseEntity<String> getCreatorEmail(@PathVariable String name) {
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(e.getCreator().getEmail());
+	}
+	
 
 
 }

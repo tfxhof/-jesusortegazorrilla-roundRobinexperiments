@@ -49,7 +49,6 @@ public class ResearchCenterController {
 			@RequestParam(value="creator", required=true) boolean creator,
 			@PathVariable String email) {
 		
-		System.out.println("Email del creador: " + email);
 		List<Experiment> experiments = null;
 		experiments = centerService.experiments(email, creator);
 		
@@ -105,21 +104,6 @@ public class ResearchCenterController {
 		return ResponseEntity.ok(rc);
 	}
 	
-	
-//	/**
-//	 * Get a research Center or 404 if does not exist
-//	 * @param id
-//	 * @return
-//	 * @throws InterruptedException
-//	 * @throws ExecutionException
-//	 */
-//	@GetMapping("/{email}")
-//	public ResponseEntity<ResearchCenter> getOne(@PathVariable String email) throws InterruptedException, ExecutionException {
-//		ResearchCenter r = centerService.researchCenterByEmail(email);
-//		if (r == null)
-//			return ResponseEntity.notFound().build();
-//		return ResponseEntity.ok(r);
-//	}
 	
 
 	/**

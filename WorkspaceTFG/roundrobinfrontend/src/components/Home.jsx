@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useContext } from "react";
+import { useNavigate } from 'react-router';
 import TextField from '@mui/material/TextField';
 import { Paper } from '@material-ui/core';
 import { NavLink } from "react-router-dom";
@@ -7,11 +8,12 @@ import { CenterContext } from '../providers/CenterContext';
 
 function Home() {
   const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
-  const [ email, setEmail ] = useState('')
+  const [email, setEmail] = useState('')
 
   const { centerEmail, setCenterEmail } = useContext(CenterContext);
 
-  //To log in
+  let navigate = useNavigate();
+
   // const logInHandleClick = (e) => {
   //   //TODO: Verify that this center exists
   //   fetch("http://localhost:8080/centers", {
@@ -23,6 +25,12 @@ function Home() {
   //   })
   // }
 
+  //To log in
+  function logIn() {
+    setCenterEmail(email);
+    console.log(centerEmail);
+    navigate('/CenterHome');
+  }
 
   return (
     <Fragment>
@@ -42,16 +50,12 @@ function Home() {
               </Box>
 
 
-              <NavLink className="nav-link" to="/CenterHome"
-                onClick={() => {
-                  setCenterEmail(email);
-                  console.log(centerEmail);
-                }}>
-                <Button variant="contained" color="success" className="buttons" style={{ marginTop: "20px" }} /*onClick={logInHandleClick}*/>Log In</Button>
-              </NavLink>
+
+              <Button variant="contained" color="success" className="buttons" style={{ marginTop: "20px" }} onClick={logIn} >Log In</Button>
+
 
               <NavLink className="nav-link" to="/SignUp">
-                <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", margin: "auto"}}>Sign Up</Button>
+                <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", margin: "auto" }}>Sign Up</Button>
               </NavLink>
 
             </Paper>

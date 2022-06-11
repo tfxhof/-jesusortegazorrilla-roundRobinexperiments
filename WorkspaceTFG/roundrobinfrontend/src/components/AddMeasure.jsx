@@ -56,7 +56,7 @@ export function AddTest() {
   return (
     <Fragment>
       <div class="page-titles">
-        Add Test to '{expName}'
+        Add Measure to '{expName}'
       </div>
 
       <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '60%' }, }} noValidate autoComplete="off">

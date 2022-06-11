@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
+import { useNavigate } from 'react-router';
 import { CenterContext } from '../providers/CenterContext';
 import { Paper } from '@material-ui/core';
 import Button from '@mui/material/Button';
@@ -9,12 +10,14 @@ import { NavLink } from "react-router-dom";
 
 function CenterHome() {
 
-    const paperStyle = { padding: '20px', width: 'auto', margin: "20px auto" };
+    const paperStyle = { padding: '20px', width: 'auto', margin: "20px auto"};
     const [creatorExperiments, setCreatorExperiments] = useState([]);
     const [participantExperiments, setParticipantExperiments] = useState([]);
     const [searchedResearchCenter, setSearchedResearchCenter] = useState('');
 
     const { centerEmail } = useContext(CenterContext);
+
+    let navigate = useNavigate();
 
     //To get the research center's name
     useEffect(() => {
@@ -39,6 +42,7 @@ function CenterHome() {
     //To get the research centers
     useEffect(() => {
         let url1 = url.concat("?creator=true");
+        console.log(url1)
         // fetch("http://localhost:8080/centers/{id}/experiments?creator=true")
         fetch(url1)
             .then(res => res.json())
@@ -54,6 +58,7 @@ function CenterHome() {
     //To get the research centers
     useEffect(() => {
         let url2 = url.concat("?creator=false");
+        console.log(url2);
         // fetch("http://localhost:8080/centers/{id}/experiments?creator=false")
         fetch(url2)
             .then(res => res.json())
@@ -65,6 +70,10 @@ function CenterHome() {
             )
     }, [])
 
+    function createExp() {
+        navigate("/CreateExperiment");
+    }
+
     return (
 
         <Fragment>
@@ -74,9 +83,9 @@ function CenterHome() {
             </div>
 
             <div id="createExperimentButton">
-                <NavLink className="nav-link" to="/CreateExperiment">
-                    <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", color: "white", margin: "auto" }} >Create Experiment</Button>
-                </NavLink>
+                <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", color: "white", margin: "auto" }} onClick={createExp} >
+                    Create Experiment
+                </Button>
             </div>
             <div>
                 {centerEmail}

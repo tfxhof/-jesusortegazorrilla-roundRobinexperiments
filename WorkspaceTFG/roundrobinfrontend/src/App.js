@@ -9,7 +9,11 @@ import CenterHome from './components/CenterHome';
 import ExperimentOverview from './components/ExperimentOverview';
 import AddParticipant from './components/AddParticipant';
 import AddSample from './components/AddSample';
-import AddTest from './components/AddTest';
+import AddMeasure from './components/AddMeasure';
+import ParticipantOverview from './components/ParticipantOverview';
+import AddPersonalInfo from './components/AddPersonalInfo';
+import AddInstrument from './components/AddInstrument';
+import AddResult from './components/AddResult';
 
 import { ExpContext } from './providers/ExperimentContext';
 import { CenterContext } from './providers/CenterContext';
@@ -37,7 +41,11 @@ function App() {
             <Route path="/CreateExperiment" element={<CreateExperiment />} />
             <Route path="/AddParticipant" element={<AddParticipant />} />
             <Route path="/AddSample" element={<AddSample />} />
-            <Route path="/AddTest" element={<AddTest />} />
+            <Route path="/AddMeasure" element={<AddMeasure />} />
+            <Route path="/ParticipantOverview" element={<ParticipantOverview />} />
+            <Route path="/AddPersonalInfo" element={<AddPersonalInfo />} />
+            <Route path="/AddInstrument" element={<AddInstrument />} />
+            <Route path="/AddResult" element={<AddResult />} />
 
           </Routes>
           </CenterContext.Provider>
