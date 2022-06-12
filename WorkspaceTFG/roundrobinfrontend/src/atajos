@@ -2,5 +2,6 @@
 
 - Auto-Tabular:                         Con alt+shift+f auto tabula.
 - Comentar un bloque de codigo:         Control+k+c
+- Descomentar un bloque de codigo:      Control+k+u
 - Escribir lo basico de JS:             rfc
 - 

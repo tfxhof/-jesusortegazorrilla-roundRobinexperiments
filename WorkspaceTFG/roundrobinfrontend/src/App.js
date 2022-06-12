@@ -29,9 +29,10 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navigation />
         <ExpContext.Provider value={{ expName, setExpName }}>
         <CenterContext.Provider value={{ centerEmail, setCenterEmail }}>
+        
+        <Navigation />
           <Routes>
 
             <Route path="/" element={<Home />} />
@@ -48,6 +49,7 @@ function App() {
             <Route path="/AddResult" element={<AddResult />} />
 
           </Routes>
+
           </CenterContext.Provider>
         </ExpContext.Provider>
         <Footer />

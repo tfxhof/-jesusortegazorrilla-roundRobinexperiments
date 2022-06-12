@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import es.unican.tfg.model.Measurement;
 import es.unican.tfg.model.ResearchCenter;
+import es.unican.tfg.model.Result;
 import es.unican.tfg.repository.MeasurementRepository;
 import es.unican.tfg.repository.ResearchCenterRepository;
+import es.unican.tfg.repository.ResultRepository;
 
 @Service
 public class MeasurementService implements IMeasurementService{	
@@ -16,6 +18,8 @@ public class MeasurementService implements IMeasurementService{
 	@Autowired
 	private MeasurementRepository measurementRepository;
 
+	@Autowired
+	private ResultRepository resultRepository;
 
 	public List<Measurement> findAll() {
 		return measurementRepository.findAll();
@@ -24,6 +28,10 @@ public class MeasurementService implements IMeasurementService{
 	public Measurement findById(long id) {
 		return measurementRepository.findById(id).orElse(null);
 	}
+	
+	public Measurement findByName (String name) {
+		return measurementRepository.findByName(name);
+	}
 
 	public Measurement create(Measurement m) {	
 		if (measurementRepository.findById(m.getId()) == null)//if null it creates the experiment
@@ -31,8 +39,8 @@ public class MeasurementService implements IMeasurementService{
 		return null;
 	}
 
-	public Measurement modify(Measurement m) {
-		if (measurementRepository.findById(m.getId()) == null)//if null it return null
+	public Measurement modifyMeasurement(Measurement m) {
+		if (measurementRepository.findByName(m.getName()) == null)//if null it return null
 			return null;
 		return measurementRepository.save(m);
 	}
@@ -43,6 +51,11 @@ public class MeasurementService implements IMeasurementService{
 			return null;
 		measurementRepository.deleteById(m.getId());
 		return m;
+	}
+	
+	
+	public Result addResult(Result result) {
+		return resultRepository.save(result);
 	}
 
 

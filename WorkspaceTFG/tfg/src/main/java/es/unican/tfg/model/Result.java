@@ -1,5 +1,7 @@
 package es.unican.tfg.model;
 
+import java.sql.Blob;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Transient;
+
 
 /**
  * Results about one test
@@ -24,8 +28,11 @@ public class Result {
 	private String comments;
 	private boolean satisfactory;
 	
+	@Transient
+	private String successful;
 	
-	//private blob? file;
+	
+	private Blob file;
 //	@Lob
 //	@Basic(fetch = FetchType.LAZY)
 //	@Column(columnDefinition = "BLOB", nullable = false)
@@ -40,15 +47,13 @@ public class Result {
 	 * @param comments
 	 * @param satisfactory
 	 */
-	public Result(String name, String comments, boolean satisfactory) {
+	public Result(String name, String comments, boolean satisfactory, Blob file) {
 		super();
 		this.name = name;
 		this.comments = comments;
 		this.satisfactory = satisfactory;
+		this.file = file;
 	}
-
-
-
 
 
 	public int getId() {
@@ -82,4 +87,22 @@ public class Result {
 		this.satisfactory = satisfactory;
 	}
 
+	public Blob getFile() {
+		return file;
+	}
+
+	public void setFile(Blob file) {
+		this.file = file;
+	}
+
+	public String getSuccessful() {
+		return successful;
+	}
+
+	public void setSuccessful(String successful) {
+		this.successful = successful;
+	}
+
+	
+	
 }

@@ -6,4 +6,6 @@ import es.unican.tfg.model.Measure;
 
 public interface MeasureRepository extends JpaRepository<Measure, Long>{
 
+	
+	
 }

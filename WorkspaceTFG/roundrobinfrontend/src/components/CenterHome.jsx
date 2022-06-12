@@ -39,6 +39,8 @@ function CenterHome() {
     //To get the research centers
     useEffect(() => {
         let url1 = url.concat("?creator=true");
+        console.log("Url1: ")
+        console.log(url1)
         // fetch("http://localhost:8080/centers/{id}/experiments?creator=true")
         fetch(url1)
             .then(res => res.json())
@@ -53,6 +55,8 @@ function CenterHome() {
     //To get the research centers
     useEffect(() => {
         let url2 = url.concat("?creator=false");
+        console.log("Url2: ")
+        console.log(url2)
         // fetch("http://localhost:8080/centers/{id}/experiments?creator=false")
         fetch(url2)
             .then(res => res.json())

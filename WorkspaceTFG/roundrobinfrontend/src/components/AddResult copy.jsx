@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
-import { useForm } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Paper, Button } from '@material-ui/core';
@@ -26,44 +25,21 @@ export function AddResult() {
   const { centerEmail, setCenterEmail } = useContext(CenterContext);
   const { expName, setExpName } = useContext(ExpContext);
 
+
   let navigate = useNavigate();
 
-  // This is to handle the successful checkbox
-  const initialValues = {
-    satisfactory: 'yes',
-  }
-  const [values, setValues] = useState(initialValues);
-  const handleInputChange = e => {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value
-    })
-  }
 
-
-  //To handle the file upload
-  //const [pdfFile, setPdfFile] = useState(null);
-  const { register, handleSubmit } = useForm();
   let url = "http://localhost:8080/experiments/";
   url = url.concat(String(expName));
+  //Have to think about this in the backend
   url = url.concat("/measures/Dureza/measurements/Madrid Dureza/results");
   //url = url.concat(String(expName));
 
-
-  async function onSubmit(data) {
-    console.log(data);
-    console.log(url);
-
-    // const storageRef = app.storage().ref();
-    // const fileRef = storageRef.child(data.file[0]);
+  async function handleClick() {
     const result = {
       name,
-      comments,
-      successful: values.satisfactory,
-      file: data.file[0] //Dont know if this is correct
+      comments
     }
-    console.log(result.satisfatory);
 
     let response = await fetch(url, {
       method: "POST",
@@ -74,78 +50,68 @@ export function AddResult() {
     })
 
     if (response.ok) {
-      console.log("Result Added");
+      console.log("Result Added ");
       navigate('/ParticipantOverview');
     } else {
-      console.log(result.file);
+      // TODO: advertise that there is already a center with given email or name
       console.log("Cannot add Result");
     }
-
   }
 
   return (
-
     <Fragment>
-      <div class="page-titles">
-        Add result to '{expName}'
-      </div>
 
-      {/* Call this method automatically when button is clicked */}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '60%' }, }} noValidate autoComplete="off">
+      
+        <div class="page-titles">
+          Add result to '{expName}'
+        </div>
 
+        <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '60%' }, }} noValidate autoComplete="off">
 
           <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
-
           <TextField id="outlined-basic" label="Comments" variant="outlined" fullWidth
             value={comments}
             onChange={(e) => setComments(e.target.value)}
           />
 
+          {/* <Checkbox {...label} defaultChecked />
+        <Checkbox {...label} /> */}
 
           {/* Field to check if the measurement was successful */}
           <FormControl>
             <div id="form-successful">
-              <FormLabel id="demo-row-radio-buttons-group-label">Was the measurement successful?</FormLabel>
+              <FormLabel id="demo-row-radio-buttons-group-label">Was the measurement Successful?</FormLabel>
             </div>
-            <RadioGroup row
-              name="satisfactory"
-              value={values.satisfactory}
-              onChange={handleInputChange}
-            >
+            <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" >
               <FormControlLabel value="yes" control={<Radio />} label="Yes" />
               <FormControlLabel value="no" control={<Radio />} label="No" />
             </RadioGroup>
           </FormControl>
 
 
-          {/* Field to upload result file */}
-          <FormControl>
-            <div id="form-file">
-              <FormLabel id="demo-row-radio-buttons-group-label">Result file:</FormLabel>
-            </div>
-            <input type="file" name="fileResult" {...register('file')} />
+          <input type="file" name="file" />
+          <button>Submit</button>
 
-          </FormControl>
 
+          <TextField id="outlined-basic" label="Add file" variant="outlined" fullWidth
+            value={sampleCode}
+            onChange={(e) => setSampleCode(e.target.value)}
+          />
 
         </Box>
 
-        <button
-          variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }}
-        >
+        <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }} onClick={handleClick}>
           Submit
-        </button>
+        </Button>
 
       </form>
-
+    
     </Fragment>
-
-
   )
 }
 

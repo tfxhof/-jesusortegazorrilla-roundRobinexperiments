@@ -17,9 +17,17 @@ code {
   margin-bottom: 0px;
 }
 
-#form-successful{
+#form-successful {
   text-align: left;
+}
+
+#form-file {
+  text-align: left;
+}
+
+#demo-row-radio-buttons-group-label{
   font-weight: bold;
+  font-size: 15px;
 }
 
 #sign-up-button{
@@ -111,6 +119,8 @@ code {
   .expBtn:active:focus {
     color: #000000;
   }
+
+
 
 
 

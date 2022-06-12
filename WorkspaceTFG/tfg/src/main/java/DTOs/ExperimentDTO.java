@@ -15,7 +15,6 @@ public class ExperimentDTO {
 	private ResearchCenter creator;
 	private List<Sample> samples;
 	//private List<ResearchCenter> participants;
-	private List<Measure> measures;
 
 	//Empty constructor
 	public ExperimentDTO() {}
@@ -35,7 +34,6 @@ public class ExperimentDTO {
 		this.name = e.getName();
 		this.description = e.getDescription();
 		this.samples = e.getSamples();
-		this.measures = e.getMeasures();
 	}
 
 
@@ -80,16 +78,5 @@ public class ExperimentDTO {
 	public void setCreator(ResearchCenter creator) {
 		this.creator = creator;
 	}
-
-	public List<Measure> getMeasures() {
-		return measures;
-	}
-
-	public void setMeasures(List<Measure> measures) {
-		this.measures = measures;
-	}
-	
-	
-	
 	
 }

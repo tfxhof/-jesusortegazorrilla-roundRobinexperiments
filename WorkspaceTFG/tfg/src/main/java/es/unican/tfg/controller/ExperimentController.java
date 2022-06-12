@@ -22,9 +22,12 @@ import DTOs.ExperimentDTO;
 import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.ExperimentStatus;
 import es.unican.tfg.model.Measure;
+import es.unican.tfg.model.Measurement;
 import es.unican.tfg.model.ResearchCenter;
+import es.unican.tfg.model.Result;
 import es.unican.tfg.model.Sample;
 import es.unican.tfg.service.ExperimentService;
+import es.unican.tfg.service.MeasurementService;
 import es.unican.tfg.service.ResearchCenterService;
 
 @RestController
@@ -34,9 +37,14 @@ public class ExperimentController {
 
 	@Autowired
 	private ExperimentService experimentService;
-	
+
 	@Autowired
 	private ResearchCenterService centerService;
+
+	@Autowired
+	private MeasurementService measurementService;
+
+
 
 	/**
 	 * Get the list of experiments or 404 if there are no experiments
@@ -93,7 +101,7 @@ public class ExperimentController {
 		if(rc == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		
+
 		exp.setCreator(rc);
 		Experiment e = experimentService.createExperiment(exp);
 		if (e == null)
@@ -114,19 +122,19 @@ public class ExperimentController {
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(e);    	
 	}
-	
+
 	@PostMapping("/{name}/participants")
 	public ResponseEntity<ExperimentDTO> addParticipant(@PathVariable String name, @RequestBody ResearchCenter rc){
 		Experiment e = experimentService.experimentByName(name);
 		if (e == null)
 			return ResponseEntity.notFound().build();
-		
+
 		ResearchCenter r = centerService.researchCenterByEmail(rc.getEmail());
 		if (r == null)
 			return ResponseEntity.notFound().build();
-		
-//		r.getExperiments().add(e);
-//		centerService.modifyResearchCenter(r);
+
+		//		r.getExperiments().add(e);
+		//		centerService.modifyResearchCenter(r);
 		List <ResearchCenter> centers = e.getParticipants();
 		centers.add(r);
 		e.setParticipants(centers);
@@ -134,36 +142,36 @@ public class ExperimentController {
 		ExperimentDTO eDTO = new ExperimentDTO(e);
 		return ResponseEntity.ok(eDTO);
 	}
-	
-	
+
+
 	@PostMapping("/{name}/samples")
 	public ResponseEntity<ExperimentDTO> addSamples(@PathVariable String name, @RequestBody Sample sample){
 		Experiment e = experimentService.experimentByName(name);
 		if (e == null)
 			return ResponseEntity.notFound().build();
-		
+
 		Sample s = experimentService.addSample(sample);
 
 		List <Sample> samples = e.getSamples();
 		samples.add(s);
 		e.setSamples(samples);
 		experimentService.modifyExperiment(e);
-		
+
 		ExperimentDTO eDTO = new ExperimentDTO(e);
 		return ResponseEntity.ok(eDTO);
 	}
-	
+
 	@PostMapping("/{name}/measures")
 	public ResponseEntity<ExperimentDTO> addMeasure(@PathVariable String name, @RequestBody Measure measure){
 		Experiment e = experimentService.experimentByName(name);
 		if (e == null)
 			return ResponseEntity.notFound().build();
-		
+
 		Sample s = experimentService.findSampleByCode(measure.getSample().getCode());
 		if (s == null) {
 			return ResponseEntity.notFound().build();			
 		}
-		
+
 		measure.setSample(s);
 		Measure m = experimentService.addMeasure(measure);
 
@@ -171,12 +179,12 @@ public class ExperimentController {
 		measures.add(m);
 		e.setMeasures(measures);
 		experimentService.modifyExperiment(e);
-		
+
 		ExperimentDTO eDTO = new ExperimentDTO(e);
 		return ResponseEntity.ok(eDTO);
 	}
-	
-	
+
+
 	@GetMapping("/{name}/creator")
 	public ResponseEntity<String> getCreatorEmail(@PathVariable String name) {
 		Experiment e = experimentService.experimentByName(name);
@@ -184,7 +192,41 @@ public class ExperimentController {
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(e.getCreator().getEmail());
 	}
-	
+
+
+	@PostMapping("/{expName}/measures/{measureName}/measurements/{measurementName}/results")
+	public ResponseEntity<Result> addResult(@PathVariable String expName, 
+			@PathVariable String measureName, 
+			@PathVariable String measurementName, 
+			@RequestBody Result result){
+
+		System.out.println("File: " + result.getFile());
+		
+		if (result.getSuccessful().equals("yes")) {
+			result.setSatisfactory(true);
+		} else 
+			result.setSatisfactory(false);			
+		
+		
+		Experiment e = experimentService.experimentByName(expName);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+
+		Measure m = experimentService.measureByNameAndExperiment(e, measureName);
+		if (m == null)
+			return ResponseEntity.notFound().build();
+
+		Measurement me = experimentService.measurementByNameAndMeasure(m, measurementName);
+		if (me == null)
+			return ResponseEntity.notFound().build();
+		
+		Result r = measurementService.addResult(result);
+		me = measurementService.findByName(measurementName);
+		me.getResults().add(r);
+		measurementService.modifyMeasurement(me);
+
+		return ResponseEntity.ok(r);
+	}
 
 
 }

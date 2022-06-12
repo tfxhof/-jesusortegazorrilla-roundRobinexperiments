@@ -7,4 +7,6 @@ import es.unican.tfg.model.Measurement;
 
 public interface MeasurementRepository extends JpaRepository<Measurement, Long>{
 	
+	public Measurement findByName(String name);
+	
 }

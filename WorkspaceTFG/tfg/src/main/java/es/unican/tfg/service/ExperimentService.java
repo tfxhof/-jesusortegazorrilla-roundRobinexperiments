@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.Measure;
+import es.unican.tfg.model.Measurement;
 import es.unican.tfg.model.Sample;
 import es.unican.tfg.repository.ExperimentRepository;
 import es.unican.tfg.repository.MeasureRepository;
@@ -70,6 +71,27 @@ public class ExperimentService implements IExperimentService{
 	public Measure addMeasure(Measure measure) {
 		return measureRepository.save(measure);
 	}
+	
+	public Measure measureByNameAndExperiment (Experiment e, String name) {
+		for (Measure me: e.getMeasures()) {
+			if (me.getName().equals(name)) {
+				return me;
+			}
+		}
+		return null;
+	}
+	
+
+	public Measurement measurementByNameAndMeasure (Measure m, String name) {
+		for (Measurement me: m.getMeasurements()) {
+			if (me.getName().equals(name)) {
+				return me;
+			}
+		}
+		return null;
+	}
+	
+	
 
 
 

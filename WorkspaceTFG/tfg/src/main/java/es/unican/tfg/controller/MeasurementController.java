@@ -45,7 +45,7 @@ public class MeasurementController implements IMeasurementController{
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Measurement> modify(@RequestBody Measurement m, @PathVariable Long id) {
-		Measurement created = measurementService.modify(m);
+		Measurement created = measurementService.modifyMeasurement(m);
 		if (created == null) //if null, already exists the experiment
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		return ResponseEntity.ok(created);

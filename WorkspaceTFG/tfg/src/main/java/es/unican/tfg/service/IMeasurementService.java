@@ -29,7 +29,7 @@ public interface IMeasurementService {
 	 * modify an existing experiment
 	 * @return the modified experiment
 	 */
-	public Measurement modify(Measurement e);
+	public Measurement modifyMeasurement(Measurement e);
 	
 	/**
 	 * delete an experiment

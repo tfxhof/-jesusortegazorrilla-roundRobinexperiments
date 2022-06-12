@@ -2,6 +2,7 @@ package es.unican.tfg.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,14 +22,16 @@ public class Measurement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	 
+	private String name;
 	
 	@OneToOne
 	@JoinColumn(name="researchCenter_fk")
 	private ResearchCenter executingCenter;
 	
-	@OneToOne
-	@JoinColumn(name="measure_fk")
-	private Measure measure;
+//	@OneToOne
+//	@JoinColumn(name="measure_fk")
+//	private Measure measure;
 	
 	@OneToOne
 	@JoinColumn(name="instrument_fk")
@@ -59,8 +62,10 @@ public class Measurement {
 	public Measurement(ResearchCenter executingCenter, Measure measure, Instrument instrument,
 			List<Parameter> parameters, List<Result> results, List<Sample> samples) {
 		super();
+		//TODO: If the same center has 2 instrument to measure the same, this might be a problem
+		this.name = measure.getName() + " " + executingCenter.getName();
 		this.executingCenter = executingCenter;
-		this.measure = measure;
+		//this.measure = measure;
 		this.instrument = instrument;
 		this.parameters = parameters;
 		this.results = results;
@@ -85,13 +90,13 @@ public class Measurement {
 		this.executingCenter = executingCenter;
 	}
 
-	public Measure getMeasure() {
-		return measure;
-	}
-
-	public void setMeasure(Measure measure) {
-		this.measure = measure;
-	}
+//	public Measure getMeasure() {
+//		return measure;
+//	}
+//
+//	public void setMeasure(Measure measure) {
+//		this.measure = measure;
+//	}
 
 	public Instrument getInstrument() {
 		return instrument;
@@ -124,6 +129,16 @@ public class Measurement {
 	public void setSamples(List<Sample> samples) {
 		this.samples = samples;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 	
 	
 	

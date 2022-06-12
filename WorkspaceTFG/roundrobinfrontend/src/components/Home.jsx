@@ -9,7 +9,7 @@ export function Home() {
   const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
   const [email, setEmail] = useState('')
 
-  const { setCenterEmail } = useContext(CenterContext);
+  const { centerEmail, setCenterEmail } = useContext(CenterContext);
 
   let navigate = useNavigate();
 
@@ -27,8 +27,10 @@ export function Home() {
   //To log in
   async function logIn() {
     let response = await checkCenterExists();
+    console.log(response);
     if (response === true) {
       setCenterEmail(email);
+      console.log(centerEmail)
       navigate('/CenterHome');
     } else {
       console.log("No existe ese centro");
@@ -36,6 +38,9 @@ export function Home() {
   }
 
   async function checkCenterExists() {
+    if (email === "") {
+      return false;
+    }
     setCenterEmail(email);
     let url = "http://localhost:8080/centers/";
     url = url.concat(email);
@@ -49,7 +54,7 @@ export function Home() {
       // creatorEmail = await response.json();
       // creatorEmail = creatorEmail.email;
       return true;
-      
+
     } else { //If the given center is not registered
       return false;
     }
@@ -62,35 +67,37 @@ export function Home() {
 
   return (
     <Fragment>
+      <form>
+        <div className="centerHome">
+          <div class="container">
+            <div class="row align-items-center my-5">
+              <Paper elevation={3} style={paperStyle}>
+                <div class="page-titles">
+                  <h1 class="font-weight-light">Log in</h1>
+                </div>
 
-      <div className="centerHome">
-        <div class="container">
-          <div class="row align-items-center my-5">
-            <Paper elevation={3} style={paperStyle}>
-              <div class="page-titles">
-                <h1 class="font-weight-light">Log in</h1>
-              </div>
+                <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '95%' }, }} noValidate autoComplete="off">
 
-              <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '95%' }, }} noValidate autoComplete="off">
+                  <TextField required id="outlined-basic" label="Email" variant="outlined" fullWidth
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
 
-                <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Box>
+                </Box>
 
-              <div>
-                <Button variant="contained" color="success" className="buttons" style={{ marginTop: "20px" }} onClick={logIn} >Log In</Button>
-              </div>
+                <div>
+                  <Button variant="contained" color="success" className="buttons" style={{ marginTop: "20px" }} onClick={logIn} >Log In</Button>
+                </div>
 
-              <div id="sign-up-button">
-                <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", margin: "auto" }} onClick={signUp}>Sign Up</Button>
-              </div>
+                <div id="sign-up-button">
+                  <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", margin: "auto" }} onClick={signUp}>Sign Up</Button>
+                </div>
 
-            </Paper>
+              </Paper>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
 
 
     </Fragment >
