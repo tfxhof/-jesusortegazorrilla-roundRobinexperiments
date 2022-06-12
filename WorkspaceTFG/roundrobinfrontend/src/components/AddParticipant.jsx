@@ -2,8 +2,7 @@ import React, { Fragment, useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Paper, Button } from '@material-ui/core';
-import { NavLink } from "react-router-dom";
+import { Button } from '@material-ui/core';
 import { CenterContext } from '../providers/CenterContext';
 import { ExpContext } from '../providers/ExperimentContext';
 
@@ -12,8 +11,8 @@ export function AddParticipant() {
 
     const [email, setEmail] = useState('');
 
-    const { centerEmail, setCenterEmail } = useContext(CenterContext);
-    const { expName, setExpName } = useContext(ExpContext);
+    const { centerEmail } = useContext(CenterContext);
+    const { expName } = useContext(ExpContext);
 
 
     let navigate = useNavigate();
@@ -66,7 +65,7 @@ export function AddParticipant() {
 
             </Box>
 
-            <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }}>
+            <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }} onClick={handleClick}>
                 Submit
             </Button>
 

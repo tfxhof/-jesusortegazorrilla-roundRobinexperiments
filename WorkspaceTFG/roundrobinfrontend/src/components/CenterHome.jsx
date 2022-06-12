@@ -4,8 +4,6 @@ import { CenterContext } from '../providers/CenterContext';
 import { Paper } from '@material-ui/core';
 import Button from '@mui/material/Button';
 import { ExperimentList } from "./ExperimentList";
-//import { AppContext } from '../providers/ExperimentContext';
-import { NavLink } from "react-router-dom";
 
 
 function CenterHome() {
@@ -29,7 +27,6 @@ function CenterHome() {
             .then(res => res.json())
             .then((result) => {
                 setSearchedResearchCenter(result);
-                console.log(result);
             }
             )
     }, [])
@@ -42,13 +39,11 @@ function CenterHome() {
     //To get the research centers
     useEffect(() => {
         let url1 = url.concat("?creator=true");
-        console.log(url1)
         // fetch("http://localhost:8080/centers/{id}/experiments?creator=true")
         fetch(url1)
             .then(res => res.json())
             .then((result) => {
                 setCreatorExperiments(result);
-                console.log(result);
             }
             )
     }, [])
@@ -58,14 +53,11 @@ function CenterHome() {
     //To get the research centers
     useEffect(() => {
         let url2 = url.concat("?creator=false");
-        console.log(url2);
         // fetch("http://localhost:8080/centers/{id}/experiments?creator=false")
         fetch(url2)
             .then(res => res.json())
             .then((result) => {
                 setParticipantExperiments(result);
-                console.log("Participante");
-                console.log(result);
             }
             )
     }, [])

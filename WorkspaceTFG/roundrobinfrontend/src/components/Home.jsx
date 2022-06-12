@@ -2,15 +2,14 @@ import React, { Fragment, useState, useContext } from "react";
 import { useNavigate } from 'react-router';
 import TextField from '@mui/material/TextField';
 import { Paper } from '@material-ui/core';
-import { NavLink } from "react-router-dom";
 import { Box, Button } from '@mui/material';
 import { CenterContext } from '../providers/CenterContext';
 
-function Home() {
+export function Home() {
   const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
   const [email, setEmail] = useState('')
 
-  const { centerEmail, setCenterEmail } = useContext(CenterContext);
+  const { setCenterEmail } = useContext(CenterContext);
 
   let navigate = useNavigate();
 
@@ -26,10 +25,39 @@ function Home() {
   // }
 
   //To log in
-  function logIn() {
+  async function logIn() {
+    let response = await checkCenterExists();
+    if (response === true) {
+      setCenterEmail(email);
+      navigate('/CenterHome');
+    } else {
+      console.log("No existe ese centro");
+    }
+  }
+
+  async function checkCenterExists() {
     setCenterEmail(email);
-    console.log(centerEmail);
-    navigate('/CenterHome');
+    let url = "http://localhost:8080/centers/";
+    url = url.concat(email);
+    // fetch("http://localhost:8080/centers/{id}/experiments?creator=true")
+    let response = await fetch(url)
+
+    //let creatorEmail;
+    if (response.ok) { // if HTTP-status is 200-299
+
+      // get the response body
+      // creatorEmail = await response.json();
+      // creatorEmail = creatorEmail.email;
+      return true;
+      
+    } else { //If the given center is not registered
+      return false;
+    }
+  }
+
+  //To sign up
+  function signUp() {
+    navigate('/SignUp');
   }
 
   return (
@@ -39,7 +67,9 @@ function Home() {
         <div class="container">
           <div class="row align-items-center my-5">
             <Paper elevation={3} style={paperStyle}>
-              <h1 class="font-weight-light">Log in</h1>
+              <div class="page-titles">
+                <h1 class="font-weight-light">Log in</h1>
+              </div>
 
               <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '95%' }, }} noValidate autoComplete="off">
 
@@ -49,14 +79,13 @@ function Home() {
                 />
               </Box>
 
+              <div>
+                <Button variant="contained" color="success" className="buttons" style={{ marginTop: "20px" }} onClick={logIn} >Log In</Button>
+              </div>
 
-
-              <Button variant="contained" color="success" className="buttons" style={{ marginTop: "20px" }} onClick={logIn} >Log In</Button>
-
-
-              <NavLink className="nav-link" to="/SignUp">
-                <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", margin: "auto" }}>Sign Up</Button>
-              </NavLink>
+              <div id="sign-up-button">
+                <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", margin: "auto" }} onClick={signUp}>Sign Up</Button>
+              </div>
 
             </Paper>
           </div>
