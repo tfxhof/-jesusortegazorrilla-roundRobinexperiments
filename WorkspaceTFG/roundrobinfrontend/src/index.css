@@ -35,10 +35,33 @@ code {
   margin-bottom: 20px;
 }
 
+#measure-instructions {
+  text-align: left;
+  font-size: 20px;
+  padding: 20px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
 
 @media (min-width: 1200px) {
   .container {
     max-width: 1200px;
+  }
+
+  .navigation {
+    background-color: #272727;
+  }
+
+  .bg-footer {
+    position: fixed-bottom;
+    background-color: #272727;
+  }
+
+  .nav-link {
+    color: black;
   }
 
   .col-lg-6 {
@@ -54,20 +77,7 @@ code {
     margin-top: 20px;
     margin-bottom: 20px;
     font-weight: 500;
-    color: blue;
-  }
-
-  .navigation {
-    background-color: grey;
-  }
-
-  .bg-footer {
-    position: fixed-bottom;
-    background-color: grey;
-  }
-
-  .nav-link {
-    color: black;
+    color: #4488f0;
   }
 
   .columns {
@@ -81,12 +91,22 @@ code {
     padding-bottom: 0px;
     padding-left: 0px;
     margin-top: -40px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
   }
 
   .column-title {
+    text-align: left;
+    font-size: 25px;
+    padding: 20px;
+    padding-left: 0px;
+    padding-top: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .column-title-centered {
     text-align: center;
-    font-size: 20px;
+    font-size: 25px;
     padding: 20px;
     padding-left: 0px;
     padding-top: 0px;
@@ -102,10 +122,30 @@ code {
     padding-left: 0px;
   }
 
+  .description {
+    text-align: left;
+    font-size: 15px;
+    padding: 20px;
+    padding-bottom: 40px;
+    padding-top: 0px;
+    padding-left: 0px;
+    margin-top: -10px;
+  }
+
   .measure {
     text-align: left;
     padding-bottom: 10px;
     padding-left: 10px;
+  }
+
+  .column-button {
+    text-align: left;
+    font-size: 15px;
+    padding: 20px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+    margin-top: 0px;
   }
 
   .button-title {
@@ -130,6 +170,9 @@ code {
 
   .buttons {
     width: 200px;
+    background-color: #4488f0;
+    color: white;
+    margin: auto;
   }
 
   .expBtn {
@@ -146,7 +189,8 @@ code {
   /* Dont know what it is but dont delete it */
   .expBtn:focus {
     /* background: #325d88; */
-    background: #8EB8F8;
+    /* background: #8EB8F8; */
+    background: #4488f0;
     outline: none;
   }
 
@@ -154,6 +198,7 @@ code {
   .expBtn:hover {
     /* background: #B1B3B6; */
     background: #B3CDF5;
+    /* background: #4488f0; */
   }
 
   /* text color when clicked */

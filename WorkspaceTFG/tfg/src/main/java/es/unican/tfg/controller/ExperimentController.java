@@ -24,6 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import DTOs.ExperimentDTO;
 import DTOs.MeasureDTO;
+import DTOs.MeasurementDTO;
 import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.ExperimentStatus;
 import es.unican.tfg.model.Measure;
@@ -284,6 +285,29 @@ public class ExperimentController {
 		}
 		return null;
 	}
+	
+	
+	@GetMapping("/{name}/measures/{mName}/centers/{email}/measurements")
+	public ResponseEntity<MeasurementDTO> getMeasurementOfCenter(@PathVariable String name, @PathVariable String mName, @PathVariable String email){
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+
+		List<Measure> measures = e.getMeasures();
+		if (measures == null)
+			return ResponseEntity.notFound().build();
+
+		Measure m = measurementService.findMeasure(measures, mName);
+		
+		for (Measurement me: m.getMeasurements()) {
+			if(me.getExecutingCenter().getEmail().equals(email)) 
+				return ResponseEntity.ok(new MeasurementDTO(me));
+		}
+		return null;
+	}
+	
+	
+	
 
 	/**
 	 * To check if the accesing center has any measurement assigned to this measure.

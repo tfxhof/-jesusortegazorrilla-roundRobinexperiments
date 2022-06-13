@@ -15,6 +15,8 @@ export const ExpContextProvider = ({ children }) => {
 
     const [expName, setExpName] = useState({});
     const [measureName, setMeasureName] = useState({});
+    const [measurementName, setMeasurementName] = useState({});
+    const [measureInstructions, setMeasureInstructions] = useState({});
 
     /**
        * This value is the data that the Context Provider offers to the rest of the app.
@@ -24,9 +26,15 @@ export const ExpContextProvider = ({ children }) => {
         expName,
         // Current experiment measure name.
         measureName,
-
+        // Current experiment measurement name.
+        measurementName,
+        // Current experiment measurement description.
+        measureInstructions,
+        
         setExpName,
         setMeasureName,
+        setMeasurementName,
+        setMeasureInstructions
     }
     return (
         <ExpContext.Provider value={value}>{children}</ExpContext.Provider>

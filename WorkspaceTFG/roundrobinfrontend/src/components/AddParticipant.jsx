@@ -65,7 +65,7 @@ export function AddParticipant() {
 
             </Box>
 
-            <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }} onClick={handleClick}>
+            <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto" }} onClick={handleClick}>
                 Submit
             </Button>
 

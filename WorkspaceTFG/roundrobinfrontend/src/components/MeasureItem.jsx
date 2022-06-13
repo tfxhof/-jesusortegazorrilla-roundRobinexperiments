@@ -8,8 +8,9 @@ export function MeasureItem({ measure }) {
 
     const { name, instructions } = measure;
     //this component subscribe to the context
-    const { measureName, setMeasureName } = useContext(ExpContext);
     const { expName } = useContext(ExpContext);
+    const { measureName, setMeasureName } = useContext(ExpContext);
+    const { setMeasureInstructions } = useContext(ExpContext);
     const { centerEmail } = useContext(CenterContext);
 
     let navigate = useNavigate();
@@ -17,6 +18,8 @@ export function MeasureItem({ measure }) {
     //To check if actual center participates in the given measure and if true go to measurement view
     async function measureClicked() {
         setMeasureName(name);
+        setMeasureInstructions(instructions);
+        navigate("/MeasurementOverview");
         // Check that some measurement associated to 'clicked measure' has the given center asociated
         let url = "http://localhost:8080/experiments/";
         url = url.concat(String(expName));
@@ -25,10 +28,11 @@ export function MeasureItem({ measure }) {
         url = url.concat("/centers/");
         url = url.concat(centerEmail);
         console.log(url)
+        //url: experiments/{expName}/measures/{measureName}/centers/{centerEmail}
         let response = await fetch(url)
         if (response.ok) { // if HTTP-status is 200-299
-           let text = await response.text();
-        console.log(text);
+            let text = await response.text();
+            console.log(text);
         }
 
         // url = "http://localhost:8080/experiments/";

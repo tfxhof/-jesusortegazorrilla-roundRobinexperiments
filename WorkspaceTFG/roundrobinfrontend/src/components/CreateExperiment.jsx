@@ -89,7 +89,7 @@ export function CreateExperiment() {
             </Box>
 
             {/* Button to create the experiment */}
-            <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }}
+            <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }}
                 onClick={createExperimentButton}>
                 Submit
             </Button>

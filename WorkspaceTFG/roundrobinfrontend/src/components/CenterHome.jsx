@@ -85,7 +85,7 @@ function CenterHome() {
             </div>
 
             <div id="createExperimentButton">
-                <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", color: "white", margin: "auto" }} onClick={createExp} >
+                <Button variant="contained" className="buttons" style={{ backgroundColor: "#4488f0", color: "white", margin: "auto" }} onClick={createExp} >
                     Create Experiment
                 </Button>
             </div>
@@ -103,9 +103,9 @@ function CenterHome() {
                 <div class="container">
                     <div class="row my-4 columns">
                         <div class="col-lg-6">
-                            <div className="column-title">
+                            <div className="column-title-centered">
                                 {/* <h3 class="font-weight-light">EXPERIMENTS AS CREATOR</h3> */}
-                                <b>EXPERIMENTS AS CREATOR</b>
+                                <b>Experiments as Creator</b>
                             </div>
                             {/* Shows each experiment */}
                             <Paper elevation={3} style={paperStyle}>
@@ -114,9 +114,9 @@ function CenterHome() {
                         </div>
 
                         <div class="col-lg-6">
-                            <div className="column-title">
+                            <div className="column-title-centered">
                                 {/* <h3 class="font-weight-light">EXPERIMENTS AS PARTICIPANT</h3> */}
-                                <b>EXPERIMENTS AS PARTICIPANT</b>
+                                <b>Experiments as Participant</b>
                             </div>
                             <Paper elevation={3} style={paperStyle}>
 

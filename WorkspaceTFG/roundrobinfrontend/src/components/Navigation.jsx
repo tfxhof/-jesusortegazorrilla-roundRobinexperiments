@@ -35,9 +35,9 @@ function Navigation() {
 
   return (
     <div className="navigation">
-      <nav className="navbar navbar-expand navbar-dark bg-navigation" >
+      <nav className="navbar navbar-expand navbar-dark bg-navigation app-bar" >
         <div className="container" >
-          <Button className="navbar-brand" to="/" onClick={titleClicked}>
+          <Button className="navbar-brand" to="/" onClick={titleClicked} style={{fontSize:"20px"}}>
             Round-Robin
           </Button>
           <div>
@@ -51,14 +51,14 @@ function Navigation() {
               </li> */}
 
               {isLoggedIn() ? <li className="nav-item">
-                <NavLink className="nav-link" to="/CenterHome">
+                <NavLink className="nav-link" to="/CenterHome" style={{fontSize:"20px", paddingLeft:"15px"}}>
                   Home
                   <span className="sr-only">(current)</span>
                 </NavLink>
               </li> : "" }
 
               {isLoggedIn() ? <li className="nav-item">
-                <NavLink className="nav-link" to="/" onClick={logOut}>
+                <NavLink className="nav-link" to="/" onClick={logOut} style={{fontSize:"20px", paddingLeft:"30px"}}>
                   Log out
                   <span className="sr-only">(current)</span>
                 </NavLink>

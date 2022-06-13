@@ -136,7 +136,7 @@ export function AddResult() {
         </Box>
 
         <button
-          variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }}
+          variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto" }}
         >
           Submit
         </button>

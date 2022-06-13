@@ -11,6 +11,7 @@ export function MeasurementOverview() {
 
     const { expName } = useContext(ExpContext);
     const { measureName } = useContext(ExpContext);
+    const { measureInstructions } = useContext(ExpContext);
 
     // To get the Experiment Name and description
     let url = "http://localhost:8080/experiments/";
@@ -48,7 +49,7 @@ export function MeasurementOverview() {
 
             <div>
                 <div class="container">
-                    <div class="row align-items-center my-4">
+                    <div class="row my-4 columns">
 
                         {/* To show the experiment main info */}
                         <div class="col-lg-6">
@@ -64,24 +65,41 @@ export function MeasurementOverview() {
                             <div class="description">
                                 {experiment.description}
                             </div>
+
+                            <div id="measure-instructions">
+                                <b>Measure Instructions</b>
+                                {/* <h3>Measures</h3> */}
+                                <br />
+                            </div>
+                            <div class="description">
+                                {measureInstructions}
+                            </div>
+
+
                         </div>
 
                         {/* To modify the experiment lists (add samples, test, participants...) */}
                         <div class="col-lg-6">
-                            <div>
-                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addPersonalInfo}>
+                            <div class="column-title">
+                                <b>Modify Measurement</b>
+                                {/* <h3>Measures</h3> */}
+                                <br />
+                            </div>
+
+                            <div className='column-button'>
+                                <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "0px auto auto auto", width: "200px" }} onClick={addPersonalInfo}>
                                     ADD PERSONAL INFO
                                 </Button>
                             </div>
 
-                            <div>
-                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addInstrument}>
+                            <div className='column-button'>
+                                <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addInstrument}>
                                     ADD INSTRUMENT
                                 </Button>
                             </div>
 
-                            <div>
-                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addResult}>
+                            <div className='column-button'>
+                                <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addResult}>
                                     ADD RESULT
                                 </Button>
                             </div>

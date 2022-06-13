@@ -8,7 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 export function ExperimentOverview() {
 
     const [experiment, setExperiment] = useState('');
-    
+
     const { expName } = useContext(ExpContext);
 
     let description = {
@@ -62,11 +62,15 @@ export function ExperimentOverview() {
 
                         {/* To modify the experiment main info */}
                         <div class="col-lg-6">
-                            <div class="title">
+                            <div className="column-title">
+                                {/* <h3 class="font-weight-light">EXPERIMENTS AS CREATOR</h3> */}
+                                <b>Experiment's Info</b>
+                            </div>
+                            <div class="experiment-title">
                                 <b>{experiment.name}</b>
                             </div>
                             <br></br>
-                            <div class="experiments">
+                            <div class="description">
                                 {experiment.description}
                                 <Button onClick={changeEditMode}>
                                     <EditIcon />
@@ -76,21 +80,26 @@ export function ExperimentOverview() {
 
                         {/* To modify the experiment lists (add samples, test, participants...) */}
                         <div class="col-lg-6">
-                            <div>
-                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addSample}>
-                                    ADD SAMPLES
+                            <div className="column-title">
+                                {/* <h3 class="font-weight-light">EXPERIMENTS AS CREATOR</h3> */}
+                                <b>Modify Experiment</b>
+                            </div>
+
+                            <div class="column-button">
+                                <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addSample}>
+                                    Add Samples
                                 </Button>
                             </div>
 
-                            <div>
-                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addMeasure}>
-                                    ADD TEST
+                            <div class="column-button">
+                                <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addMeasure}>
+                                    Add Measures
                                 </Button>
                             </div>
 
-                            <div>
-                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addParticipant}>
-                                    ADD PARTICIPANTS
+                            <div class="column-button">
+                                <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addParticipant}>
+                                    Add Participants
                                 </Button>
                             </div>
                         </div>

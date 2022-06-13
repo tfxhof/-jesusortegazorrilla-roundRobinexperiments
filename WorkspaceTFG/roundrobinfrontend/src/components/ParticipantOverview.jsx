@@ -39,8 +39,6 @@ export function ParticipantOverview() {
         url = url.concat(String(expName));
         url = url.concat("/measures?email=");
         url = url.concat(String(centerEmail));
-        console.log("Url tocha: ")
-        console.log(url)
         fetch(url)
             .then(res => res.json())
             .then((result) => {
