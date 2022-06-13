@@ -13,7 +13,6 @@ export function ExperimentItem({ experiment }) {
 
     let navigate = useNavigate();
 
-
     async function experimentClicked() {
         setExpName(name);
         let url = "http://localhost:8080/experiments/";
@@ -47,13 +46,11 @@ export function ExperimentItem({ experiment }) {
             <Button onClick={experimentClicked} class="expBtn">
 
                 <div class="row align-items-center my-4 title">
-                    <div class="title">
+                    <div class="button-title">
                         <b>{name}</b>
                     </div>
                     <br />
-
-
-                    <div class="experiments">
+                    <div class="button-sub">
                         {description}
                     </div>
                 </div>

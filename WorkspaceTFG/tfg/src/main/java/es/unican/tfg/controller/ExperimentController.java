@@ -1,8 +1,11 @@
 package es.unican.tfg.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import DTOs.ExperimentDTO;
+import DTOs.MeasureDTO;
 import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.ExperimentStatus;
 import es.unican.tfg.model.Measure;
@@ -201,13 +206,13 @@ public class ExperimentController {
 			@RequestBody Result result){
 
 		System.out.println("File: " + result.getFile());
-		
+
 		if (result.getSuccessful().equals("yes")) {
 			result.setSatisfactory(true);
 		} else 
 			result.setSatisfactory(false);			
-		
-		
+
+
 		Experiment e = experimentService.experimentByName(expName);
 		if (e == null)
 			return ResponseEntity.notFound().build();
@@ -219,13 +224,91 @@ public class ExperimentController {
 		Measurement me = experimentService.measurementByNameAndMeasure(m, measurementName);
 		if (me == null)
 			return ResponseEntity.notFound().build();
-		
+
 		Result r = measurementService.addResult(result);
 		me = measurementService.findByName(measurementName);
 		me.getResults().add(r);
 		measurementService.modifyMeasurement(me);
 
 		return ResponseEntity.ok(r);
+	}
+
+	/**
+	 * To show only the measures asociated to the given center
+	 * @param name
+	 * @return
+	 */
+	@GetMapping("/{name}/measures")
+	public ResponseEntity<List<MeasureDTO>> getMeasures(@PathVariable String name, @RequestParam(value="email", required=false) String email){
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+
+		List<Measure> measures = e.getMeasures();
+		if (measures == null)
+			return ResponseEntity.notFound().build();
+
+		List<MeasureDTO> aux = new ArrayList<MeasureDTO>();
+		//si no especifica email devuelvo todas las measures del experimento
+		if (email == null) {
+			for (Measure m: measures) {
+				aux.add(new MeasureDTO(m));
+			}
+		} else { //si se especifica email devuelva las measures en las que haya algun measurement asignado al email dado
+			for (Measure m: measures) {
+				for (Measurement me: m.getMeasurements()){
+					if (me.getExecutingCenter().getEmail().equals(email)) {
+						aux.add(new MeasureDTO(m));
+					}//if
+				}//for
+			}//for
+		}//if-else
+		return ResponseEntity.ok(aux);
+
+	}
+
+	@GetMapping("/{name}/measures/{mName}")
+	public ResponseEntity<MeasureDTO> getMeasure(@PathVariable String name, @PathVariable String mName){
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+
+		List<Measure> measures = e.getMeasures();
+		if (measures == null)
+			return ResponseEntity.notFound().build();
+
+
+		for (Measure m: measures) {
+			if (m.getName().equals(mName))
+				return ResponseEntity.ok(new MeasureDTO(m));
+		}
+		return null;
+	}
+
+	/**
+	 * To check if the accesing center has any measurement assigned to this measure.
+	 * @param name
+	 * @param mName
+	 * @return
+	 */
+	@GetMapping("/{name}/measures/{mName}/centers/{email}")
+	public ResponseEntity<Boolean> checkMeasures(@PathVariable String name, @PathVariable String mName, @PathVariable String email){
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+
+		List<Measure> measures = e.getMeasures();
+		if (measures == null)
+			return ResponseEntity.notFound().build();
+
+		Measure m = measurementService.findMeasure(measures, mName);
+
+		for (Measurement me: m.getMeasurements()) {
+			if(me.getExecutingCenter().getEmail().equals(email)) 
+				return ResponseEntity.ok(true);
+		}	
+
+		return ResponseEntity.ok(false);
 	}
 
 

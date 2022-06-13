@@ -12,6 +12,8 @@ export { default as ParticipantOverview } from "./ParticipantOverview";
 export { default as AddPersonalInfo } from "./AddPersonalInfo";
 export { default as AddInstrument } from "./AddInstrument";
 export { default as AddResult } from "./AddResult";
+export { default as MeasurementOverview } from "./MeasurementOverview";
+
 
 // export { default as ExperimentList } from "./ExperimentList";
 // export { default as ExperimentItem } from "./ExperimentItem";

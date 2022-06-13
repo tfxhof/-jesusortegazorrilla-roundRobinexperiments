@@ -1,9 +1,8 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment,  useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Paper, Button } from '@material-ui/core';
-import { NavLink } from "react-router-dom";
 import { CenterContext } from '../providers/CenterContext';
 
 
@@ -17,16 +16,12 @@ export function SignUp() {
     const [city, setCity] = useState('')
     const [address, setAddress] = useState('')
     const [dutyManagerName, setDutyManagerName] = useState('')
-    const [searchedResearchCenter, setSearchedResearchCenter] = useState('')
-    const [researchCenters, setResearchCenters] = useState([])
+    // const [searchedResearchCenter, setSearchedResearchCenter] = useState('')
+    // const [researchCenters, setResearchCenters] = useState([])
 
     const { centerEmail, setCenterEmail } = useContext(CenterContext);
 
     let navigate = useNavigate();
-
-    const aux = (e) => {
-        console.log(centerEmail);
-    }
 
     //To add a new research center
     async function handleClick() {

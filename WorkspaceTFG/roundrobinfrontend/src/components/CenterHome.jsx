@@ -13,17 +13,20 @@ function CenterHome() {
     const [participantExperiments, setParticipantExperiments] = useState([]);
     const [searchedResearchCenter, setSearchedResearchCenter] = useState('');
 
-    const { centerEmail } = useContext(CenterContext);
+    const { centerEmail, setCenterEmail } = useContext(CenterContext);
 
     let navigate = useNavigate();
 
+
+
+
+
     //To get the research center's name
     useEffect(() => {
-
-        let url3 = "http://localhost:8080/centers/";
-        url3 = url3.concat(String(centerEmail));
+        let url = "http://localhost:8080/centers/";
+        url = url.concat(String(centerEmail));
         // fetch("http://localhost:8080/centers/{email}")
-        fetch(url3)
+        fetch(url)
             .then(res => res.json())
             .then((result) => {
                 setSearchedResearchCenter(result);
@@ -32,17 +35,17 @@ function CenterHome() {
     }, [])
 
 
-    let url = "http://localhost:8080/centers/";
-    url = url.concat(String(centerEmail));
-    url = url.concat("/experiments");
-
-    //To get the research centers
+    
+    //To get the research centers where is the CREATOR
     useEffect(() => {
-        let url1 = url.concat("?creator=true");
+        let url = "http://localhost:8080/centers/";
+        url = url.concat(String(centerEmail));
+        url = url.concat("/experiments");
+        url = url.concat("?creator=true");
         console.log("Url1: ")
-        console.log(url1)
+        console.log(url)
         // fetch("http://localhost:8080/centers/{id}/experiments?creator=true")
-        fetch(url1)
+        fetch(url)
             .then(res => res.json())
             .then((result) => {
                 setCreatorExperiments(result);
@@ -52,13 +55,16 @@ function CenterHome() {
 
 
 
-    //To get the research centers
+    //To get the research centers where it PARTICIPATES
     useEffect(() => {
-        let url2 = url.concat("?creator=false");
+        let url = "http://localhost:8080/centers/";
+        url = url.concat(String(centerEmail));
+        url = url.concat("/experiments");
+        url = url.concat("?creator=false");
         console.log("Url2: ")
-        console.log(url2)
+        console.log(url)
         // fetch("http://localhost:8080/centers/{id}/experiments?creator=false")
-        fetch(url2)
+        fetch(url)
             .then(res => res.json())
             .then((result) => {
                 setParticipantExperiments(result);
@@ -86,28 +92,31 @@ function CenterHome() {
             <div>
                 {centerEmail}
             </div>
+            <div>
+                Session storage: {localStorage.getItem("email")};
+            </div>
+
 
 
 
             <div className="centerHome">
                 <div class="container">
-                    <div class="row align-items-center my-4">
-
-
+                    <div class="row my-4 columns">
                         <div class="col-lg-6">
-                            <div className="title-experiment-overview">
-                                <h3 class="font-weight-light">EXPERIMENTS AS CREATOR</h3>
+                            <div className="column-title">
+                                {/* <h3 class="font-weight-light">EXPERIMENTS AS CREATOR</h3> */}
+                                <b>EXPERIMENTS AS CREATOR</b>
                             </div>
+                            {/* Shows each experiment */}
                             <Paper elevation={3} style={paperStyle}>
-
                                 <ExperimentList experiments={creatorExperiments} />
-
                             </Paper>
                         </div>
 
                         <div class="col-lg-6">
-                            <div className="title-experiment-overview">
-                                <h3 class="font-weight-light">EXPERIMENTS AS PARTICIPANT</h3>
+                            <div className="column-title">
+                                {/* <h3 class="font-weight-light">EXPERIMENTS AS PARTICIPANT</h3> */}
+                                <b>EXPERIMENTS AS PARTICIPANT</b>
                             </div>
                             <Paper elevation={3} style={paperStyle}>
 

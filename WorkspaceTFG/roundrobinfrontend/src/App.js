@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Navigation, Footer, Home, CreateExperiment } from "./components";
+import { Navigation, Footer, Home, CreateExperiment, MeasurementOverview } from "./components";
 //import { AppBar } from '@mui/material';
 //import Appbar from './components/Appbar';
 import SignUp from './components/SignUp';
@@ -15,7 +15,7 @@ import AddPersonalInfo from './components/AddPersonalInfo';
 import AddInstrument from './components/AddInstrument';
 import AddResult from './components/AddResult';
 
-import { ExpContext } from './providers/ExperimentContext';
+import { ExpContextProvider } from './providers/ExperimentContext';
 import { CenterContext } from './providers/CenterContext';
 
 
@@ -29,7 +29,8 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <ExpContext.Provider value={{ expName, setExpName }}>
+        {/* The provider gives access  to the context to the consumers inside */}
+        <ExpContextProvider>
         <CenterContext.Provider value={{ centerEmail, setCenterEmail }}>
         
         <Navigation />
@@ -47,11 +48,12 @@ function App() {
             <Route path="/AddPersonalInfo" element={<AddPersonalInfo />} />
             <Route path="/AddInstrument" element={<AddInstrument />} />
             <Route path="/AddResult" element={<AddResult />} />
+            <Route path="/MeasurementOverview" element={<MeasurementOverview />} />
 
           </Routes>
 
           </CenterContext.Provider>
-        </ExpContext.Provider>
+        </ExpContextProvider>
         <Footer />
       </div>
     </Router>

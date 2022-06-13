@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Navigate, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { Button } from '@mui/material';
 import { CenterContext } from '../providers/CenterContext';
@@ -12,7 +12,8 @@ function Navigation() {
   let navigate = useNavigate();
 
   function logOut() {
-    setCenterEmail = "";
+    localStorage.removeItem("email");
+    setCenterEmail("");
   }
 
   function isLoggedIn(){

@@ -20,8 +20,6 @@ import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.ResearchCenter;
 
 
-@Entity
-@Table(name = "research_center")
 public class ResearchCenterDTO implements Serializable{
 
 	/**

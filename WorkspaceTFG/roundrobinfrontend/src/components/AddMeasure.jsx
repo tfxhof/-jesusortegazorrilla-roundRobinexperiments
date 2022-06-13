@@ -9,6 +9,7 @@ import { ExpContext } from '../providers/ExperimentContext';
 
 export function AddTest() {
 
+  const [name, setName] = useState('');
   const [instructions, setInstructions] = useState('');
   const [sampleCode, setSampleCode] = useState('');
 
@@ -25,6 +26,7 @@ export function AddTest() {
 
   async function handleClick() {
     const measure = {
+      name,
       instructions,
       sample: {
         code: sampleCode
@@ -60,6 +62,12 @@ export function AddTest() {
       </div>
 
       <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '60%' }, }} noValidate autoComplete="off">
+
+
+        <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
 
         <TextField id="outlined-basic" label="Instructions" variant="outlined" fullWidth
           value={instructions}

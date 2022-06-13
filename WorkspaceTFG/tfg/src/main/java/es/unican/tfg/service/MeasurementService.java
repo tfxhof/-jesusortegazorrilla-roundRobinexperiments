@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.unican.tfg.model.Measure;
 import es.unican.tfg.model.Measurement;
 import es.unican.tfg.model.ResearchCenter;
 import es.unican.tfg.model.Result;
@@ -32,6 +33,16 @@ public class MeasurementService implements IMeasurementService{
 	public Measurement findByName (String name) {
 		return measurementRepository.findByName(name);
 	}
+	
+	public Measure findMeasure(List<Measure> measures, String name) {
+		for (Measure m: measures) {
+			if (m.getName().equals(name)) {
+				return m;
+			}
+		}
+		return null;
+	}
+	
 
 	public Measurement create(Measurement m) {	
 		if (measurementRepository.findById(m.getId()) == null)//if null it creates the experiment

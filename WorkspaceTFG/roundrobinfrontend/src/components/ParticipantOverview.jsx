@@ -1,22 +1,29 @@
-import React , { Fragment, useContext, useState, useEffect } from 'react';
+import React, { Fragment, useContext, useState, useEffect } from 'react';
 import { ExpContext } from '../providers/ExperimentContext';
-import { Button } from '@material-ui/core';
+import { CenterContext } from '../providers/CenterContext';
+//import { Button } from '@material-ui/core';
 import { useNavigate } from 'react-router';
-import TextField from '@mui/material/TextField';
-import EditIcon from '@mui/icons-material/Edit';
+import { Paper } from '@material-ui/core';
+//import TextField from '@mui/material/TextField';
+//import EditIcon from '@mui/icons-material/Edit';
+import MeasuresList from './MeasuresList';
 
 export function ParticipantOverview() {
-    
+
+    const paperStyle = { padding: '20px', width: 'auto', margin: "20px auto" };
     const [experiment, setExperiment] = useState('');
+    const [experimentMeasures, setExperimentMeasures] = useState([]);
 
     const { expName } = useContext(ExpContext);
+    const { centerEmail } = useContext(CenterContext);
+
+    let navigate = useNavigate();
 
 
-    let url = "http://localhost:8080/experiments/";
-    url = url.concat(String(expName));
-
+    //To get actual experiment's name
     useEffect(() => {
-        console.log(url);
+        let url = "http://localhost:8080/experiments/";
+        url = url.concat(String(expName));
         fetch(url)
             .then(res => res.json())
             .then((result) => {
@@ -26,17 +33,21 @@ export function ParticipantOverview() {
             )
     }, [])
 
-    let navigate = useNavigate();
-
-    function addPersonalInfo() {
-        navigate('/AddPersonalInfo');
-    }
-    function addInstrument() {
-        navigate('/AddInstrument');
-    }
-    function addResult() {
-        navigate('/AddResult');
-    }
+    //To get the measures for the actual experiment
+    useEffect(() => {
+        let url = "http://localhost:8080/experiments/";
+        url = url.concat(String(expName));
+        url = url.concat("/measures?email=");
+        url = url.concat(String(centerEmail));
+        console.log("Url tocha: ")
+        console.log(url)
+        fetch(url)
+            .then(res => res.json())
+            .then((result) => {
+                setExperimentMeasures(result);
+            }
+            )
+    }, [])
 
 
     return (
@@ -45,42 +56,36 @@ export function ParticipantOverview() {
                 Participating in '{expName}' Experiment
             </div>
 
-
-
             <div>
                 <div class="container">
-                    <div class="row align-items-center my-4">
+                    <div class="row my-4 columns">
 
-                        {/* To modify the experiment main info */}
+                        {/* To show the experiment main info */}
                         <div class="col-lg-6">
-                            <div class="title">
+                            <div class="column-title">
+                                <b>Experiment Data</b>
+                                {/* <h3>Measures</h3> */}
+                                <br />
+                            </div>
+
+                            <div class="experiment-title">
                                 <b>{experiment.name}</b>
                             </div>
                             <br></br>
-                            <div class="experiments">
+                            <div class="description">
                                 {experiment.description}
                             </div>
                         </div>
 
-                        {/* To modify the experiment lists (add samples, test, participants...) */}
+                        {/* To show the experiment created measures */}
                         <div class="col-lg-6">
-                            <div>
-                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addPersonalInfo}>
-                                    ADD PERSONAL INFO
-                                </Button>
+                            <div class="column-title">
+                                <b>Measures</b>
+                                {/* <h3>Measures</h3> */}
                             </div>
-
-                            <div>
-                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addInstrument}>
-                                    ADD INSTRUMENT
-                                </Button>
-                            </div>
-
-                            <div>
-                                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addResult}>
-                                    ADD RESULT
-                                </Button>
-                            </div>
+                            <Paper elevation={3} style={paperStyle}>
+                                <MeasuresList measures={experimentMeasures} />
+                            </Paper>
                         </div>
                     </div>
                 </div>
