@@ -52,5 +52,9 @@ Notas
 -¿Es necesario enviar certificados a los laboratorios que hayan participado?
 
 
+YAEL: 
+- Un centro puede tener que realizar la misma medida desde diferentes instrumentos? (En caso afirmativo poner la referencia a 'instrumento' en 'result')
+
+
 
 
