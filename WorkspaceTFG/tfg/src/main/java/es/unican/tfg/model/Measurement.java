@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 /**
  * measurement of a measure in a specific center
@@ -31,7 +32,8 @@ public class Measurement {
 	
 //	@OneToOne
 //	@JoinColumn(name="measure_fk")
-//	private Measure measure;
+	@Transient
+	private Measure measure;
 	
 	@OneToOne
 	@JoinColumn(name="instrument_fk")

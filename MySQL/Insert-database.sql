@@ -55,9 +55,6 @@ insert into sample (material_name, code, composition, description, measurement_f
 ('Diamante', 'Diamante 2', 'COF-1', 'Descripcion del diamante', 4, 2);
 
 
-update measure set sample_fk='1' where id='1';
-update measure set sample_fk='2' where id='2';
-
 
 #insert into result (name, comments, satisfactory, measurement_fk) values ('Resultado de la prueba 1', 'La muestra mostro debilidad a mas de 130 grados', true, 1);
 #select * from experiment;

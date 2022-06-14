@@ -28,9 +28,6 @@ export function AddTest() {
     const measure = {
       name,
       instructions,
-      sample: {
-        code: sampleCode
-      }
     }
 
     let response = await fetch(url, {
@@ -72,11 +69,6 @@ export function AddTest() {
         <TextField id="outlined-basic" label="Instructions" variant="outlined" fullWidth
           value={instructions}
           onChange={(e) => setInstructions(e.target.value)}
-        />
-
-        <TextField id="outlined-basic" label="Sample Code" variant="outlined" fullWidth
-          value={sampleCode}
-          onChange={(e) => setSampleCode(e.target.value)}
         />
 
       </Box>

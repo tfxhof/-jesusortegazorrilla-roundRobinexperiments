@@ -92,6 +92,20 @@ public class ExperimentController {
 		ExperimentDTO ex = new ExperimentDTO(e);
 		return ResponseEntity.ok(ex);
 	}
+	
+	@GetMapping("/{name}/start")
+	public ResponseEntity<ExperimentDTO> startExperiment(@PathVariable String name){
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null) {
+			return ResponseEntity.notFound().build();
+		}
+		e.setStatus(ExperimentStatus.STARTED);
+		experimentService.modifyExperiment(e);
+		ExperimentDTO ex = new ExperimentDTO(e);
+		return ResponseEntity.ok(ex);
+	}
+	
+	
 
 	/**
 	 * Method to create an experiment (Unknown id so POST instead of PUT)
@@ -101,7 +115,12 @@ public class ExperimentController {
 	 * @throws ExecutionException
 	 */
 	@PostMapping
-	public ResponseEntity<Experiment> createExperiment(@RequestBody Experiment exp) throws InterruptedException, ExecutionException {
+	public ResponseEntity<Experiment> createExperiment(
+			@RequestBody Experiment exp, 
+			@RequestParam(value="participates", required=true) String participates) 
+					throws InterruptedException, ExecutionException {
+		
+		
 		exp.setStatus(ExperimentStatus.CREATED);
 		ResearchCenter rc = centerService.researchCenterByEmail(exp.getCreator().getEmail());
 		if(rc == null) {
@@ -109,6 +128,14 @@ public class ExperimentController {
 		}
 
 		exp.setCreator(rc);
+		//Add the research center as a participant of the experiment
+		if (participates.equals("yes")) {
+			List <ResearchCenter> participants = new ArrayList<ResearchCenter>();
+			participants.add(rc);
+			exp.setParticipants(participants);
+		}
+		
+		
 		Experiment e = experimentService.createExperiment(exp);
 		if (e == null)
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -173,12 +200,12 @@ public class ExperimentController {
 		if (e == null)
 			return ResponseEntity.notFound().build();
 
-		Sample s = experimentService.findSampleByCode(measure.getSample().getCode());
-		if (s == null) {
-			return ResponseEntity.notFound().build();			
-		}
+//		Sample s = experimentService.findSampleByCode(measure.getSample().getCode());
+//		if (s == null) {
+//			return ResponseEntity.notFound().build();			
+//		}
 
-		measure.setSample(s);
+//		measure.setSample(s);
 		Measure m = experimentService.addMeasure(measure);
 
 		List <Measure> measures = e.getMeasures();

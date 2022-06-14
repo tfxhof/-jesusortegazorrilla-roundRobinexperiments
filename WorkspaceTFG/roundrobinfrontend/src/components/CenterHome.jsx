@@ -4,6 +4,7 @@ import { CenterContext } from '../providers/CenterContext';
 import { Paper } from '@material-ui/core';
 import Button from '@mui/material/Button';
 import { ExperimentList } from "./ExperimentList";
+import { ExperimentListParticipant } from "./ExperimentListParticipant";
 
 
 function CenterHome() {
@@ -16,9 +17,6 @@ function CenterHome() {
     const { centerEmail, setCenterEmail } = useContext(CenterContext);
 
     let navigate = useNavigate();
-
-
-
 
 
     //To get the research center's name
@@ -120,7 +118,7 @@ function CenterHome() {
                             </div>
                             <Paper elevation={3} style={paperStyle}>
 
-                                <ExperimentList experiments={participantExperiments} />
+                                <ExperimentListParticipant experiments={participantExperiments} />
 
                             </Paper>
                         </div>

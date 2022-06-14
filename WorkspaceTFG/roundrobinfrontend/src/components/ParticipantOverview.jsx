@@ -37,8 +37,9 @@ export function ParticipantOverview() {
     useEffect(() => {
         let url = "http://localhost:8080/experiments/";
         url = url.concat(String(expName));
-        url = url.concat("/measures?email=");
-        url = url.concat(String(centerEmail));
+        url = url.concat("/measures");
+        // url = url.concat("/measures?email=");
+        // url = url.concat(String(centerEmail));
         fetch(url)
             .then(res => res.json())
             .then((result) => {

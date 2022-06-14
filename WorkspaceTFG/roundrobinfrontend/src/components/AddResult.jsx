@@ -63,7 +63,7 @@ export function AddResult() {
       successful: values.satisfactory,
       file: data.file[0] //Dont know if this is correct
     }
-    console.log(result.satisfatory);
+    console.log(result.successful);
 
     let response = await fetch(url, {
       method: "POST",

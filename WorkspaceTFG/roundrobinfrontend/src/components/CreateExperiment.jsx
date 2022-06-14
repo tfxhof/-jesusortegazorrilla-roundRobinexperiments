@@ -7,6 +7,14 @@ import { Box, TextField } from '@mui/material';
 import { NavLink } from "react-router-dom";
 import axios from 'axios';
 
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+
+
+
 export function CreateExperiment() {
 
     const [name, setName] = useState('')
@@ -18,14 +26,42 @@ export function CreateExperiment() {
 
     const [post, setPost] = React.useState(null);
 
+    // This is to handle the 'participates?' checkbox
+    const initialValues = {
+        participates: 'no',
+    }
+    const [values, setValues] = useState(initialValues);
+    const handleInputChange = e => {
+        const { name, value } = e.target;
+        setValues({
+            ...values,
+            [name]: value
+        })
+    }
+
+
     let navigate = useNavigate();
 
     //To add a new experiment
     async function createExperimentButton() {
         //e.preventDefault()
-        const experiment = { name: name, description: description, creator: { email: centerEmail } }
-        console.log({ centerEmail })
-        let response = await fetch("http://localhost:8080/experiments", {
+        const experiment = {
+            name,
+            description,
+            creator: {
+                email: centerEmail
+            }
+        }
+
+        console.log("Participa?????  ");
+        console.log(values.participates);
+
+        let url = "http://localhost:8080/experiments?participates=";
+
+        url = values.participates === "yes" ? url.concat("yes") : url.concat("no");
+        console.log(url);
+
+        let response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(experiment)
@@ -86,6 +122,23 @@ export function CreateExperiment() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
+
+                {/* Field to mark the center as participant of the experiment or no */}
+                <FormControl>
+                    <div id="form-successful">
+                        <FormLabel id="demo-row-radio-buttons-group-label">Are you going to participate in the experiment? </FormLabel>
+                    </div>
+                    <RadioGroup row
+                        name="participates"
+                        value={values.participates}
+                        onChange={handleInputChange}
+                    >
+                        <FormControlLabel value="no" control={<Radio />} label="No" />
+                        <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                    </RadioGroup>
+                </FormControl>
+
+
             </Box>
 
             {/* Button to create the experiment */}

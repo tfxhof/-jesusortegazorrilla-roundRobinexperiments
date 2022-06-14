@@ -168,6 +168,11 @@ code {
     height: fit-content;
   }
 
+  .button-create-experiment{
+    text-align: center;
+    margin-top: 100px;
+  }
+
   .buttons {
     width: 200px;
     background-color: #4488f0;

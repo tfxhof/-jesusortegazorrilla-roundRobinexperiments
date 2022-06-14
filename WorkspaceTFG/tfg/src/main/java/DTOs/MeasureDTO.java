@@ -26,7 +26,6 @@ public class MeasureDTO {
 	private Long id;
 	private String name;
 	private String instructions;
-	private Sample sample;
 	
 
 	//Empty constructor
@@ -41,7 +40,6 @@ public class MeasureDTO {
 		this.id = m.getId();
 		this.name = m.getName();
 		this.instructions = m.getInstructions();
-		this.sample = m.getSample();
 	}
 	
 	
@@ -60,14 +58,6 @@ public class MeasureDTO {
 
 	public void setInstructions(String instructions) {
 		this.instructions = instructions;
-	}
-
-	public Sample getSample() {
-		return sample;
-	}
-
-	public void setSample(Sample sample) {
-		this.sample = sample;
 	}
 
 	public String getName() {

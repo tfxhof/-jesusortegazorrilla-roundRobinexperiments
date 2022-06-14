@@ -4,7 +4,7 @@ import { ExpContext } from '../providers/ExperimentContext';
 import { CenterContext } from '../providers/CenterContext';
 import Button from '@mui/material/Button';
 
-export function ExperimentItem({ experiment }) {
+export function ExperimentItemParticipant({ experiment }) {
 
     const { name, description } = experiment;
     //this component subscribe to the context
@@ -20,9 +20,9 @@ export function ExperimentItem({ experiment }) {
         url = url.concat("/creator");
         console.log(url)
         // fetch("http://localhost:8080/centers/{id}/experiments?creator=true")
+      
+        navigate("/ParticipantOverview");
        
-        navigate("/ExperimentOverview");
-
 
     }
 

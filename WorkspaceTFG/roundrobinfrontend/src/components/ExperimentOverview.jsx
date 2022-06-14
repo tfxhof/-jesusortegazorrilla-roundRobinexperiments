@@ -7,7 +7,9 @@ import EditIcon from '@mui/icons-material/Edit';
 
 export function ExperimentOverview() {
 
-    const [experiment, setExperiment] = useState('');
+    const [experiment,  setExperiment] = useState('');
+    const [status,  setStatus] = useState('');
+    
 
     const { expName } = useContext(ExpContext);
 
@@ -22,10 +24,10 @@ export function ExperimentOverview() {
         });
     }
 
-    let url = "http://localhost:8080/experiments/";
-    url = url.concat(String(expName));
 
     useEffect(() => {
+        let url = "http://localhost:8080/experiments/";
+        url = url.concat(String(expName));
         console.log(url);
         fetch(url)
             .then(res => res.json())
@@ -47,6 +49,34 @@ export function ExperimentOverview() {
     function addParticipant() {
         navigate('/addParticipant');
     }
+    function startExperiment() {
+        let url = "http://localhost:8080/experiments/";
+        url = url.concat(String(expName));
+        url = url.concat("/start");
+        console.log("URL de start: ");
+        console.log(url);
+
+        fetch(url)
+            .then(res => res.json())
+            .then((result) => {
+                setExperiment(result);
+                console.log(result);
+            }
+            )
+    }
+
+    useEffect(() => {
+        let url = "http://localhost:8080/experiments/";
+        url = url.concat(String(expName));
+        console.log(url);
+        fetch(url)
+            .then(res => res.json())
+            .then((result) => {
+                setStatus(result.status);
+                console.log(result.status);
+            }
+            )
+    }, [])
 
     return (
         <Fragment>
@@ -104,6 +134,16 @@ export function ExperimentOverview() {
                             </div>
                         </div>
                     </div>
+                    
+                    {status==="STARTED" || status==="FINISHED" ? "" : 
+                    <div class="button-create-experiment">
+                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={startExperiment}>
+                            Start Experiment
+                        </Button>
+                    </div>
+                    }
+                    
+
                 </div>
             </div>
 

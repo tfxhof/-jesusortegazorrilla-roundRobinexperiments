@@ -27,9 +27,9 @@ public class Measure {
 	private String name;
 	private String instructions;
 	
-	@OneToOne
-	@JoinColumn(name="sample_fk")
-	private Sample sample;
+//	@OneToOne
+//	@JoinColumn(name="sample_fk")
+//	private Sample sample;
 	
 	@OneToMany
 	@JoinColumn(name="measure_fk")
@@ -43,11 +43,10 @@ public class Measure {
 	 * @param instructions
 	 * @param sample
 	 */
-	public Measure(String name, String instructions, Sample sample) {
+	public Measure(String name, String instructions) {
 		super();
 		this.name = name;
 		this.instructions = instructions;
-		this.sample = sample;
 		this.measurements = new ArrayList<Measurement>();
 	}
 	
@@ -69,13 +68,13 @@ public class Measure {
 		this.instructions = instructions;
 	}
 
-	public Sample getSample() {
-		return sample;
-	}
-
-	public void setSample(Sample sample) {
-		this.sample = sample;
-	}
+//	public Sample getSample() {
+//		return sample;
+//	}
+//
+//	public void setSample(Sample sample) {
+//		this.sample = sample;
+//	}
 
 	public String getName() {
 		return name;

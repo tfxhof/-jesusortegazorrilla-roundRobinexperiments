@@ -30,13 +30,9 @@ public class Result {
 	
 	@Transient
 	private String successful;
-	
-	
-	private Blob file;
-//	@Lob
-//	@Basic(fetch = FetchType.LAZY)
-//	@Column(columnDefinition = "BLOB", nullable = false)
-//	private byte[] files;
+		
+	@Lob
+    private byte[] file;
 
 
 	//Empty constructor
@@ -47,7 +43,7 @@ public class Result {
 	 * @param comments
 	 * @param satisfactory
 	 */
-	public Result(String name, String comments, boolean satisfactory, Blob file) {
+	public Result(String name, String comments, boolean satisfactory, byte[] file) {
 		super();
 		this.name = name;
 		this.comments = comments;
@@ -87,11 +83,11 @@ public class Result {
 		this.satisfactory = satisfactory;
 	}
 
-	public Blob getFile() {
+	public byte[] getFile() {
 		return file;
 	}
 
-	public void setFile(Blob file) {
+	public void setFile(byte[] file) {
 		this.file = file;
 	}
 

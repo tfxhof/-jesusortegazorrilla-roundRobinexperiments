@@ -3,6 +3,7 @@ package DTOs;
 import java.util.List;
 
 import es.unican.tfg.model.Experiment;
+import es.unican.tfg.model.ExperimentStatus;
 import es.unican.tfg.model.Measure;
 import es.unican.tfg.model.ResearchCenter;
 import es.unican.tfg.model.Sample;
@@ -14,6 +15,7 @@ public class ExperimentDTO {
 	private String description;
 	private ResearchCenter creator;
 	private List<Sample> samples;
+	private ExperimentStatus status;
 	//private List<ResearchCenter> participants;
 
 	//Empty constructor
@@ -34,6 +36,7 @@ public class ExperimentDTO {
 		this.name = e.getName();
 		this.description = e.getDescription();
 		this.samples = e.getSamples();
+		this.status = e.getStatus();
 	}
 
 
@@ -45,8 +48,6 @@ public class ExperimentDTO {
 		this.id = id;
 	}
 
-	
-	
 	public String getName() {
 		return name;
 	}
@@ -78,5 +79,15 @@ public class ExperimentDTO {
 	public void setCreator(ResearchCenter creator) {
 		this.creator = creator;
 	}
+
+
+	public ExperimentStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ExperimentStatus status) {
+		this.status = status;
+	}
+	
 	
 }

@@ -9,8 +9,9 @@ import { ExpContext } from '../providers/ExperimentContext';
 
 export function AddInstrument() {
 
-  const [instructions, setInstructions] = useState('');
-  const [sampleCode, setSampleCode] = useState('');
+  const [name, setName] = useState('');
+  const [brand, setBrand] = useState('');
+  const [model, setModel] = useState('');
 
   const { centerEmail, setCenterEmail } = useContext(CenterContext);
   const { expName, setExpName } = useContext(ExpContext);
@@ -24,11 +25,10 @@ export function AddInstrument() {
   url = url.concat("/measures/");
 
   async function handleClick() {
-    const measure = {
-      instructions,
-      sample: {
-        code: sampleCode
-      }
+    const instrument = {
+      name,
+      brand,
+      model
     }
 
     let response = await fetch(url, {
@@ -36,20 +36,15 @@ export function AddInstrument() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(measure)
+      body: JSON.stringify(instrument)
     })
-    // .then((result) => {
-    //     console.log(email);
-    //     setCenterEmail(email);
-    //     console.log("Correo del centro: ");
-    //     console.log(centerEmail);
-    // })
+
     if (response.ok) {
-      console.log("Measure Added ");
+      console.log("Instrument Added ");
       navigate('/ExperimentOverview');
     } else {
       // TODO: advertise that there is already a center with given email or name
-      console.log("Cannot add Measure");
+      console.log("Cannot add Instrument");
     }
   }
 
@@ -61,15 +56,20 @@ export function AddInstrument() {
 
       <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '60%' }, }} noValidate autoComplete="off">
 
-        <TextField id="outlined-basic" label="Instructions" variant="outlined" fullWidth
-          value={instructions}
-          onChange={(e) => setInstructions(e.target.value)}
+        <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <TextField id="outlined-basic" label="Brand" variant="outlined" fullWidth
+          value={brand}
+          onChange={(e) => setBrand(e.target.value)}
         />
 
-        <TextField id="outlined-basic" label="Sample Code" variant="outlined" fullWidth
-          value={sampleCode}
-          onChange={(e) => setSampleCode(e.target.value)}
+        <TextField id="outlined-basic" label="Model" variant="outlined" fullWidth
+          value={model}
+          onChange={(e) => setModel(e.target.value)}
         />
+
 
       </Box>
 
