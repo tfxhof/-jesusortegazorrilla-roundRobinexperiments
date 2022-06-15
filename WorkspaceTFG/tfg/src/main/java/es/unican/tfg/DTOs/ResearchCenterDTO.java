@@ -1,4 +1,4 @@
-package DTOs;
+package es.unican.tfg.DTOs;
 
 import java.io.Serializable;
 import java.util.List;

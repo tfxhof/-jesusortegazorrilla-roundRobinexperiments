@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import DTOs.ExperimentDTO;
-import DTOs.MeasureDTO;
-import DTOs.MeasurementDTO;
+import es.unican.tfg.DTOs.ExperimentDTO;
+import es.unican.tfg.DTOs.MeasureDTO;
+import es.unican.tfg.DTOs.MeasurementDTO;
+import es.unican.tfg.email.EmailSender;
+import es.unican.tfg.email.EmailService;
 import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.ExperimentStatus;
 import es.unican.tfg.model.Measure;
@@ -50,6 +52,8 @@ public class ExperimentController {
 	@Autowired
 	private MeasurementService measurementService;
 
+	@Autowired
+	private EmailService emailService;
 
 
 	/**
@@ -360,6 +364,20 @@ public class ExperimentController {
 		}	
 
 		return ResponseEntity.ok(false);
+	}
+	
+	@GetMapping("/email")
+	public ResponseEntity<Boolean> sendEmail(){
+		
+//		EmailService email = new EmailService();
+//		email.sendEmail("roundrobintfg@gmail.com", "roundrobintfg@gmail.com", "Prueba", "Body del mensaje de prueba");
+//		
+		
+		//EmailService emailSender = new EmailService("roundrobintfg@gmail.com", "Prueba");
+		//EmailSender emailSender = new EmailService();
+		emailService.sendSimpleEmail("roundrobintfg@gmail.com", "roundrobintfg@gmail.com", "Concepto", "Esto es el Body del mensaje de prueba");
+		
+		return ResponseEntity.ok(true);
 	}
 
 

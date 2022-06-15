@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import DTOs.ExperimentDTO;
-import DTOs.ResearchCenterDTO;
+import es.unican.tfg.DTOs.ExperimentDTO;
+import es.unican.tfg.DTOs.ResearchCenterDTO;
 import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.ResearchCenter;
 import es.unican.tfg.service.ExperimentService;

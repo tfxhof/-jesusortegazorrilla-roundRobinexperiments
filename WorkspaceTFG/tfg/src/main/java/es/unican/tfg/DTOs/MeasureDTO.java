@@ -1,4 +1,4 @@
-package DTOs;
+package es.unican.tfg.DTOs;
 
 import java.util.ArrayList;
 import java.util.List;
