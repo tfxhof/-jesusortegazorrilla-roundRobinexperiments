@@ -14,6 +14,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -26,10 +27,11 @@ public class EmailService implements EmailSender{
 	private JavaMailSender emailSender;
 
 	@Override
-	public void sendSimpleEmail(String from, String to, String subject, String emailBody) {
+	@Async
+	public void sendSimpleEmail(String to, String subject, String emailBody) {
 
 		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom(from);
+		message.setFrom("roundrobintfg@gmail.com");
 		message.setTo(to);
 		message.setSubject(subject);
 		message.setText(emailBody);
@@ -38,12 +40,13 @@ public class EmailService implements EmailSender{
 
 
 	@Override
-	public void sendEmail(String from, String to, String subject, String emailBody) throws MessagingException {
+	@Async
+	public void sendEmail(String to, String subject, String emailBody) throws MessagingException {
 		
 		MimeMessage message = emailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-		helper.setFrom(from);
+		helper.setFrom("roundrobintfg@gmail.com");
 		helper.setTo(to);
 		helper.setSubject(subject);
 		helper.setText(emailBody);
@@ -53,12 +56,13 @@ public class EmailService implements EmailSender{
 	}
 	
 	@Override
-	public void sendEmailWithAttachment(String from, String to, String subject, String emailBody, String pathToAttachment) throws MessagingException {
+	@Async
+	public void sendEmailWithAttachment(String to, String subject, String emailBody, String pathToAttachment) throws MessagingException {
 		
 		MimeMessage message = emailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-		helper.setFrom(from);
+		helper.setFrom("roundrobintfg@gmail.com");
 		helper.setTo(to);
 		helper.setSubject(subject);
 		helper.setText(emailBody);

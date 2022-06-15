@@ -96,7 +96,7 @@ public class ExperimentController {
 		ExperimentDTO ex = new ExperimentDTO(e);
 		return ResponseEntity.ok(ex);
 	}
-	
+
 	@GetMapping("/{name}/start")
 	public ResponseEntity<ExperimentDTO> startExperiment(@PathVariable String name){
 		Experiment e = experimentService.experimentByName(name);
@@ -108,8 +108,8 @@ public class ExperimentController {
 		ExperimentDTO ex = new ExperimentDTO(e);
 		return ResponseEntity.ok(ex);
 	}
-	
-	
+
+
 
 	/**
 	 * Method to create an experiment (Unknown id so POST instead of PUT)
@@ -123,8 +123,8 @@ public class ExperimentController {
 			@RequestBody Experiment exp, 
 			@RequestParam(value="participates", required=true) String participates) 
 					throws InterruptedException, ExecutionException {
-		
-		
+
+
 		exp.setStatus(ExperimentStatus.CREATED);
 		ResearchCenter rc = centerService.researchCenterByEmail(exp.getCreator().getEmail());
 		if(rc == null) {
@@ -138,8 +138,8 @@ public class ExperimentController {
 			participants.add(rc);
 			exp.setParticipants(participants);
 		}
-		
-		
+
+
 		Experiment e = experimentService.createExperiment(exp);
 		if (e == null)
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -172,6 +172,17 @@ public class ExperimentController {
 
 		//		r.getExperiments().add(e);
 		//		centerService.modifyResearchCenter(r);
+		//Check if the center is already added as a participant
+		for (ResearchCenter center: e.getParticipants())
+			if(center.getEmail().equals(r.getEmail()))
+				return ResponseEntity.status(409).build();
+		
+
+		//TODO: complete the email with the link
+		emailService.sendSimpleEmail(rc.getEmail(), 
+				"Invitation to participate in '" + name + "' experiment" , 
+				"Click this link below to accept the invitation to participate in '" + name + "' experiment: \n\n" + "INSERTAR LINK DE ACEPTACIÓN");
+
 		List <ResearchCenter> centers = e.getParticipants();
 		centers.add(r);
 		e.setParticipants(centers);
@@ -204,12 +215,12 @@ public class ExperimentController {
 		if (e == null)
 			return ResponseEntity.notFound().build();
 
-//		Sample s = experimentService.findSampleByCode(measure.getSample().getCode());
-//		if (s == null) {
-//			return ResponseEntity.notFound().build();			
-//		}
+		//		Sample s = experimentService.findSampleByCode(measure.getSample().getCode());
+		//		if (s == null) {
+		//			return ResponseEntity.notFound().build();			
+		//		}
 
-//		measure.setSample(s);
+		//		measure.setSample(s);
 		Measure m = experimentService.addMeasure(measure);
 
 		List <Measure> measures = e.getMeasures();
@@ -316,8 +327,8 @@ public class ExperimentController {
 		}
 		return null;
 	}
-	
-	
+
+
 	@GetMapping("/{name}/measures/{mName}/centers/{email}/measurements")
 	public ResponseEntity<MeasurementDTO> getMeasurementOfCenter(@PathVariable String name, @PathVariable String mName, @PathVariable String email){
 		Experiment e = experimentService.experimentByName(name);
@@ -329,16 +340,16 @@ public class ExperimentController {
 			return ResponseEntity.notFound().build();
 
 		Measure m = measurementService.findMeasure(measures, mName);
-		
+
 		for (Measurement me: m.getMeasurements()) {
 			if(me.getExecutingCenter().getEmail().equals(email)) 
 				return ResponseEntity.ok(new MeasurementDTO(me));
 		}
 		return null;
 	}
-	
-	
-	
+
+
+
 
 	/**
 	 * To check if the accesing center has any measurement assigned to this measure.
@@ -365,18 +376,18 @@ public class ExperimentController {
 
 		return ResponseEntity.ok(false);
 	}
-	
+
 	@GetMapping("/email")
 	public ResponseEntity<Boolean> sendEmail(){
-		
-//		EmailService email = new EmailService();
-//		email.sendEmail("roundrobintfg@gmail.com", "roundrobintfg@gmail.com", "Prueba", "Body del mensaje de prueba");
-//		
-		
+
+		//		EmailService email = new EmailService();
+		//		email.sendEmail("roundrobintfg@gmail.com", "roundrobintfg@gmail.com", "Prueba", "Body del mensaje de prueba");
+		//		
+
 		//EmailService emailSender = new EmailService("roundrobintfg@gmail.com", "Prueba");
 		//EmailSender emailSender = new EmailService();
-		emailService.sendSimpleEmail("roundrobintfg@gmail.com", "roundrobintfg@gmail.com", "Concepto", "Esto es el Body del mensaje de prueba");
-		
+		emailService.sendSimpleEmail("roundrobintfg@gmail.com", "Concepto", "Esto es el Body del mensaje de prueba");
+
 		return ResponseEntity.ok(true);
 	}
 

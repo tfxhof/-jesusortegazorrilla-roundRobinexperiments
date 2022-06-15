@@ -16,9 +16,7 @@ import AddInstrument from './components/AddInstrument';
 import AddResult from './components/AddResult';
 
 import { ExpContextProvider } from './providers/ExperimentContext';
-import { CenterContext } from './providers/CenterContext';
-
-
+import { CenterContextProvider } from './providers/CenterContext';
 
 
 function App() {
@@ -31,7 +29,7 @@ function App() {
       <div className="App">
         {/* The provider gives access  to the context to the consumers inside */}
         <ExpContextProvider>
-        <CenterContext.Provider value={{ centerEmail, setCenterEmail }}>
+        <CenterContextProvider>
         
         <Navigation />
           <Routes>
@@ -52,13 +50,11 @@ function App() {
 
           </Routes>
 
-          </CenterContext.Provider>
+          </CenterContextProvider>
         </ExpContextProvider>
         <Footer />
       </div>
     </Router>
-
-
 
   );
 }

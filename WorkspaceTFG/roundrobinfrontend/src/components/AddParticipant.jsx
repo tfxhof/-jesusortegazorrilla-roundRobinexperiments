@@ -11,18 +11,17 @@ export function AddParticipant() {
 
     const [email, setEmail] = useState('');
 
+    //const [conflict, setConflict] = useState('no');
+
     const { centerEmail } = useContext(CenterContext);
     const { expName } = useContext(ExpContext);
 
-
     let navigate = useNavigate();
 
-
-    let url = "http://localhost:8080/experiments/";
-    url = url.concat(String(expName));
-    url = url.concat("/participants");
-
     async function handleClick() {
+        let url = "http://localhost:8080/experiments/";
+        url = url.concat(String(expName));
+        url = url.concat("/participants");
         const researchCenter = {
             email,
         }
@@ -34,19 +33,19 @@ export function AddParticipant() {
             },
             body: JSON.stringify(researchCenter)
         })
-        // .then((result) => {
-        //     console.log(email);
-        //     setCenterEmail(email);
-        //     console.log("Correo del centro: ");
-        //     console.log(centerEmail);
-        // })
+
         if (response.ok) {
             //setCenterEmail(email); //No estoy seguro de que sobre pero creo que si
-            console.log("Research Center Added " + centerEmail);
+            console.log("Participant Added " + centerEmail);
+            //setConflict("no");
             navigate('/ExperimentOverview');
+        } else if(response.status === 409){
+            console.log("conflict");
+            //setConflict("yes");
         } else {
             // TODO: advertise that there is already a center with given email or name
             console.log("Cannot add Research Center");
+            //setConflict("no");
         }
     }
 
@@ -65,9 +64,12 @@ export function AddParticipant() {
 
             </Box>
 
+            {/* {conflict === "yes" ? <div className='error'>This center is already a participant</div> : "" } */}
+
             <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto" }} onClick={handleClick}>
                 Submit
             </Button>
+
 
 
         </Fragment>

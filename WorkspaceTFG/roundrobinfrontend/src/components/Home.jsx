@@ -10,6 +10,7 @@ export function Home() {
   const [email, setEmail] = useState('')
 
   const { centerEmail, setCenterEmail } = useContext(CenterContext);
+  const { centerName, setCenterName } = useContext(CenterContext);
 
   let navigate = useNavigate();
 
@@ -49,7 +50,8 @@ export function Home() {
 
     //let creatorEmail;
     if (response.ok) { // if HTTP-status is 200-299
-
+      let json = await response.json();
+      setCenterName(json.name);
       // get the response body
       // creatorEmail = await response.json();
       // creatorEmail = creatorEmail.email;

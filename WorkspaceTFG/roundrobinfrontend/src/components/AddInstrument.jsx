@@ -51,7 +51,7 @@ export function AddInstrument() {
   return (
     <Fragment>
       <div class="page-titles">
-        Add Instructions to '{expName}'
+        Add Instrument to '{expName}'
       </div>
 
       <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '60%' }, }} noValidate autoComplete="off">
