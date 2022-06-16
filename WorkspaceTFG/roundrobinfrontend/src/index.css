@@ -45,6 +45,13 @@ code {
   margin-bottom: 20px;
 }
 
+#started-label{
+  color: green;
+}
+
+#finished-label{
+  color: rgb(145, 11, 11);
+}
 
 @media (min-width: 1200px) {
   
@@ -171,7 +178,7 @@ code {
 
   .button-create-experiment{
     text-align: center;
-    margin-top: 100px;
+    margin-top: 50px;
   }
 
   .buttons {
@@ -190,6 +197,7 @@ code {
     margin-bottom: 10px;
     margin-top: 10px;
     border-radius: 10px;
+    width: 95%;
   }
 
   /* Dont know what it is but dont delete it */

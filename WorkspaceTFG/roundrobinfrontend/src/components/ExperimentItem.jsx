@@ -9,6 +9,7 @@ export function ExperimentItem({ experiment }) {
     const { name, description } = experiment;
     //this component subscribe to the context
     const { setExpName } = useContext(ExpContext);
+    const { setExpStatus } = useContext(ExpContext);
     const { centerEmail } = useContext(CenterContext);
 
     let navigate = useNavigate();
@@ -17,11 +18,16 @@ export function ExperimentItem({ experiment }) {
         setExpName(name);
         let url = "http://localhost:8080/experiments/";
         url = url.concat(String(name));
-        url = url.concat("/creator");
+        //url = url.concat("/creator");
         console.log(url)
-        // fetch("http://localhost:8080/centers/{id}/experiments?creator=true")
-       
-        navigate("/ExperimentOverview");
+        fetch(url)
+            .then(res => res.json())
+            .then((result) => {
+                setExpStatus(result.status);
+                navigate("/ExperimentOverview"); //Si falla ponerlo despues del then (vamos, bajarlo dos lineas)
+            }
+            )
+
 
 
     }

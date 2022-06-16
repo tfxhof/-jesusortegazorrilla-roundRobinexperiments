@@ -15,6 +15,7 @@ export function ParticipantOverview() {
     const [experimentMeasures, setExperimentMeasures] = useState([]);
 
     const { expName } = useContext(ExpContext);
+    const { expStatus } = useContext(ExpContext);
     const { centerEmail } = useContext(CenterContext);
 
     let navigate = useNavigate();
@@ -22,12 +23,15 @@ export function ParticipantOverview() {
 
     //To get actual experiment's name
     useEffect(() => {
+        console.log("nombre del experimento: ")
+        console.log(expName)
         let url = "http://localhost:8080/experiments/";
         url = url.concat(String(expName));
         fetch(url)
             .then(res => res.json())
             .then((result) => {
                 setExperiment(result);
+                console.log("Result: ");
                 console.log(result);
             }
             )
@@ -63,7 +67,6 @@ export function ParticipantOverview() {
                         <div class="col-lg-6">
                             <div class="column-title">
                                 <b>Experiment Data</b>
-                                {/* <h3>Measures</h3> */}
                                 <br />
                             </div>
 
@@ -73,6 +76,12 @@ export function ParticipantOverview() {
                             <br></br>
                             <div class="description">
                                 {experiment.description}
+                            </div>
+                            <br></br>
+                            <div class="description">
+                                Experiment status: 
+                                <br />
+                                {expStatus}
                             </div>
                         </div>
 

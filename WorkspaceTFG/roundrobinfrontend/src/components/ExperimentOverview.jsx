@@ -7,11 +7,11 @@ import EditIcon from '@mui/icons-material/Edit';
 
 export function ExperimentOverview() {
 
-    const [experiment,  setExperiment] = useState('');
-    const [status,  setStatus] = useState('');
-    
+    const [experiment, setExperiment] = useState('');
+    const [status, setStatus] = useState('');
 
     const { expName } = useContext(ExpContext);
+    const { expStatus, setExpStatus } = useContext(ExpContext);
 
     let description = {
         value: experiment.description,
@@ -53,16 +53,33 @@ export function ExperimentOverview() {
         let url = "http://localhost:8080/experiments/";
         url = url.concat(String(expName));
         url = url.concat("/start");
-        console.log("URL de start: ");
+
+        fetch(url)
+            .then(res => res.json())
+            .then((result) => {
+                setExpStatus(result.status);
+                setExperiment(result);
+                console.log(result);
+            }
+            )
+    }
+
+    async function finishExperiment() {
+        let url = "http://localhost:8080/experiments/";
+        url = url.concat(String(expName));
+        url = url.concat("/finish");
+        console.log("URL de finish: ");
         console.log(url);
 
         fetch(url)
             .then(res => res.json())
             .then((result) => {
+                setExpStatus(result.status);
                 setExperiment(result);
                 console.log(result);
             }
             )
+
     }
 
     useEffect(() => {
@@ -72,7 +89,7 @@ export function ExperimentOverview() {
         fetch(url)
             .then(res => res.json())
             .then((result) => {
-                setStatus(result.status);
+                setExpStatus(result.status);
                 console.log(result.status);
             }
             )
@@ -88,7 +105,7 @@ export function ExperimentOverview() {
 
             <div>
                 <div class="container">
-                    <div class="row align-items-center my-4">
+                    <div class="row my-4">
 
                         {/* To modify the experiment main info */}
                         <div class="col-lg-6">
@@ -106,6 +123,49 @@ export function ExperimentOverview() {
                                     <EditIcon />
                                 </Button>
                             </div>
+
+                            <br></br>
+                            <div class="description">
+                                {experiment.status === "CREATED" ?
+                                    <Fragment>
+                                        <div>
+                                            Experiment Status:
+                                        </div>
+                                        <div>
+                                            {experiment.status}
+                                        </div>
+                                    </Fragment>
+                                    : null}
+                            </div>
+
+                            <br></br>
+                            <div class="description">
+                                {experiment.status === "STARTED" ?
+                                    <Fragment>
+                                        <div>
+                                            Experiment Status:
+                                        </div>
+                                        <div id='started-label'>
+                                            {experiment.status}
+                                        </div>
+                                    </Fragment>
+                                    : null}
+                            </div>
+
+                            <br></br>
+                            <div class="description">
+                                {experiment.status === "FINISHED" ?
+                                    <Fragment>
+                                        <div>
+                                            Experiment Status:
+                                        </div>
+                                        <div id='finished-label'>
+                                            {experiment.status}
+                                        </div>
+                                    </Fragment>
+                                    : null}
+                            </div>
+
                         </div>
 
                         {/* To modify the experiment lists (add samples, test, participants...) */}
@@ -134,16 +194,31 @@ export function ExperimentOverview() {
                             </div>
                         </div>
                     </div>
-                    
-                    {status==="STARTED" || status==="FINISHED" ? "" : 
-                    <div class="button-create-experiment">
-                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={startExperiment}>
-                            Start Experiment
-                        </Button>
-                    </div>
-                    }
-                    
 
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div>
+                                {experiment.status === "CREATED" ?
+                                    <div class="button-create-experiment">
+                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "-200px auto auto auto", width: "200px" }} onClick={startExperiment}>
+                                            Start Experiment
+                                        </Button>
+                                    </div> :
+                                    ""
+                                }
+                            </div>
+                            <div>
+                                {experiment.status === "STARTED" ?
+                                    <div class="button-create-experiment">
+                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "-200px auto auto auto", width: "200px" }} onClick={finishExperiment}>
+                                            Finish Experiment
+                                        </Button>
+                                    </div> :
+                                    ""
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

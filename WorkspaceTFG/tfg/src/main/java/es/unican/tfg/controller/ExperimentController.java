@@ -109,6 +109,17 @@ public class ExperimentController {
 		return ResponseEntity.ok(ex);
 	}
 
+	@GetMapping("/{name}/finish")
+	public ResponseEntity<ExperimentDTO> finishExperiment(@PathVariable String name){
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null) {
+			return ResponseEntity.notFound().build();
+		}
+		e.setStatus(ExperimentStatus.FINISHED);
+		experimentService.modifyExperiment(e);
+		ExperimentDTO ex = new ExperimentDTO(e);
+		return ResponseEntity.ok(ex);
+	}
 
 
 	/**
