@@ -59,6 +59,10 @@ code {
     max-width: 1200px;
   }
 
+  .container {
+    max-width: 100%;
+  }
+
   .navigation {
     background-color: #272727;
   }
@@ -218,6 +222,15 @@ code {
   /* text color when clicked */
   .expBtn:active:focus {
     color: #000000;
+  }
+
+  .graph-width{
+    width: 80%;
+    /* To center use this line below */
+    display: inline-block; 
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
 

@@ -38,6 +38,9 @@ import es.unican.tfg.service.ExperimentService;
 import es.unican.tfg.service.MeasurementService;
 import es.unican.tfg.service.ResearchCenterService;
 
+import es.unican.tfg.common.Constraints;
+
+
 @RestController
 @RequestMapping("/experiments")
 @CrossOrigin
@@ -172,34 +175,52 @@ public class ExperimentController {
 	}
 
 	@PostMapping("/{name}/participants")
-	public ResponseEntity<ExperimentDTO> addParticipant(@PathVariable String name, @RequestBody ResearchCenter rc){
+	public ResponseEntity<ExperimentDTO> sendEmailToAddParticipant(@PathVariable String name, @RequestBody ResearchCenter rc){
 		Experiment e = experimentService.experimentByName(name);
 		if (e == null)
 			return ResponseEntity.notFound().build();
 
 		ResearchCenter r = centerService.researchCenterByEmail(rc.getEmail());
-		if (r == null)
-			return ResponseEntity.notFound().build();
+		//if given center is registered, check if it is already a participant, and CONFLICT if so, if it is not participating, send email
+		if (r != null) {
+			for (ResearchCenter center: e.getParticipants()) {
+				if(center.getEmail().equals(r.getEmail()))
+					return ResponseEntity.status(409).build();
+			}
+			//TODO: complete the email with *the link to accept invitation* an go to the given experiment overview as participant (Participant Overview) (not done yet)
+			//this links will have to call something like expService.addParticipantFromEmail(ResearchCenter)
+			emailService.sendSimpleEmail(rc.getEmail(), 
+					"Invitation to participate in '" + name + "' experiment" , 
+					"Click this link below to accept the invitation to participate in '" + name + "' experiment: \n\n" + "http://localhost:3000/ParticipantOverview");
+			
+			
+		} else { //if the center is not registered
+			
+			//Esta llamada igual se tiene que hacer desde la web y que el link solo lleve a la web y al clickar en un boton se llame a este metodo
+			String link = "http://localhost:8080/experiments/" + name + "/participants/" + rc.getEmail() +"/confirm";
 
-		//		r.getExperiments().add(e);
-		//		centerService.modifyResearchCenter(r);
-		//Check if the center is already added as a participant
-		for (ResearchCenter center: e.getParticipants())
-			if(center.getEmail().equals(r.getEmail()))
-				return ResponseEntity.status(409).build();
+			//TODO: complete the email with *the link to accept invitation* an go to a screen to enter their data(not done yet)
+			//this links will have to call something like expService.addParticipantFromEmail(ResearchCenter)
+			emailService.sendSimpleEmail(rc.getEmail(), 
+					"Invitation to participate in '" + name + "' experiment" , 
+					"You have been invited to participate in '" + name + "' experiment. As you are not registered yet in " + "Round Robin TFG" +", you can do it by clicking the link below: \n\n" 
+					+ "http://localhost:3000/SignUpParticipant");
+		}
 		
-
-		//TODO: complete the email with the link
-		emailService.sendSimpleEmail(rc.getEmail(), 
-				"Invitation to participate in '" + name + "' experiment" , 
-				"Click this link below to accept the invitation to participate in '" + name + "' experiment: \n\n" + "INSERTAR LINK DE ACEPTACIÓN");
-
+		//This need to be removed in future, should be in another method when participant click the link in the email.
 		List <ResearchCenter> centers = e.getParticipants();
 		centers.add(r);
 		e.setParticipants(centers);
 		experimentService.modifyExperiment(e);
 		ExperimentDTO eDTO = new ExperimentDTO(e);
 		return ResponseEntity.ok(eDTO);
+	}
+	
+	
+	@PostMapping("/{name}/participants/{email}/confirm")
+	public ResponseEntity<ExperimentDTO> confirmParticipant(@PathVariable String name, @RequestBody ResearchCenter rc){
+		
+		return null;
 	}
 
 

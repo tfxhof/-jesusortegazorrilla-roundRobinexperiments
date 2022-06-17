@@ -5,12 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.unican.tfg.DTOs.ExperimentDTO;
 import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.Measure;
 import es.unican.tfg.model.Measurement;
+import es.unican.tfg.model.ResearchCenter;
 import es.unican.tfg.model.Sample;
 import es.unican.tfg.repository.ExperimentRepository;
 import es.unican.tfg.repository.MeasureRepository;
+import es.unican.tfg.repository.ResearchCenterRepository;
 import es.unican.tfg.repository.SampleRepository;
 
 @Service
@@ -19,6 +22,9 @@ public class ExperimentService implements IExperimentService{
 	@Autowired
 	private ExperimentRepository expRepository;
 	
+	@Autowired
+	private ResearchCenterRepository centerRepository;
+
 	@Autowired
 	private SampleRepository sampleRepository;
 	
@@ -52,6 +58,25 @@ public class ExperimentService implements IExperimentService{
 			return null;
 		return expRepository.save(e);
 	}
+	
+	/**
+	 * To call it when the participant clicks the email link.
+	 * @param experimentName
+	 * @param rcEmail
+	 * @return
+	 */
+	public ExperimentDTO addParticipantFromEmail(String experimentName, String rcEmail) {
+		Experiment e = expRepository.findByName(experimentName);
+		List <ResearchCenter> centers = e.getParticipants();
+		ResearchCenter r = centerRepository.findByEmail(rcEmail);
+		
+		centers.add(r);
+		e.setParticipants(centers);
+		modifyExperiment(e);
+		ExperimentDTO eDTO = new ExperimentDTO(e);
+		return eDTO;
+	}
+	
 
 	public Experiment deleteExperiment(Long id) {
 		Experiment e = expRepository.findById(id).orElse(null);

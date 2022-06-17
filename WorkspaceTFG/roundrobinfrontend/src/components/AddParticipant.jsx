@@ -67,7 +67,7 @@ export function AddParticipant() {
             {/* {conflict === "yes" ? <div className='error'>This center is already a participant</div> : "" } */}
 
             <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto" }} onClick={handleClick}>
-                Submit
+                Send Invitation
             </Button>
 
 
