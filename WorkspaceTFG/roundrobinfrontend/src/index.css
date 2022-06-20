@@ -56,11 +56,11 @@ code {
 @media (min-width: 1200px) {
   
   .container {
-    max-width: 1200px;
+    max-width: 85%;
   }
 
-  .container {
-    max-width: 100%;
+  .graph-container {
+    max-width: 100%; 
   }
 
   .navigation {
@@ -77,7 +77,7 @@ code {
   }
 
   .col-lg-6 {
-    padding: 30px;
+    padding: 20px;
   }
 
   .title-experiment-overview {
@@ -225,12 +225,11 @@ code {
   }
 
   .graph-width{
-    width: 80%;
+    width: 100%;
     /* To center use this line below */
     display: inline-block; 
     margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 0px;
   }
 
 

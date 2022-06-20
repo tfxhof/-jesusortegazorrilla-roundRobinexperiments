@@ -13,9 +13,10 @@ export { default as AddPersonalInfo } from "./AddPersonalInfo";
 export { default as AddInstrument } from "./AddInstrument";
 export { default as AddResult } from "./AddResult";
 export { default as MeasurementOverview } from "./MeasurementOverview";
-export { default as Auxiliar } from "./Auxiliar";
 export { default as SignUpParticipant } from "./SignUpParticipant";
 export { default as ConfirmParticipant } from "./ConfirmParticipant";
+export { default as Results } from "./Results";
+export { default as ResultGraph } from "./ResultGraph";
 
 // export { default as ExperimentList } from "./ExperimentList";
 // export { default as ExperimentItem } from "./ExperimentItem";

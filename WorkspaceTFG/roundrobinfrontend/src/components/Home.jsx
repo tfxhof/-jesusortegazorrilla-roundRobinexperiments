@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField';
 import { Paper } from '@material-ui/core';
 import { Box, Button } from '@mui/material';
 import { CenterContext } from '../providers/CenterContext';
-import Auxiliar from "./Auxiliar";
 
 export function Home() {
   const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
@@ -67,11 +66,6 @@ export function Home() {
   function signUp() {
     navigate('/SignUp');
   }
-  
-  //To sign up
-  function aux() {
-    navigate('/Auxiliar');
-  }
 
   return (
     <Fragment>
@@ -99,10 +93,6 @@ export function Home() {
 
                 <div id="sign-up-button">
                   <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", margin: "auto" }} onClick={signUp}>Sign Up</Button>
-                </div>
-
-                <div>
-                  <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", margin: "auto" }} onClick={aux}>AUX</Button>
                 </div>
 
               </Paper>

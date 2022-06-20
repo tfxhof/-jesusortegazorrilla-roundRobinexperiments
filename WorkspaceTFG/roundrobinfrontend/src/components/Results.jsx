@@ -4,8 +4,9 @@ import { Button } from '@material-ui/core';
 import { useNavigate } from 'react-router';
 import TextField from '@mui/material/TextField';
 import EditIcon from '@mui/icons-material/Edit';
+import ResultGraph from './ResultGraph';
 
-export function ExperimentOverview() {
+export function Results() {
 
     const [experiment, setExperiment] = useState('');
     const [status, setStatus] = useState('');
@@ -38,6 +39,17 @@ export function ExperimentOverview() {
             )
     }, [])
 
+    let navigate = useNavigate();
+
+    function addSample() {
+        navigate('/addSample');
+    }
+    function addMeasure() {
+        navigate('/addMeasure');
+    }
+    function addParticipant() {
+        navigate('/addParticipant');
+    }
     function startExperiment() {
         let url = "http://localhost:8080/experiments/";
         url = url.concat(String(expName));
@@ -85,23 +97,7 @@ export function ExperimentOverview() {
     }, [])
 
 
-    let navigate = useNavigate();
-
-    function addSample() {
-        navigate('/addSample');
-    }
-    function addMeasure() {
-        navigate('/addMeasure');
-    }
-    function addParticipant() {
-        navigate('/addParticipant');
-    }
-
-    //To navigate to the results
-    function showResults() {
-        navigate('/Results');
-    }
-
+   
     return (
         <Fragment>
 
@@ -113,7 +109,6 @@ export function ExperimentOverview() {
             <div>
                 <div class="container">
                     <div class="row my-4">
-
                         {/* To modify the experiment main info */}
                         <div class="col-lg-6">
                             <div className="column-title">
@@ -178,59 +173,13 @@ export function ExperimentOverview() {
                         {/* To modify the experiment lists (add samples, test, participants...) */}
                         <div class="col-lg-6">
                             <div className="column-title">
-                                {/* <h3 class="font-weight-light">EXPERIMENTS AS CREATOR</h3> */}
-                                <b>Modify Experiment</b>
+                                <b>Results Graph</b>
                             </div>
 
-                            <div class="column-button">
-                                <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addSample}>
-                                    Add Samples
-                                </Button>
+                            <div className="graph-width">
+                                <ResultGraph />
                             </div>
 
-                            <div class="column-button">
-                                <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addMeasure}>
-                                    Add Measures
-                                </Button>
-                            </div>
-
-                            <div class="column-button">
-                                <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addParticipant}>
-                                    Add Participants
-                                </Button>
-                            </div>
-
-                            <div class="column-button">
-                                <Button variant="contained" className="buttons" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} 
-                                onClick={showResults}>
-                                    Show Results
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div>
-                                {experiment.status === "CREATED" ?
-                                    <div class="button-create-experiment">
-                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "-200px auto auto auto", width: "200px" }} onClick={startExperiment}>
-                                            Start Experiment
-                                        </Button>
-                                    </div> :
-                                    ""
-                                }
-                            </div>
-                            <div>
-                                {experiment.status === "STARTED" ?
-                                    <div class="button-create-experiment">
-                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "-200px auto auto auto", width: "200px" }} onClick={finishExperiment}>
-                                            Finish Experiment
-                                        </Button>
-                                    </div> :
-                                    ""
-                                }
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -241,4 +190,4 @@ export function ExperimentOverview() {
     )
 }
 
-export default ExperimentOverview;
+export default Results;

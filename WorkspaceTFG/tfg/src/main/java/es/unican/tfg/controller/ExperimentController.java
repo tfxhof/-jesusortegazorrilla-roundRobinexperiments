@@ -422,6 +422,13 @@ public class ExperimentController {
 
 		return ResponseEntity.ok(true);
 	}
+	
+	
+	@GetMapping("/{name}/measure/{name}/results")
+	public ResponseEntity<Byte[]> getResults (){
+		//TODO
+		return null;
+	}
 
 
 }

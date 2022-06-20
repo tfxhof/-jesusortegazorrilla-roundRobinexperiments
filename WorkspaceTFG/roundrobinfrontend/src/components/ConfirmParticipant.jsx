@@ -6,7 +6,9 @@ import Box from '@mui/material/Box';
 import { Paper, Button } from '@material-ui/core';
 
 
-export function ConfirmParticipant() {
+export function ConfirmParticipant(props) {
+
+    const {propsMail} = props;
 
     const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
 
