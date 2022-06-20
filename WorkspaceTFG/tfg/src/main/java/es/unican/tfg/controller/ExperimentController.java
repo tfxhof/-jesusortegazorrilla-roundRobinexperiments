@@ -187,40 +187,40 @@ public class ExperimentController {
 				if(center.getEmail().equals(r.getEmail()))
 					return ResponseEntity.status(409).build();
 			}
-			//TODO: complete the email with *the link to accept invitation* an go to the given experiment overview as participant (Participant Overview) (not done yet)
-			//this links will have to call something like expService.addParticipantFromEmail(ResearchCenter)
-			emailService.sendSimpleEmail(rc.getEmail(), 
-					"Invitation to participate in '" + name + "' experiment" , 
-					"Click this link below to accept the invitation to participate in '" + name + "' experiment: \n\n" + "http://localhost:3000/ParticipantOverview");
-			
-			
+			//Send email with *the link to accept invitation*
+			String link = "http://localhost:3000/ConfirmParticipant";
+
+			emailService.sendSimpleEmail(rc.getEmail(), "Invitation to participate in '" + name + "' experiment", 
+					"Click this link below to accept the invitation to participate in '" + name + "' experiment:" + 
+							"\n\n" + link);
+
+
 		} else { //if the center is not registered
-			
+			//TODO:
 			//Esta llamada igual se tiene que hacer desde la web y que el link solo lleve a la web y al clickar en un boton se llame a este metodo
-			String link = "http://localhost:8080/experiments/" + name + "/participants/" + rc.getEmail() +"/confirm";
+			String link = "http://localhost:3000/SignUpParticipant/";
 
 			//TODO: complete the email with *the link to accept invitation* an go to a screen to enter their data(not done yet)
 			//this links will have to call something like expService.addParticipantFromEmail(ResearchCenter)
 			emailService.sendSimpleEmail(rc.getEmail(), 
 					"Invitation to participate in '" + name + "' experiment" , 
 					"You have been invited to participate in '" + name + "' experiment. As you are not registered yet in " + "Round Robin TFG" +", you can do it by clicking the link below: \n\n" 
-					+ "http://localhost:3000/SignUpParticipant");
+							+ link);
 		}
-		
-		//This need to be removed in future, should be in another method when participant click the link in the email.
-		List <ResearchCenter> centers = e.getParticipants();
-		centers.add(r);
-		e.setParticipants(centers);
-		experimentService.modifyExperiment(e);
-		ExperimentDTO eDTO = new ExperimentDTO(e);
-		return ResponseEntity.ok(eDTO);
+		return ResponseEntity.ok(new ExperimentDTO(e));
 	}
-	
-	
+
+
 	@PostMapping("/{name}/participants/{email}/confirm")
-	public ResponseEntity<ExperimentDTO> confirmParticipant(@PathVariable String name, @RequestBody ResearchCenter rc){
-		
-		return null;
+	public ResponseEntity<ExperimentDTO> confirmParticipant(@PathVariable String name, 
+			@PathVariable String email, @RequestBody ResearchCenter rc){
+
+		Experiment e = experimentService.addParticipantFromEmail(name, email, rc);
+		if (e == null) {
+			return ResponseEntity.status(409).build();
+		}
+		return ResponseEntity.ok(new ExperimentDTO(e));
+
 	}
 
 

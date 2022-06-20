@@ -15,9 +15,11 @@ import AddPersonalInfo from './components/AddPersonalInfo';
 import AddInstrument from './components/AddInstrument';
 import AddResult from './components/AddResult';
 import Auxiliar from './components/Auxiliar';
+import SignUpParticipant from './components/SignUpParticipant';
 
 import { ExpContextProvider } from './providers/ExperimentContext';
 import { CenterContextProvider } from './providers/CenterContext';
+import ConfirmParticipant from './components/ConfirmParticipant';
 
 
 function App() {
@@ -49,6 +51,8 @@ function App() {
             <Route path="/AddResult" element={<AddResult />} />
             <Route path="/MeasurementOverview" element={<MeasurementOverview />} />
             <Route path="/Auxiliar" element={<Auxiliar />} />
+            <Route path="/SignUpParticipant" element={<SignUpParticipant />} />
+            <Route path="/ConfirmParticipant" element={<ConfirmParticipant/>} />
 
           </Routes>
 

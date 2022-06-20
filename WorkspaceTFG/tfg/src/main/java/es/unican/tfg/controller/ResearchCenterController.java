@@ -115,7 +115,6 @@ public class ResearchCenterController {
 	 */
 	@PostMapping
 	public ResponseEntity<ResearchCenterDTO> create(@RequestBody ResearchCenter r) throws InterruptedException, ExecutionException {
-		System.out.println(r.getEmail() + " " + r.getName());
 		ResearchCenter rc = centerService.createResearchCenter(r);
 		if (rc == null) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();

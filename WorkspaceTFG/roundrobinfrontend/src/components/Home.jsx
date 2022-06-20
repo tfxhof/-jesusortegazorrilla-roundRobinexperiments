@@ -110,12 +110,7 @@ export function Home() {
           </div>
         </div>
       </form>
-      <div>
-        Grafico
-        <Auxiliar />
-      </div>
-
-
+     
     </Fragment >
   );
 }

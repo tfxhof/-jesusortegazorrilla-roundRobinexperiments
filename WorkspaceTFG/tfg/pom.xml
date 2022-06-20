@@ -73,16 +73,6 @@
 			<version>2.3.1</version>
 		</dependency>
 
-		<!-- Part of the sending emails functionality-->
-		<!-- 
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		-->
-
-
 		<!-- To send emails -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -96,15 +86,6 @@
 			<version>5.3.20</version>
 		</dependency>
 
-
-		<!-- To send emails -->
-		<!-- 
-		<dependency>
-			<groupId>org.simplejavamail</groupId>
-			<artifactId>simple-java-mail</artifactId>
-			<version>7.1.1</version>
-		</dependency>
-		-->
 
 	</dependencies>
 

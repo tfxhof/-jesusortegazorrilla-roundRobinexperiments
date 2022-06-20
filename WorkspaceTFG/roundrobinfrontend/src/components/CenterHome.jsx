@@ -40,8 +40,6 @@ function CenterHome() {
         url = url.concat(String(centerEmail));
         url = url.concat("/experiments");
         url = url.concat("?creator=true");
-        console.log("Url1: ")
-        console.log(url)
         // fetch("http://localhost:8080/centers/{id}/experiments?creator=true")
         fetch(url)
             .then(res => res.json())
@@ -59,8 +57,6 @@ function CenterHome() {
         url = url.concat(String(centerEmail));
         url = url.concat("/experiments");
         url = url.concat("?creator=false");
-        console.log("Url2: ")
-        console.log(url)
         // fetch("http://localhost:8080/centers/{id}/experiments?creator=false")
         fetch(url)
             .then(res => res.json())

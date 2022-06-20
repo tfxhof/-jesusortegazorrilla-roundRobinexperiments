@@ -1,11 +1,17 @@
 package es.unican.tfg.service;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.unican.tfg.DTOs.ExperimentDTO;
+import es.unican.tfg.DTOs.ResearchCenterDTO;
 import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.Measure;
 import es.unican.tfg.model.Measurement;
@@ -20,6 +26,9 @@ import es.unican.tfg.repository.SampleRepository;
 public class ExperimentService implements IExperimentService{	
 
 	@Autowired
+	private ResearchCenterService centerService;
+	
+	@Autowired
 	private ExperimentRepository expRepository;
 	
 	@Autowired
@@ -31,7 +40,8 @@ public class ExperimentService implements IExperimentService{
 	@Autowired
 	private MeasureRepository measureRepository;
 
-
+	
+	
 	public List<Experiment> experiments() {
 		return expRepository.findAll();
 	}
@@ -60,21 +70,33 @@ public class ExperimentService implements IExperimentService{
 	}
 	
 	/**
-	 * To call it when the participant clicks the email link.
+	 * To call it when the participant clicks the email link or enters the form info (creates the center)
 	 * @param experimentName
 	 * @param rcEmail
 	 * @return
 	 */
-	public ExperimentDTO addParticipantFromEmail(String experimentName, String rcEmail) {
-		Experiment e = expRepository.findByName(experimentName);
-		List <ResearchCenter> centers = e.getParticipants();
-		ResearchCenter r = centerRepository.findByEmail(rcEmail);
+	public Experiment addParticipantFromEmail(String experimentName, String email, ResearchCenter rc) {
+//		if(rc.getName() != null) { //if the center didn't exist before the invitation
+//			//save the new center in DataBase
+//			ResearchCenter created = centerService.createResearchCenter(rc);
+//			if (created == null) { // If it was null, the email was already registered
+//				return null;
+//			}
+//		}
 		
-		centers.add(r);
+		if(centerRepository.findByEmail(email) == null) {
+			centerService.createResearchCenter(rc);
+		}
+		
+		Experiment e = expRepository.findByName(experimentName);
+		rc = centerRepository.findByEmail(email);
+		System.out.println("Email del centro: " + email + ". Experiment name: " + e.getName());
+		List <ResearchCenter> centers = e.getParticipants();
+		centers.add(rc);
 		e.setParticipants(centers);
 		modifyExperiment(e);
-		ExperimentDTO eDTO = new ExperimentDTO(e);
-		return eDTO;
+		System.out.println("Participante añadido");
+		return e;
 	}
 	
 

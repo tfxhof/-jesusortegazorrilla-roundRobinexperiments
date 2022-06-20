@@ -54,7 +54,8 @@ insert into sample (material_name, code, composition, description, measurement_f
 insert into sample (material_name, code, composition, description, measurement_fk, experiment_fk) values
 ('Diamante', 'Diamante 2', 'COF-1', 'Descripcion del diamante', 4, 2);
 
-
+delete from experiment_research_center where research_center_fk=7;
+delete from research_center where id=7;
 
 #insert into result (name, comments, satisfactory, measurement_fk) values ('Resultado de la prueba 1', 'La muestra mostro debilidad a mas de 130 grados', true, 1);
 #select * from experiment;
