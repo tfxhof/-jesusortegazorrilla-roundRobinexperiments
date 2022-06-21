@@ -225,7 +225,7 @@ code {
   }
 
   .graph-width{
-    width: 100%;
+    width: 70%;
     /* To center use this line below */
     display: inline-block; 
     margin-top: 20px;

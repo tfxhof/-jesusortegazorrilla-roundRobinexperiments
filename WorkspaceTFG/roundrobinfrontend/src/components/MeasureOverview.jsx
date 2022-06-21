@@ -1,23 +1,29 @@
 import React, { Fragment, useContext, useState, useEffect } from 'react';
 import { ExpContext } from '../providers/ExperimentContext';
+import { CenterContext } from '../providers/CenterContext';
 import { Button } from '@material-ui/core';
 import { useNavigate } from 'react-router';
-// import TextField from '@mui/material/TextField';
-// import EditIcon from '@mui/icons-material/Edit';
+import { Paper } from '@material-ui/core';
+import ParticipantMeasurementsList from './ParticipantMeasurementsList';
 
-export function MeasurementOverview() {
+export function MeasureOverview() {
+
+    const paperStyle = { padding: '20px', width: 'auto', margin: "20px auto" };
 
     const [experiment, setExperiment] = useState('');
+    const [measurements, setMeasurements] = useState([]);
 
     const { expName } = useContext(ExpContext);
     const { expStatus } = useContext(ExpContext);
     const { measureName } = useContext(ExpContext);
     const { measureInstructions } = useContext(ExpContext);
+    const { centerName } = useContext(CenterContext);
+    const { centerEmail } = useContext(CenterContext);
 
     // To get the Experiment Name and description
-    let url = "http://localhost:8080/experiments/";
-    url = url.concat(String(expName));
     useEffect(() => {
+        let url = "http://localhost:8080/experiments/";
+        url = url.concat(String(expName));
         console.log(url);
         fetch(url)
             .then(res => res.json())
@@ -28,16 +34,59 @@ export function MeasurementOverview() {
             )
     }, [])
 
+
+    // To get the list of measurements
+    useEffect(() => {
+        let url = "http://localhost:8080/experiments/";
+        url = url.concat(String(expName));
+        url = url.concat("/measures/");
+        url = url.concat(String(measureName));
+        url = url.concat("/measurements?center=");
+        url = url.concat(String(centerName));
+        console.log(url);
+        fetch(url)
+            .then(res => res.json())
+            .then((result) => {
+                setMeasurements(result);
+            }
+            )
+    }, [])
+
+
     let navigate = useNavigate();
 
-    function addPersonalInfo() {
-        navigate('/AddPersonalInfo');
-    }
-    function addInstrument() {
-        navigate('/AddInstrument');
-    }
-    function addResult() {
-        navigate('/AddResult');
+    async function addMeasurement() {
+        let url = "http://localhost:8080/experiments/";
+        url = url.concat(String(expName));
+        url = url.concat("/measures/");
+        url = url.concat(String(measureName));
+        url = url.concat("/measurements");
+        console.log(url);
+
+        const measurement = {
+            name: "nombre",
+            measureName: measureName,
+
+            executingCenter : {
+                email: centerEmail,
+            },
+         }
+
+        let response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(measurement)
+        })
+
+        if (response.ok) {
+            navigate('/ParticipantMeasurementOverview');
+        } else {
+            // TODO: advertise that there is already a center with given email or name
+            console.log("Cannot add Measurement");
+        }
+
     }
 
 
@@ -46,7 +95,7 @@ export function MeasurementOverview() {
         <Fragment>
 
             <div class="page-titles">
-                Measuring '{measureName}'
+                '{measureName}' - Measure
             </div>
 
             <div>
@@ -54,7 +103,7 @@ export function MeasurementOverview() {
                     <div class="row my-4 columns">
 
                         {/* To show the experiment main info */}
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="column-title">
                                 <b>Experiment Data</b>
                                 {/* <h3>Measures</h3> */}
@@ -80,7 +129,7 @@ export function MeasurementOverview() {
 
                         </div>
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="column-title">
                                 <b>Modify Measurement</b>
                                 <br />
@@ -90,18 +139,8 @@ export function MeasurementOverview() {
                                 // To modify the experiment lists (add samples, test, participants...)
                                 <Fragment>
                                     <div className='column-button'>
-                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "0px auto auto auto", width: "200px" }} onClick={addPersonalInfo}>
-                                            ADD PERSONAL INFO
-                                        </Button>
-                                    </div>
-                                    <div className='column-button'>
-                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addInstrument}>
-                                            ADD INSTRUMENT
-                                        </Button>
-                                    </div>
-                                    <div className='column-button'>
-                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addResult}>
-                                            ADD RESULT
+                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addMeasurement}>
+                                            Participate
                                         </Button>
                                     </div>
                                 </Fragment>
@@ -114,6 +153,19 @@ export function MeasurementOverview() {
                             }
 
                         </div>
+
+
+                        {/* To show the experiment created measures */}
+                        <div class="col-lg-4">
+                            <div class="column-title">
+                                <b>Measurements</b>
+                                {/* <h3>Measures</h3> */}
+                            </div>
+                            <Paper elevation={3} style={paperStyle}>
+                                <ParticipantMeasurementsList measurements={measurements} />
+                            </Paper>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -121,4 +173,4 @@ export function MeasurementOverview() {
     )
 }
 
-export default MeasurementOverview;
+export default MeasureOverview;

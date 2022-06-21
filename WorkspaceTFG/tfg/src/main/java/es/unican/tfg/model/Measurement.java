@@ -2,6 +2,7 @@ package es.unican.tfg.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,18 +33,20 @@ public class Measurement {
 	
 //	@OneToOne
 //	@JoinColumn(name="measure_fk")
+//	@Transient
+//	private Measure measure;
 	@Transient
-	private Measure measure;
+	private String measureName;
 	
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name="instrument_fk")
 	private Instrument instrument;
 	
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.ALL})
 	@JoinColumn(name="measurement_fk")
 	private List<Parameter> parameters;
 	
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.ALL})
 	@JoinColumn(name="measurement_fk")
 	private List<Result> results;
 	
@@ -61,11 +64,11 @@ public class Measurement {
 	 * @param parameters
 	 * @param results
 	 */
-	public Measurement(ResearchCenter executingCenter, Measure measure, Instrument instrument,
+	public Measurement(ResearchCenter executingCenter, String measureName/*, Measure measure*/, Instrument instrument,
 			List<Parameter> parameters, List<Result> results, List<Sample> samples) {
 		super();
 		//TODO: If the same center has 2 instrument to measure the same, this might be a problem
-		this.name = measure.getName() + " " + executingCenter.getName();
+		this.name = "'" + measureName + "' in '" + executingCenter.getName() + "'"; //example: 'Dureza del Carbono in Atlantico'
 		this.executingCenter = executingCenter;
 		//this.measure = measure;
 		this.instrument = instrument;
@@ -139,8 +142,14 @@ public class Measurement {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
+	public String getMeasureName() {
+		return measureName;
+	}
+
+	public void setMeasureName(String measureName) {
+		this.measureName = measureName;
+	}
 	
 	
 	

@@ -1,5 +1,6 @@
-import React, { Fragment, PureComponent } from 'react';
+import React, { Fragment, PureComponent, useEffect, useContext } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
+import { ExpContext } from '../providers/ExperimentContext';
 
 
 const data = [
@@ -90,25 +91,59 @@ const data = [
 ];
 
 
+
+
 export function ResultGraph() {
+
+    const { expName } = useContext(ExpContext);
+    const { measureName } = useContext(ExpContext);
+    const { measurementName } = useContext(ExpContext);
+
+    useEffect(() => {
+        let url = "http://localhost:8080/experiments/";
+        url = url.concat(String(expName));
+        url = url.concat("/measures/");
+        url = url.concat(String(measureName));
+        url = url.concat("/measurements/");
+        url = url.concat(String(measurementName));
+        url = url.concat("/results");
+        console.log(url);
+        fetch(url)
+            .then(res => res.json())
+            .then((result) => {
+                console.log("Result status: ");
+                console.log(result.status);
+                console.log("Res: ");
+                console.log(result.xAxisName);
+                console.log(result.yAxisName);
+                //Have to check this
+                
+                
+            }
+            )
+    }, [])
+
 
     return (
         <Fragment>
+            <div class="page-titles">
+                '{measurementName}' - Graph Results
+            </div>
             <div class="graph-container">
                 <div className='graph-width'>
                     <ResponsiveContainer width="100%" aspect={2}>
-                        <LineChart width={600} height={400} data={data}
+                        <LineChart width={600} height={500} data={data}
                             margin={{ top: 10, right: 20, left: 20, bottom: 20 }} >
 
                             <CartesianGrid strokeDasharray="4 3" /> {/* This values are the discontinuous lines, first are the black pixels and second are white pixels */}
                             <XAxis dataKey="raman_shift_cm" >
-                                <Label value="Raman Shift cm" position="bottom"/>
+                                <Label value="Raman Shift cm" position="bottom" />
                             </XAxis>
                             <YAxis label={{ value: 'Intensity', angle: -90, position: 'insideLeft' }} />
                             <Tooltip />
                             <Line type="monotone" dataKey="intensity_au" stroke="#8884d8" activeDot={{ r: 8 }} />
                             {/* <Line type="monotone" dataKey="intensity_au" stroke="#82ca9d" /> */}
-                            <Legend verticalAlign="top" height={36}/>
+                            <Legend verticalAlign="top" height={36} />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

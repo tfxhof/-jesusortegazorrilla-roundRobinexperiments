@@ -55,7 +55,7 @@ public interface IMeasurementController {
 	 * @throws ExecutionException
 	 */
 	@PostMapping
-	public ResponseEntity<Measurement> create(@RequestBody Measurement m) throws InterruptedException, ExecutionException;
+//	public ResponseEntity<Measurement> create(@RequestBody Measurement m) throws InterruptedException, ExecutionException;
 
 	/**
 	 * Delete an experiment

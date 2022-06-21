@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 import { CenterContext } from '../providers/CenterContext';
 import { ExpContext } from '../providers/ExperimentContext';
 
-export function AddInstrument() {
+export function AddParameter() {
 
   const [name, setName] = useState('');
   const [brand, setBrand] = useState('');
@@ -21,12 +21,11 @@ export function AddInstrument() {
   let navigate = useNavigate();
 
 
-  
+  let url = "http://localhost:8080/experiments/";
+  url = url.concat(String(expName));
+  url = url.concat("/measures/");
+
   async function handleClick() {
-    let url = "http://localhost:8080/measurements/";
-    url = url.concat(measurementName);
-    url = url.concat("/instruments");
-    
     const instrument = {
       name,
       brand,
@@ -42,7 +41,7 @@ export function AddInstrument() {
     })
 
     if (response.ok) {
-      console.log("Instrument Added ");
+      console.log("Parameter Added ");
       navigate('/ParticipantMeasurementOverview');
     } else {
       // TODO: advertise that there is already a center with given email or name
@@ -84,4 +83,4 @@ export function AddInstrument() {
   )
 }
 
-export default AddInstrument;
+export default AddParameter;

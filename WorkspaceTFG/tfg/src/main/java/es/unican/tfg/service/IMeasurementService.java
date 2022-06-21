@@ -23,7 +23,7 @@ public interface IMeasurementService {
 	 * @return the created exp or null if already exists an 
 	 * experiment with given name
 	 */
-	public Measurement create(Measurement exp);
+	public Measurement createMeasurement(Measurement exp, String mName);
 	
 	/**
 	 * modify an existing experiment

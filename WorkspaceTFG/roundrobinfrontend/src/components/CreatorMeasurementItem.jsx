@@ -4,24 +4,24 @@ import { ExpContext } from '../providers/ExperimentContext';
 import { CenterContext } from '../providers/CenterContext';
 import Button from '@mui/material/Button';
 
-export function MeasureItem({ measure }) {
+export function CreatorMeasurementItem({ measurement }) {
 
-    const { name, instructions } = measure;
+    const { name } = measurement;
     //this component subscribe to the context
     const { expName } = useContext(ExpContext);
     const { measureName, setMeasureName } = useContext(ExpContext);
     const { setMeasureInstructions } = useContext(ExpContext);
+    const { setMeasurementName } = useContext(ExpContext);
     const { centerEmail } = useContext(CenterContext);
 
     let navigate = useNavigate();
 
     //To check if actual center participates in the given measure and if true go to measurement view
-    async function measureClicked() {
-        setMeasureName(name);
-        setMeasureInstructions(instructions);
+    async function measurementClicked() {
+        setMeasurementName(name);
         
         
-        navigate("/MeasureOverview");
+        navigate("/CreatorMeasurementOverview");
         // Check that some measurement associated to 'clicked measure' has the given center asociated
         // let url = "http://localhost:8080/experiments/";
         // url = url.concat(String(expName));
@@ -41,15 +41,11 @@ export function MeasureItem({ measure }) {
     return (
 
         <Fragment>
-            <Button onClick={measureClicked} class="expBtn" style={{ width: "100%" }}>
+            <Button onClick={measurementClicked} class="expBtn" style={{ width: "100%" }}>
 
                 <div class="row align-items-center my-4 measure">
                     <div class="button-title">
                         <b>{name}</b>
-                    </div>
-                    <br />
-                    <div class="button-sub">
-                        {instructions}
                     </div>
                 </div>
 

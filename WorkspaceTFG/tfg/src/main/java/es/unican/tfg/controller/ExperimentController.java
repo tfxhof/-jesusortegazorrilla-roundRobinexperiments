@@ -25,6 +25,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import es.unican.tfg.DTOs.ExperimentDTO;
 import es.unican.tfg.DTOs.MeasureDTO;
 import es.unican.tfg.DTOs.MeasurementDTO;
+import es.unican.tfg.DTOs.ResultGraph;
+import es.unican.tfg.DTOs.ResultGraphItem;
 import es.unican.tfg.email.EmailSender;
 import es.unican.tfg.email.EmailService;
 import es.unican.tfg.model.Experiment;
@@ -380,8 +382,71 @@ public class ExperimentController {
 		return null;
 	}
 
+	@GetMapping("/{name}/measures/{mName}/measurements")
+	public ResponseEntity<List<MeasurementDTO>> getMeasurements(@PathVariable String name, @PathVariable String mName, 
+			@RequestParam(value="center", required=false) String centerName ){
+
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+
+		List<Measure> measures = e.getMeasures();
+		if (measures == null)
+			return ResponseEntity.notFound().build();
+
+		Measure m = measurementService.findMeasure(measures, mName);
+		if (m == null)
+			return ResponseEntity.notFound().build();
 
 
+		List <MeasurementDTO> measurements = new ArrayList<MeasurementDTO>();
+		if (m.getMeasurements() == null){
+			return ResponseEntity.notFound().build();
+		} else {
+			for(Measurement mea: m.getMeasurements()) {
+				if (centerName == null) {//If there is no filter by center
+					measurements.add(new MeasurementDTO(mea));
+				}
+				else { //If client wants to show measurements associated to given center
+					if (centerName.equals(mea.getExecutingCenter().getName())) {
+						measurements.add(new MeasurementDTO(mea));
+					}
+				}
+			}
+
+		}		
+		return ResponseEntity.ok(measurements);
+	}
+
+	@PostMapping("/{name}/measures/{mName}/measurements")
+	public ResponseEntity<MeasurementDTO> addMeasurement(@PathVariable String name, @PathVariable String mName, @RequestBody Measurement measurement){
+
+		ResearchCenter rc = centerService.researchCenterByEmail(measurement.getExecutingCenter().getEmail());
+		measurement.setExecutingCenter(rc);
+
+		//Check if exist an experiment with given name
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+
+		//Check if there are measures asociated to the experiment
+		List<Measure> measures = e.getMeasures();
+		if (measures == null)
+			return ResponseEntity.notFound().build();
+		//Check if exists a measure with given name
+		Measure m = measurementService.findMeasure(measures, mName);
+		if (m == null)
+			return ResponseEntity.notFound().build();
+
+		//Add the measurement
+		Measurement mea = measurementService.createMeasurement(measurement, mName);
+		if(mea == null) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
+		MeasurementDTO mDTO = new MeasurementDTO(mea);
+
+		return ResponseEntity.ok(mDTO);
+	}
 
 	/**
 	 * To check if the accesing center has any measurement assigned to this measure.
@@ -422,12 +487,57 @@ public class ExperimentController {
 
 		return ResponseEntity.ok(true);
 	}
-	
-	
-	@GetMapping("/{name}/measure/{name}/results")
-	public ResponseEntity<Byte[]> getResults (){
-		//TODO
-		return null;
+
+
+	@GetMapping("/{name}/measures/{measureName}/measurements/{measurementName}/results")
+	public ResponseEntity<ResultGraph> getResults (@PathVariable String name, @PathVariable String measureName, @PathVariable String measurementName){
+		//TODO:
+		//Check if the experiment exists
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+
+		//check if there are any measures for the given exp.
+		List<Measure> measures = e.getMeasures();
+		if (measures == null)
+			return ResponseEntity.notFound().build();
+		//check if given exp has a measure with given name
+		Measure m = measurementService.findMeasure(measures, measureName);
+		if(m == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+
+		//check if there is any measurement for the given measure.
+		List<Measurement> measurements = m.getMeasurements();
+		if (measurements == null)
+			return ResponseEntity.notFound().build();
+		//check if given measure has a measurement with given name
+		Measurement me = measurementService.findMeasurement(measurements, measurementName);
+		if(me == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		List<Result> results = me.getResults();
+		if (results == null)
+			return ResponseEntity.notFound().build();
+
+
+		List <ResultGraphItem> values = new ArrayList<ResultGraphItem>();
+
+		//Now i have to go over the file with the results and add them to the 'values' list 
+		for(Result r: results) {
+			System.out.println("Hola. ");
+		}
+
+		//this 4 lines (add) are only to try the comunication with redcharts front library
+		values.add(new ResultGraphItem(3, 5));
+		values.add(new ResultGraphItem(5, 7));
+		values.add(new ResultGraphItem(7, 10));
+		values.add(new ResultGraphItem(9, 3));
+
+		ResultGraph response = new ResultGraph("Raman", "Intensity", values);
+		return ResponseEntity.ok(response);
 	}
 
 

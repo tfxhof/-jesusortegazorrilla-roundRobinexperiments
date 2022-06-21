@@ -25,6 +25,7 @@ export function AddResult() {
 
   const { centerEmail, setCenterEmail } = useContext(CenterContext);
   const { expName, setExpName } = useContext(ExpContext);
+  const { measurementName, setMeasurementName } = useContext(ExpContext);
 
   let navigate = useNavigate();
 
@@ -45,13 +46,13 @@ export function AddResult() {
   //To handle the file upload
   //const [pdfFile, setPdfFile] = useState(null);
   const { register, handleSubmit } = useForm();
-  let url = "http://localhost:8080/experiments/";
-  url = url.concat(String(expName));
-  url = url.concat("/measures/Dureza/measurements/Madrid Dureza/results");
   //url = url.concat(String(expName));
-
-
+  
+  
   async function onSubmit(data) {
+    let url = "http://localhost:8080/measurements/";
+    url = url.concat(String(measurementName));
+    url = url.concat("/results");
     console.log(data);
     console.log(url);
 
@@ -87,7 +88,7 @@ export function AddResult() {
 
     <Fragment>
       <div class="page-titles">
-        Add result to '{expName}'
+        Add result to '{measurementName}'
       </div>
 
       {/* Call this method automatically when button is clicked */}

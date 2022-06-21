@@ -2,13 +2,17 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { ExpContext } from '../providers/ExperimentContext';
 import { Button } from '@material-ui/core';
 import { useNavigate } from 'react-router';
-import TextField from '@mui/material/TextField';
 import EditIcon from '@mui/icons-material/Edit';
+import { Paper } from '@material-ui/core';
+import CreatorMeasuresList from './CreatorMeasuresList';
 
 export function ExperimentOverview() {
 
+    const paperStyle = { padding: '20px', width: 'auto', margin: "20px auto" };
+
     const [experiment, setExperiment] = useState('');
     const [status, setStatus] = useState('');
+    const [experimentMeasures, setExperimentMeasures] = useState([]);
 
     const { expName } = useContext(ExpContext);
     const { expStatus, setExpStatus } = useContext(ExpContext);
@@ -71,6 +75,7 @@ export function ExperimentOverview() {
 
     }
 
+    //To get the experiment status
     useEffect(() => {
         let url = "http://localhost:8080/experiments/";
         url = url.concat(String(expName));
@@ -80,6 +85,20 @@ export function ExperimentOverview() {
             .then((result) => {
                 setExpStatus(result.status);
                 console.log(result.status);
+            }
+            )
+    }, [])
+
+
+    //To get the measures for the actual experiment
+    useEffect(() => {
+        let url = "http://localhost:8080/experiments/";
+        url = url.concat(String(expName));
+        url = url.concat("/measures");
+        fetch(url)
+            .then(res => res.json())
+            .then((result) => {
+                setExperimentMeasures(result);
             }
             )
     }, [])
@@ -115,7 +134,7 @@ export function ExperimentOverview() {
                     <div class="row my-4">
 
                         {/* To modify the experiment main info */}
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div className="column-title">
                                 {/* <h3 class="font-weight-light">EXPERIMENTS AS CREATOR</h3> */}
                                 <b>Experiment's Info</b>
@@ -176,7 +195,7 @@ export function ExperimentOverview() {
                         </div>
 
                         {/* To modify the experiment lists (add samples, test, participants...) */}
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div className="column-title">
                                 {/* <h3 class="font-weight-light">EXPERIMENTS AS CREATOR</h3> */}
                                 <b>Modify Experiment</b>
@@ -200,13 +219,24 @@ export function ExperimentOverview() {
                                 </Button>
                             </div>
 
-                            <div class="column-button">
-                                <Button variant="contained" className="buttons" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} 
-                                onClick={showResults}>
+                            {/* <div class="column-button">
+                                <Button variant="contained" className="buttons" style={{ backgroundColor: "red", color: "white", margin: "20px auto auto auto", width: "200px" }}
+                                    onClick={showResults}>
                                     Show Results
                                 </Button>
-                            </div>
+                            </div> */}
                         </div>
+
+                        {/* To show the experiment created measures */}
+                        <div class="col-lg-4">
+                            <div class="column-title">
+                                <b>Measures</b>
+                            </div>
+                            <Paper elevation={3} style={paperStyle}>
+                                <CreatorMeasuresList measures={experimentMeasures} />
+                            </Paper>
+                        </div>
+
                     </div>
 
                     <div class="row">

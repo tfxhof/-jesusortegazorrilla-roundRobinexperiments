@@ -4,7 +4,7 @@ import { ExpContext } from '../providers/ExperimentContext';
 import { CenterContext } from '../providers/CenterContext';
 import Button from '@mui/material/Button';
 
-export function MeasureItem({ measure }) {
+export function CreatorMeasureItem({ measure }) {
 
     const { name, instructions } = measure;
     //this component subscribe to the context
@@ -16,12 +16,12 @@ export function MeasureItem({ measure }) {
     let navigate = useNavigate();
 
     //To check if actual center participates in the given measure and if true go to measurement view
-    async function measureClicked() {
+    function measureClicked() {
         setMeasureName(name);
         setMeasureInstructions(instructions);
         
-        
-        navigate("/MeasureOverview");
+        navigate("/CreatorMeasureOverview");
+
         // Check that some measurement associated to 'clicked measure' has the given center asociated
         // let url = "http://localhost:8080/experiments/";
         // url = url.concat(String(expName));

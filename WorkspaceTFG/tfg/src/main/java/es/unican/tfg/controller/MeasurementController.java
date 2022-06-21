@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import es.unican.tfg.DTOs.MeasurementDTO;
 import es.unican.tfg.model.Instrument;
 import es.unican.tfg.model.Measurement;
 import es.unican.tfg.model.Parameter;
@@ -61,14 +62,14 @@ public class MeasurementController implements IMeasurementController{
 	}
 
 
-	@PostMapping
-	public ResponseEntity<Measurement> create(@RequestBody Measurement m) throws InterruptedException, ExecutionException {
-		Measurement me = measurementService.create(m);
-		if (me == null)
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-		return ResponseEntity.created(location).body(me);
-	}
+//	@PostMapping
+//	public ResponseEntity<Measurement> create(@RequestBody Measurement m) throws InterruptedException, ExecutionException {
+//		Measurement me = measurementService.createMeasurement(m);
+//		if (me == null)
+//			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+//		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+//		return ResponseEntity.created(location).body(me);
+//	}
 
 	
 	
@@ -79,9 +80,6 @@ public class MeasurementController implements IMeasurementController{
 			return ResponseEntity.notFound().build();
 		return ResponseEntity.ok(m);    	
 	}
-
-	
-	
 
 	@GetMapping("/{id}/results")
 	public ResponseEntity<List<Result>> getAllResults(Long id) {
@@ -107,6 +105,48 @@ public class MeasurementController implements IMeasurementController{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@PostMapping("/{name}/instruments")
+	public ResponseEntity<MeasurementDTO> addInstrument(@PathVariable String name, @RequestBody Instrument i){
+		
+		Measurement m = measurementService.findByName(name);
+		if (m == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		m.setInstrument(i);
+		measurementService.modifyMeasurement(m);
+		
+		return ResponseEntity.ok(new MeasurementDTO(m));
+	}
+
+	
+	@PostMapping("/{name}/results")
+	public ResponseEntity<MeasurementDTO> addResult(@PathVariable String name, @RequestBody Result r){
+		
+		//Check if the measurement exists in the database
+		Measurement m = measurementService.findByName(name);
+		if (m == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		//Dont need this SYSO, it is to try to see the uploaded file
+		System.out.println("File: " + r.getFile());
+		//To set if the result was successful or not
+		if (r.getSuccessful().equals("yes")) {
+			r.setSatisfactory(true);
+		} else 
+			r.setSatisfactory(false);
+		
+		
+		m.getResults().add(r);
+		measurementService.modifyMeasurement(m);
+		
+		return ResponseEntity.ok(new MeasurementDTO(m));
+	}
+	
+	
+	
 
 
 

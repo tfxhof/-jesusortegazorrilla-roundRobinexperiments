@@ -1,7 +1,18 @@
 import './App.css';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Navigation, Footer, Home, CreateExperiment, MeasurementOverview } from "./components";
+import { 
+  Navigation, 
+  Footer, 
+  Home, 
+  CreateExperiment, 
+  MeasureOverview, 
+  ParticipantMeasurementOverview, 
+  AddParameter, 
+  CreatorMeasureOverview, 
+  CreatorMeasurementOverview } from "./components";
+  
+
 //import { AppBar } from '@mui/material';
 //import Appbar from './components/Appbar';
 import SignUp from './components/SignUp';
@@ -49,8 +60,12 @@ function App() {
             <Route path="/ParticipantOverview" element={<ParticipantOverview />} />
             <Route path="/AddPersonalInfo" element={<AddPersonalInfo />} />
             <Route path="/AddInstrument" element={<AddInstrument />} />
+            <Route path="/AddParameter" element={<AddParameter />} />
             <Route path="/AddResult" element={<AddResult />} />
-            <Route path="/MeasurementOverview" element={<MeasurementOverview />} />
+            <Route path="/CreatorMeasureOverview" element={<CreatorMeasureOverview />} />
+            <Route path="/CreatorMeasurementOverview" element={<CreatorMeasurementOverview />} />
+            <Route path="/MeasureOverview" element={<MeasureOverview />} />
+            <Route path="/ParticipantMeasurementOverview" element={<ParticipantMeasurementOverview />} />
             <Route path="/SignUpParticipant" element={<SignUpParticipant />} />
             <Route path="/ConfirmParticipant" element={<ConfirmParticipant/>} />
             <Route path="/Results" element={<Results/>} />

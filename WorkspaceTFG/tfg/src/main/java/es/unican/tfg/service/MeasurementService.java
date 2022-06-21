@@ -34,6 +34,7 @@ public class MeasurementService implements IMeasurementService{
 		return measurementRepository.findByName(name);
 	}
 	
+	//check if given exp has a measure with given name
 	public Measure findMeasure(List<Measure> measures, String name) {
 		for (Measure m: measures) {
 			if (m.getName().equals(name)) {
@@ -43,10 +44,20 @@ public class MeasurementService implements IMeasurementService{
 		return null;
 	}
 	
-
-	public Measurement create(Measurement m) {	
-		if (measurementRepository.findById(m.getId()) == null)//if null it creates the experiment
-			return measurementRepository.save(m);
+	//check if given measure has a measurement with given name
+	public Measurement findMeasurement(List<Measurement> measurements, String name) {
+		for (Measurement m: measurements) {
+			if (m.getName().equals(name)) {
+				return m;
+			}
+		}
+		return null;
+	}
+	
+	public Measurement createMeasurement(Measurement m, String mName) {	
+		Measurement toAdd = new Measurement(m.getExecutingCenter(), mName, null, null, null, null);
+		if (measurementRepository.findByName(toAdd.getName()) == null)//if null it creates the experiment
+			return measurementRepository.save(toAdd);
 		return null;
 	}
 
