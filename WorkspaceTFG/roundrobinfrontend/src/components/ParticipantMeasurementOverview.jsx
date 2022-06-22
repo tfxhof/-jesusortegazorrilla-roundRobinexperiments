@@ -51,7 +51,7 @@ export function ParticipantMeasurementOverview() {
         <Fragment>
 
             <div class="page-titles">
-                '{measurementName}' - Measurement
+                ' {measurementName} ' - Measurement
             </div>
 
             <div>

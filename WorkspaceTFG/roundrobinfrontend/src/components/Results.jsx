@@ -1,189 +1,53 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { ExpContext } from '../providers/ExperimentContext';
-import { Button } from '@material-ui/core';
-import { useNavigate } from 'react-router';
-import TextField from '@mui/material/TextField';
-import EditIcon from '@mui/icons-material/Edit';
 import ResultGraph from './ResultGraph';
 
 export function Results() {
 
     const [experiment, setExperiment] = useState('');
     const [status, setStatus] = useState('');
+    const [xAxisName, setXAxisName] = useState('');
+    const [yAxisName, setYAxisName] = useState('');
+    const [resultGraphItem, setResultGraphItem] = useState('');
 
     const { expName } = useContext(ExpContext);
+    const { measureName } = useContext(ExpContext);
     const { expStatus, setExpStatus } = useContext(ExpContext);
-
-    let description = {
-        value: experiment.description,
-        isInEditMode: false
-    }
-
-    function changeEditMode() {
-        this.setDescription({
-            isInEditMode: !this.experiment.isInEditMode
-        });
-    }
+    const { measurementName } = useContext(ExpContext);
 
 
+    //To get the result data
     useEffect(() => {
         let url = "http://localhost:8080/experiments/";
-        url = url.concat(String(expName));
+        // url = url.concat(String(expName));
+        // url = url.concat("/measures/");
+        // url = url.concat(String(measureName));
+        // url = url.concat("/measurements/");
+        // url = url.concat(String(measurementName));
+        // url = url.concat("/results");
+
+        url = "http://localhost:8080/experiments/Resistencia del Carbono/measures/Dureza del Carbono/measurements/'Dureza del Carbono' in 'Universidad del Atlantico'/results"
         console.log(url);
         fetch(url)
             .then(res => res.json())
             .then((result) => {
-                setExperiment(result);
-                console.log(result);
-            }
-            )
-    }, [])
-
-    let navigate = useNavigate();
-
-    function addSample() {
-        navigate('/addSample');
-    }
-    function addMeasure() {
-        navigate('/addMeasure');
-    }
-    function addParticipant() {
-        navigate('/addParticipant');
-    }
-    function startExperiment() {
-        let url = "http://localhost:8080/experiments/";
-        url = url.concat(String(expName));
-        url = url.concat("/start");
-
-        fetch(url)
-            .then(res => res.json())
-            .then((result) => {
-                setExpStatus(result.status);
-                setExperiment(result);
-                console.log(result);
-            }
-            )
-    }
-
-    async function finishExperiment() {
-        let url = "http://localhost:8080/experiments/";
-        url = url.concat(String(expName));
-        url = url.concat("/finish");
-        console.log("URL de finish: ");
-        console.log(url);
-
-        fetch(url)
-            .then(res => res.json())
-            .then((result) => {
-                setExpStatus(result.status);
-                setExperiment(result);
-                console.log(result);
-            }
-            )
-
-    }
-
-    useEffect(() => {
-        let url = "http://localhost:8080/experiments/";
-        url = url.concat(String(expName));
-        console.log(url);
-        fetch(url)
-            .then(res => res.json())
-            .then((result) => {
-                setExpStatus(result.status);
-                console.log(result.status);
+                setXAxisName(result.xAxisName)
+                setYAxisName(result.yAxisName)
+                //Have to get the values that are retorned
             }
             )
     }, [])
 
 
-   
+
     return (
         <Fragment>
-
             <div class="page-titles">
-                '{expName}' Experiment
+                {/* '{measurementName}' - Graph Results */}
+                Descomentar titulo real
             </div>
 
-
-            <div>
-                <div class="container">
-                    <div class="row my-4">
-                        {/* To modify the experiment main info */}
-                        <div class="col-lg-6">
-                            <div className="column-title">
-                                {/* <h3 class="font-weight-light">EXPERIMENTS AS CREATOR</h3> */}
-                                <b>Experiment's Info</b>
-                            </div>
-                            <div class="experiment-title">
-                                <b>{experiment.name}</b>
-                            </div>
-                            <br></br>
-                            <div class="description">
-                                {experiment.description}
-                                <Button onClick={changeEditMode}>
-                                    <EditIcon />
-                                </Button>
-                            </div>
-
-                            <br></br>
-                            <div class="description">
-                                {experiment.status === "CREATED" ?
-                                    <Fragment>
-                                        <div>
-                                            Experiment Status:
-                                        </div>
-                                        <div>
-                                            {experiment.status}
-                                        </div>
-                                    </Fragment>
-                                    : null}
-                            </div>
-
-                            <br></br>
-                            <div class="description">
-                                {experiment.status === "STARTED" ?
-                                    <Fragment>
-                                        <div>
-                                            Experiment Status:
-                                        </div>
-                                        <div id='started-label'>
-                                            {experiment.status}
-                                        </div>
-                                    </Fragment>
-                                    : null}
-                            </div>
-
-                            <br></br>
-                            <div class="description">
-                                {experiment.status === "FINISHED" ?
-                                    <Fragment>
-                                        <div>
-                                            Experiment Status:
-                                        </div>
-                                        <div id='finished-label'>
-                                            {experiment.status}
-                                        </div>
-                                    </Fragment>
-                                    : null}
-                            </div>
-
-                        </div>
-
-                        {/* To modify the experiment lists (add samples, test, participants...) */}
-                        <div class="col-lg-6">
-                            <div className="column-title">
-                                <b>Results Graph</b>
-                            </div>
-
-                            <div className="graph-width">
-                                <ResultGraph />
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ResultGraph xAxisName={xAxisName} yAxisName={yAxisName} resultGraphItem="Hola"/>
 
 
         </Fragment >

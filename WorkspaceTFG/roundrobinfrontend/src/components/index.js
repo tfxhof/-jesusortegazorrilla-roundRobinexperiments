@@ -21,7 +21,7 @@ export { default as ResultGraph } from "./ResultGraph";
 
 
 //Participant
-export { default as MeasureOverview } from "./MeasureOverview";
+export { default as ParticipantMeasureOverview } from "./ParticipantMeasureOverview";
 export { default as ParticipantMeasurementOverview } from "./ParticipantMeasurementOverview";
 export { default as ParticipantOverview } from "./ParticipantOverview";
 export { default as AddPersonalInfo } from "./AddPersonalInfo";

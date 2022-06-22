@@ -139,6 +139,13 @@ public class ExperimentService implements IExperimentService{
 	}
 	
 	
+	public Measure modifyMeasure(Measure m) {
+		if (measureRepository.findById(m.getId()) == null)//if null it return null
+			return null;
+		return measureRepository.save(m);
+	}
+	
+	
 
 
 

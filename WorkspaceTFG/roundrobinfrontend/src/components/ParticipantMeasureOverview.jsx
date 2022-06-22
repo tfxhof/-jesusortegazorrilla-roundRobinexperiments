@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import { Paper } from '@material-ui/core';
 import ParticipantMeasurementsList from './ParticipantMeasurementsList';
 
-export function MeasureOverview() {
+export function ParticipantMeasureOverview() {
 
     const paperStyle = { padding: '20px', width: 'auto', margin: "20px auto" };
 
@@ -17,6 +17,7 @@ export function MeasureOverview() {
     const { expStatus } = useContext(ExpContext);
     const { measureName } = useContext(ExpContext);
     const { measureInstructions } = useContext(ExpContext);
+    const { measurementName, setMeasurementName } = useContext(ExpContext);
     const { centerName } = useContext(CenterContext);
     const { centerEmail } = useContext(CenterContext);
 
@@ -64,9 +65,7 @@ export function MeasureOverview() {
         console.log(url);
 
         const measurement = {
-            name: "nombre",
             measureName: measureName,
-
             executingCenter : {
                 email: centerEmail,
             },
@@ -81,6 +80,8 @@ export function MeasureOverview() {
         })
 
         if (response.ok) {
+            let json = await response.json();
+            setMeasurementName(json.name);
             navigate('/ParticipantMeasurementOverview');
         } else {
             // TODO: advertise that there is already a center with given email or name
@@ -139,8 +140,9 @@ export function MeasureOverview() {
                                 // To modify the experiment lists (add samples, test, participants...)
                                 <Fragment>
                                     <div className='column-button'>
-                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addMeasurement}>
-                                            Participate
+                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} 
+                                        onClick={addMeasurement}>
+                                            Make a measurement
                                         </Button>
                                     </div>
                                 </Fragment>
@@ -173,4 +175,4 @@ export function MeasureOverview() {
     )
 }
 
-export default MeasureOverview;
+export default ParticipantMeasureOverview;

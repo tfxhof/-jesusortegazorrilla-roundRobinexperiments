@@ -9,6 +9,7 @@ import es.unican.tfg.model.Measure;
 import es.unican.tfg.model.Measurement;
 import es.unican.tfg.model.ResearchCenter;
 import es.unican.tfg.model.Result;
+import es.unican.tfg.repository.MeasureRepository;
 import es.unican.tfg.repository.MeasurementRepository;
 import es.unican.tfg.repository.ResearchCenterRepository;
 import es.unican.tfg.repository.ResultRepository;
@@ -20,6 +21,9 @@ public class MeasurementService implements IMeasurementService{
 	private MeasurementRepository measurementRepository;
 
 	@Autowired
+	private MeasureRepository measureRepository;
+
+	@Autowired
 	private ResultRepository resultRepository;
 
 	public List<Measurement> findAll() {
@@ -29,11 +33,16 @@ public class MeasurementService implements IMeasurementService{
 	public Measurement findById(long id) {
 		return measurementRepository.findById(id).orElse(null);
 	}
-	
+
 	public Measurement findByName (String name) {
 		return measurementRepository.findByName(name);
 	}
-	
+
+	//
+	public Measure findMeasureByname(String name) {
+		return measureRepository.findByName(name);
+	}
+
 	//check if given exp has a measure with given name
 	public Measure findMeasure(List<Measure> measures, String name) {
 		for (Measure m: measures) {
@@ -43,7 +52,7 @@ public class MeasurementService implements IMeasurementService{
 		}
 		return null;
 	}
-	
+
 	//check if given measure has a measurement with given name
 	public Measurement findMeasurement(List<Measurement> measurements, String name) {
 		for (Measurement m: measurements) {
@@ -53,7 +62,7 @@ public class MeasurementService implements IMeasurementService{
 		}
 		return null;
 	}
-	
+
 	public Measurement createMeasurement(Measurement m, String mName) {	
 		Measurement toAdd = new Measurement(m.getExecutingCenter(), mName, null, null, null, null);
 		if (measurementRepository.findByName(toAdd.getName()) == null)//if null it creates the experiment
@@ -74,8 +83,8 @@ public class MeasurementService implements IMeasurementService{
 		measurementRepository.deleteById(m.getId());
 		return m;
 	}
-	
-	
+
+
 	public Result addResult(Result result) {
 		return resultRepository.save(result);
 	}

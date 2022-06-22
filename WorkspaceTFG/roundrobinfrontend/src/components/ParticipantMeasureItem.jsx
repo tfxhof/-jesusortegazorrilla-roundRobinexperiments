@@ -4,7 +4,7 @@ import { ExpContext } from '../providers/ExperimentContext';
 import { CenterContext } from '../providers/CenterContext';
 import Button from '@mui/material/Button';
 
-export function MeasureItem({ measure }) {
+export function ParticipantMeasureItem({ measure }) {
 
     const { name, instructions } = measure;
     //this component subscribe to the context
@@ -19,23 +19,7 @@ export function MeasureItem({ measure }) {
     async function measureClicked() {
         setMeasureName(name);
         setMeasureInstructions(instructions);
-        
-        
-        navigate("/MeasureOverview");
-        // Check that some measurement associated to 'clicked measure' has the given center asociated
-        // let url = "http://localhost:8080/experiments/";
-        // url = url.concat(String(expName));
-        // url = url.concat("/measures/");
-        // url = url.concat(name);
-        // url = url.concat("/centers/");
-        // url = url.concat(centerEmail);
-        // console.log(url)
-        // //url: experiments/{expName}/measures/{measureName}/centers/{centerEmail}
-        // let response = await fetch(url)
-        // if (response.ok) { // if HTTP-status is 200-299
-        //     let text = await response.text();
-        //     console.log(text);
-        // }
+        navigate("/ParticipantMeasureOverview");
     }
 
     return (

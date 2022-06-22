@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import { Paper } from '@material-ui/core';
 //import TextField from '@mui/material/TextField';
 //import EditIcon from '@mui/icons-material/Edit';
-import MeasuresList from './MeasuresList';
+import ParticipantMeasuresList from './ParticipantMeasuresList';
 
 export function ParticipantOverview() {
 
@@ -92,7 +92,7 @@ export function ParticipantOverview() {
                                 {/* <h3>Measures</h3> */}
                             </div>
                             <Paper elevation={3} style={paperStyle}>
-                                <MeasuresList measures={experimentMeasures} />
+                                <ParticipantMeasuresList measures={experimentMeasures} />
                             </Paper>
                         </div>
                     </div>

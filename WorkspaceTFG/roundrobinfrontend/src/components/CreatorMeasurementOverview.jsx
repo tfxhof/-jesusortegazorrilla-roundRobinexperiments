@@ -34,7 +34,7 @@ export function CreatorMeasurementOverview() {
     let navigate = useNavigate();
 
     function showResults() {
-        navigate('/ResultGraph');
+        navigate('/Results');
     }
 
 

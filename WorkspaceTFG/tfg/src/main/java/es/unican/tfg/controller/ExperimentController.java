@@ -421,8 +421,14 @@ public class ExperimentController {
 	@PostMapping("/{name}/measures/{mName}/measurements")
 	public ResponseEntity<MeasurementDTO> addMeasurement(@PathVariable String name, @PathVariable String mName, @RequestBody Measurement measurement){
 
+		System.out.println("Centro email: " + measurement.getExecutingCenter().getEmail());
+		System.out.println("Nombre falso: " + measurement.getName());
+		System.out.println("Nombre Measure real: " + measurement.getMeasureName());
+		
 		ResearchCenter rc = centerService.researchCenterByEmail(measurement.getExecutingCenter().getEmail());
 		measurement.setExecutingCenter(rc);
+		
+
 
 		//Check if exist an experiment with given name
 		Experiment e = experimentService.experimentByName(name);
@@ -443,6 +449,12 @@ public class ExperimentController {
 		if(mea == null) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
+		
+		//To associate the measurement with the measure in database
+		Measure measure = measurementService.findMeasureByname(mName);
+		measure.getMeasurements().add(mea);
+		experimentService.modifyMeasure(measure);
+		
 		MeasurementDTO mDTO = new MeasurementDTO(mea);
 
 		return ResponseEntity.ok(mDTO);
@@ -506,7 +518,6 @@ public class ExperimentController {
 		if(m == null) {
 			return ResponseEntity.notFound().build();
 		}
-
 
 		//check if there is any measurement for the given measure.
 		List<Measurement> measurements = m.getMeasurements();
