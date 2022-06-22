@@ -8,7 +8,7 @@ export function Results() {
     const [status, setStatus] = useState('');
     const [xAxisName, setXAxisName] = useState('');
     const [yAxisName, setYAxisName] = useState('');
-    const [resultGraphItem, setResultGraphItem] = useState('');
+    const [values, setValues] = useState('');
 
     const { expName } = useContext(ExpContext);
     const { measureName } = useContext(ExpContext);
@@ -27,12 +27,12 @@ export function Results() {
         // url = url.concat("/results");
 
         url = "http://localhost:8080/experiments/Resistencia del Carbono/measures/Dureza del Carbono/measurements/'Dureza del Carbono' in 'Universidad del Atlantico'/results"
-        console.log(url);
         fetch(url)
             .then(res => res.json())
             .then((result) => {
                 setXAxisName(result.xAxisName)
                 setYAxisName(result.yAxisName)
+                setValues(result.values)
                 //Have to get the values that are retorned
             }
             )
@@ -47,7 +47,7 @@ export function Results() {
                 Descomentar titulo real
             </div>
 
-            <ResultGraph xAxisName={xAxisName} yAxisName={yAxisName} resultGraphItem="Hola"/>
+            <ResultGraph xAxisName={xAxisName} yAxisName={yAxisName} values={values} />
 
 
         </Fragment >

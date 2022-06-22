@@ -546,6 +546,11 @@ public class ExperimentController {
 		values.add(new ResultGraphItem(5, 7));
 		values.add(new ResultGraphItem(7, 10));
 		values.add(new ResultGraphItem(9, 3));
+		values.add(new ResultGraphItem(11, 1));
+		values.add(new ResultGraphItem(13, 1));
+		values.add(new ResultGraphItem(15, 1));
+		values.add(new ResultGraphItem(17, 15));
+		values.add(new ResultGraphItem(50, 50));
 
 		ResultGraph response = new ResultGraph("Raman", "Intensity", values);
 		return ResponseEntity.ok(response);
