@@ -1,0 +1,4 @@
+- Este hook nos permite agregar efectos secundarios a un componente funcional dado, es decir,
+ nos permite realizar modificaciones en nuestra lógica una vez se haya realizado el renderizado.
+
+-
