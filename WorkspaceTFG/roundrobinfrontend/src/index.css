@@ -45,22 +45,46 @@ code {
   margin-bottom: 20px;
 }
 
-#started-label{
+#started-label {
   color: green;
 }
 
-#finished-label{
+#finished-label {
   color: rgb(145, 11, 11);
 }
 
+#result-name{
+  text-align: center;
+  font-size: 25px;
+  padding: 0px;
+  padding-top: 20px;
+}
+
 @media (min-width: 1200px) {
-  
+
   .container {
     max-width: 85%;
   }
 
   .graph-container {
-    max-width: 100%; 
+    max-width: 100%;
+  }
+
+  .result-container {
+    max-width: 95%;
+    justify-content: center;
+    align-items: center;
+  }
+  .center-vertical{
+    vertical-align: middle;
+  }
+
+  .button-left {
+    padding-left: 20px;
+  }
+
+  .button-right {
+    padding-right: 20px;
   }
 
   .navigation {
@@ -70,6 +94,10 @@ code {
   .bg-footer {
     position: fixed-bottom;
     background-color: #272727;
+  }
+
+  .button-right {
+    padding-right: 20px;
   }
 
   .nav-link {
@@ -94,6 +122,9 @@ code {
 
   .columns {
     align-items: flex-start;
+  }
+  .columns-center-vertical {
+    align-items: center;
   }
 
   .experiment-title {
@@ -180,7 +211,7 @@ code {
     height: fit-content;
   }
 
-  .button-create-experiment{
+  .button-create-experiment {
     text-align: center;
     margin-top: 50px;
   }
@@ -224,10 +255,10 @@ code {
     color: #000000;
   }
 
-  .graph-width{
+  .graph-width {
     width: 70%;
     /* To center use this line below */
-    display: inline-block; 
+    display: inline-block;
     margin-top: 20px;
     margin-left: 0px;
   }

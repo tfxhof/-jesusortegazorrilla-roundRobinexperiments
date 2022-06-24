@@ -206,11 +206,11 @@ public class MeasurementController implements IMeasurementController{
 		}
 
 		List<Result> results = m.getResults();
-		if (results == null || results.size() < resultGraphNum)
+		if (results == null || results.size() <= (resultGraphNum))
 			return ResponseEntity.notFound().build();
 
+		String resultName = results.get(resultGraphNum).getName();
 		ResultFile file = results.get(resultGraphNum).getFile();
-		//ResultFile file = resultFileService.getFile(2); //Change this 2 for 'id'
 
 		File tmpFile = File.createTempFile("temp", ".csv");
 		String absolutePath = tmpFile.getAbsolutePath();
@@ -224,7 +224,7 @@ public class MeasurementController implements IMeasurementController{
 		}
 		
 		//To read the file and generate a ResultGraph which contains the values to draw the graphic
-		ResultGraph rg = measurementService.csvReader(absolutePath);
+		ResultGraph rg = measurementService.csvReader(absolutePath, resultName);
 
 		return ResponseEntity.ok(rg);
 	}

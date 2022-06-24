@@ -506,63 +506,6 @@ public class ExperimentController {
 //		return ResponseEntity.ok(r);
 //	}
 
-	
-	
-	
-	@GetMapping("/{name}/measures/{measureName}/measurements/{measurementName}/results")
-	public ResponseEntity<ResultGraph> getResults (@PathVariable String name, @PathVariable String measureName, @PathVariable String measurementName){
-		//TODO:
-		//Check if the experiment exists
-		Experiment e = experimentService.experimentByName(name);
-		if (e == null)
-			return ResponseEntity.notFound().build();
-
-		//check if there are any measures for the given exp.
-		List<Measure> measures = e.getMeasures();
-		if (measures == null)
-			return ResponseEntity.notFound().build();
-		//check if given exp has a measure with given name
-		Measure m = measurementService.findMeasure(measures, measureName);
-		if(m == null) {
-			return ResponseEntity.notFound().build();
-		}
-
-		//check if there is any measurement for the given measure.
-		List<Measurement> measurements = m.getMeasurements();
-		if (measurements == null)
-			return ResponseEntity.notFound().build();
-		//check if given measure has a measurement with given name
-		Measurement me = measurementService.findMeasurement(measurements, measurementName);
-		if(me == null) {
-			return ResponseEntity.notFound().build();
-		}
-
-		List<Result> results = me.getResults();
-		if (results == null)
-			return ResponseEntity.notFound().build();
-
-
-		List <ResultGraphItem> values = new ArrayList<ResultGraphItem>();
-
-		//Now i have to go over the file with the results and add them to the 'values' list 
-		for(Result r: results) {
-			System.out.println("Hola. ");
-		}
-
-		//this 4 lines (add) are only to try the comunication with redcharts front library
-		values.add(new ResultGraphItem(3, 5));
-		values.add(new ResultGraphItem(5, 7));
-		values.add(new ResultGraphItem(7, 10));
-		values.add(new ResultGraphItem(9, 3));
-		values.add(new ResultGraphItem(11, 1));
-		values.add(new ResultGraphItem(13, 1));
-		values.add(new ResultGraphItem(15, 1));
-		values.add(new ResultGraphItem(17, 15));
-		values.add(new ResultGraphItem(50, 50));
-
-		ResultGraph response = new ResultGraph("Raman", "Intensity", values);
-		return ResponseEntity.ok(response);
-	}
 
 
 }

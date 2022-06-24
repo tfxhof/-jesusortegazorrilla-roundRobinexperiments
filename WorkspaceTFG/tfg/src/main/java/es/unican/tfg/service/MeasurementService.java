@@ -100,7 +100,7 @@ public class MeasurementService implements IMeasurementService{
 	}
 	
 	
-	public ResultGraph csvReader (String absolutePath) throws IOException {
+	public ResultGraph csvReader (String absolutePath, String resultName) throws IOException {
 		Reader reader = new FileReader(absolutePath);
 		CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreHeaderCase().withTrim());
 
@@ -141,7 +141,7 @@ public class MeasurementService implements IMeasurementService{
 			}
 		}
 
-		return new ResultGraph(xAxisName, yAxisName, values);
+		return new ResultGraph(resultName, xAxisName, yAxisName, values);
 	}
 
 

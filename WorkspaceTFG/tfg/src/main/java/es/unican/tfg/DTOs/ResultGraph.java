@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ResultGraph {
 
+	private String resultName;
 	private String xAxisName;
 	private String yAxisName;
 	private List<ResultGraphItem> values = new ArrayList<ResultGraphItem>();
@@ -15,8 +16,9 @@ public class ResultGraph {
 	 * @param yAxisName Y axis name
 	 * @param values: list of values of both axis
 	 */
-	public ResultGraph(String xAxisName, String yAxisName, List<ResultGraphItem> values) {
+	public ResultGraph(String resultName, String xAxisName, String yAxisName, List<ResultGraphItem> values) {
 		super();
+		this.resultName = resultName;
 		this.xAxisName = xAxisName;
 		this.yAxisName = yAxisName;
 		this.values = values;
@@ -46,5 +48,15 @@ public class ResultGraph {
 	public void setValues(List<ResultGraphItem> values) {
 		this.values = values;
 	}
+
+
+	public String getResultName() {
+		return resultName;
+	}
+
+	public void setResultName(String resultName) {
+		this.resultName = resultName;
+	}
+	
 	
 }
