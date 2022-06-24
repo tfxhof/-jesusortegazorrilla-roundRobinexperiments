@@ -87,7 +87,7 @@ export function CreatorMeasurementOverview() {
                                 // To modify the experiment lists (add samples, test, participants...)
                                 <Fragment>
                                     <div className='column-button'>
-                                        <Button variant="contained" style={{ backgroundColor: "red", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={showResults}>
+                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={showResults}>
                                             Show result
                                         </Button>
                                     </div>

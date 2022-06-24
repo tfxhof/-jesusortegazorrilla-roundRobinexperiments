@@ -115,7 +115,11 @@ export function AddResult() {
     setProgress(0);
     setCurrentFile(currentFile);
 
-    console.log("probando")
+    //Keep only the extension, no matter if there are more dots in the file name
+    let extension = currentFile.name.split('.').pop();
+    if(!(extension === "csv" || extension === "xlsx" || extension === "xls")) {
+      return;
+    }
 
     // let response = await fetch("http://localhost:8080/measurements/a/results/files", {
     //   method: 'POST',
@@ -132,23 +136,6 @@ export function AddResult() {
     console.log("Response de vuelta");
     console.log(response);
     await onSubmit(response);
-    
-    //   .then((response) => {
-    //     setMessage(response.data.message);
-    //     console.log("Respuesta del post:")
-    //     console.log(response)
-    //     onSubmit(response);
-    //   })
-
-    //   .then((files) => {
-    //   setFileInfos(files.data);
-    // })
-    //   .catch(() => {
-    //     setProgress(0);
-    //     setMessage("Could not upload the file!");
-    //     setCurrentFile(undefined);
-    //   });
-
       if (response.ok) {
         console.log("Respuesta del post:")
         console.log(response)
