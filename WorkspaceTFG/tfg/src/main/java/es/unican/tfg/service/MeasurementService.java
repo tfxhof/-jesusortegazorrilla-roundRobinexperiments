@@ -122,8 +122,8 @@ public class MeasurementService implements IMeasurementService{
 			//	break;
 
 			if(nameStored == false) {
-				xAxisName = csvRecord.get(0);
-				yAxisName = csvRecord.get(1);
+				xAxisName = csvRecord.get(0).replace("_", " ").replace("-", " ");
+				yAxisName = csvRecord.get(1).replace("_", " ").replace("-", " ");
 				nameStored = true;
 			} else {
 				if(csvRecord.get(0).length() >= 5) {
@@ -138,7 +138,6 @@ public class MeasurementService implements IMeasurementService{
 					yValue = Double.parseDouble(csvRecord.get(1));										
 				}
 				values.add(new ResultGraphItem(xValue, yValue));
-
 			}
 		}
 

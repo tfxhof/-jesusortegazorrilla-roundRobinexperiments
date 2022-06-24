@@ -198,7 +198,7 @@ public class MeasurementController implements IMeasurementController{
 
 	//For the moment it return only 1 result but will have to return more
 	@GetMapping("/{name}/results")
-	public ResponseEntity<ResultGraph> getResult(@PathVariable String name/*, @PathVariable long id*/) throws IOException {
+	public ResponseEntity<ResultGraph> getResult(@PathVariable String name/*, @PathVariable long id*/, @RequestParam(value="resultGraphNum", required=true) int resultGraphNum) throws IOException {
 
 		Measurement m = measurementService.findByName(name);
 		if (m == null) {
@@ -206,10 +206,11 @@ public class MeasurementController implements IMeasurementController{
 		}
 
 		List<Result> results = m.getResults();
-		if (results == null)
+		if (results == null || results.size() < resultGraphNum)
 			return ResponseEntity.notFound().build();
 
-		ResultFile file = resultFileService.getFile(2); //Change this 2 for 'id'
+		ResultFile file = results.get(resultGraphNum).getFile();
+		//ResultFile file = resultFileService.getFile(2); //Change this 2 for 'id'
 
 		File tmpFile = File.createTempFile("temp", ".csv");
 		String absolutePath = tmpFile.getAbsolutePath();

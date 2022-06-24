@@ -9,11 +9,13 @@ export function Results() {
     const [xAxisName, setXAxisName] = useState('');
     const [yAxisName, setYAxisName] = useState('');
     const [values, setValues] = useState('');
+    const [graphNum, setGraphNum] = useState(0);
 
     const { expName } = useContext(ExpContext);
     const { measureName } = useContext(ExpContext);
     const { expStatus, setExpStatus } = useContext(ExpContext);
     const { measurementName } = useContext(ExpContext);
+    
 
 
     //To get the result data
@@ -26,7 +28,11 @@ export function Results() {
         // url = url.concat(String(measurementName));
         // url = url.concat("/results");
 
-        url = "http://localhost:8080/experiments/Resistencia del Carbono/measures/Dureza del Carbono/measurements/'Dureza del Carbono' in 'Universidad del Atlantico'/results"
+        url = "http://localhost:8080/measurements/"
+        url = url.concat(measurementName)
+        url = url.concat("/results?resultGraphNum=")
+        url = url.concat(graphNum)
+        //http://localhost:8080/measurements/'Dureza del Carbono' in 'Universidad del Atlantico'/results?resultGraphNum=0
         fetch(url)
             .then(res => res.json())
             .then((result) => {
@@ -37,6 +43,10 @@ export function Results() {
             }
             )
     }, [])
+
+    function loadGraph(){
+        return 1;
+    }
 
 
 
