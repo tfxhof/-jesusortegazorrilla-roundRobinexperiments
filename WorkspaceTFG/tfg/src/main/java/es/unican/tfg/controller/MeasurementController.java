@@ -1,9 +1,22 @@
 package es.unican.tfg.controller;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,6 +35,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.unican.tfg.DTOs.MeasurementDTO;
+import es.unican.tfg.DTOs.ResultGraph;
+import es.unican.tfg.DTOs.ResultGraphItem;
 import es.unican.tfg.model.Instrument;
 import es.unican.tfg.model.Measurement;
 import es.unican.tfg.model.Parameter;
@@ -88,14 +103,14 @@ public class MeasurementController implements IMeasurementController{
 		return ResponseEntity.ok(m);    	
 	}
 
-	@GetMapping("/{id}/results")
-	public ResponseEntity<List<Result>> getAllResults(Long id) {
-		Measurement measurement = measurementService.findById(id);
-		if (measurement == null || measurement.getResults() == null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(measurement.getResults());
-	}
+	//	@GetMapping("/{id}/results")
+	//	public ResponseEntity<List<Result>> getAllResults(Long id) {
+	//		Measurement measurement = measurementService.findById(id);
+	//		if (measurement == null || measurement.getResults() == null) {
+	//			return ResponseEntity.notFound().build();
+	//		}
+	//		return ResponseEntity.ok(measurement.getResults());
+	//	}
 
 	@GetMapping("/{id}/parameters")
 	public ResponseEntity<List<Parameter>> getAllParamenters(Long id) {
@@ -171,9 +186,9 @@ public class MeasurementController implements IMeasurementController{
 		System.out.println("Result Comments: " + r.getComments());
 		System.out.println("Result Successful: " + r.isSatisfactory());
 		System.out.println("Result File Name: " + r.getFile().getName());
-		
+
 		//Esta en cascade pero igual hay que añadir el resultado a la BBDD antes
-		
+
 		m.getResults().add(r);
 		measurementService.modifyMeasurement(m);
 
@@ -181,12 +196,36 @@ public class MeasurementController implements IMeasurementController{
 	}
 
 
-	@GetMapping("/{name}/results/files/{id}")
-	public ResponseEntity<byte[]> getFile(@PathVariable long id) {
-		ResultFile file = resultFileService.getFile(id);
-		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
-				.body(file.getData());
+	//For the moment it return only 1 result but will have to return more
+	@GetMapping("/{name}/results")
+	public ResponseEntity<ResultGraph> getResult(@PathVariable String name/*, @PathVariable long id*/) throws IOException {
+
+		Measurement m = measurementService.findByName(name);
+		if (m == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		List<Result> results = m.getResults();
+		if (results == null)
+			return ResponseEntity.notFound().build();
+
+		ResultFile file = resultFileService.getFile(2); //Change this 2 for 'id'
+
+		File tmpFile = File.createTempFile("temp", ".csv");
+		String absolutePath = tmpFile.getAbsolutePath();
+		System.out.println("File path: " + absolutePath);
+
+		//To write the byte[] to the tmp file
+		try (FileOutputStream fileOuputStream = new FileOutputStream(tmpFile)){
+			fileOuputStream.write(file.getData());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//To read the file and generate a ResultGraph which contains the values to draw the graphic
+		ResultGraph rg = measurementService.csvReader(absolutePath);
+
+		return ResponseEntity.ok(rg);
 	}
 
 

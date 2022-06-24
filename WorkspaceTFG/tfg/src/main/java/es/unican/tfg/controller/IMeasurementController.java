@@ -66,13 +66,13 @@ public interface IMeasurementController {
 	public ResponseEntity<Measurement> delete(@PathVariable Long id);
 
 
-	
-	/**
-	 * @param id of the measurement which you want to get results from
-	 * @return
-	 */
-	@GetMapping("/{id}/results")
-	public ResponseEntity<List<Result>> getAllResults(@PathVariable Long id);
+//	
+//	/**
+//	 * @param id of the measurement which you want to get results from
+//	 * @return
+//	 */
+//	@GetMapping("/{id}/results")
+//	public ResponseEntity<List<Result>> getAllResults(@PathVariable Long id);
 	
 	
 	

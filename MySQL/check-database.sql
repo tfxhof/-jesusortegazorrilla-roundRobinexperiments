@@ -8,7 +8,7 @@ select * from experiment;
 select * from research_center;
 select * from instrument;
 select * from measure;
-select * from measurement; 
+select * from measurement;
 
 delete from measurement where id = "7";
 

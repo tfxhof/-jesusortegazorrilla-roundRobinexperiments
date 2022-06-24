@@ -472,39 +472,39 @@ public class ExperimentController {
 	
 	
 	
-	@PostMapping("/{expName}/measures/{measureName}/measurements/{measurementName}/results")
-	public ResponseEntity<Result> addResult(@PathVariable String expName, 
-			@PathVariable String measureName, 
-			@PathVariable String measurementName, 
-			@RequestBody Result result){
-
-		if (result.getSuccessful().equals("yes")) {
-			result.setSatisfactory(true);
-		} else 
-			result.setSatisfactory(false);			
-
-		
-		
-
-		Experiment e = experimentService.experimentByName(expName);
-		if (e == null)
-			return ResponseEntity.notFound().build();
-
-		Measure m = experimentService.measureByNameAndExperiment(e, measureName);
-		if (m == null)
-			return ResponseEntity.notFound().build();
-
-		Measurement me = experimentService.measurementByNameAndMeasure(m, measurementName);
-		if (me == null)
-			return ResponseEntity.notFound().build();
-
-		Result r = measurementService.addResult(result);
-		me = measurementService.findByName(measurementName);
-		me.getResults().add(r);
-		measurementService.modifyMeasurement(me);
-
-		return ResponseEntity.ok(r);
-	}
+//	@PostMapping("/{expName}/measures/{measureName}/measurements/{measurementName}/results")
+//	public ResponseEntity<Result> addResult(@PathVariable String expName, 
+//			@PathVariable String measureName, 
+//			@PathVariable String measurementName, 
+//			@RequestBody Result result){
+//
+//		if (result.getSuccessful().equals("yes")) {
+//			result.setSatisfactory(true);
+//		} else 
+//			result.setSatisfactory(false);			
+//
+//		
+//		
+//
+//		Experiment e = experimentService.experimentByName(expName);
+//		if (e == null)
+//			return ResponseEntity.notFound().build();
+//
+//		Measure m = experimentService.measureByNameAndExperiment(e, measureName);
+//		if (m == null)
+//			return ResponseEntity.notFound().build();
+//
+//		Measurement me = experimentService.measurementByNameAndMeasure(m, measurementName);
+//		if (me == null)
+//			return ResponseEntity.notFound().build();
+//
+//		Result r = measurementService.addResult(result);
+//		me = measurementService.findByName(measurementName);
+//		me.getResults().add(r);
+//		measurementService.modifyMeasurement(me);
+//
+//		return ResponseEntity.ok(r);
+//	}
 
 	
 	

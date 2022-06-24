@@ -1,10 +1,20 @@
 package es.unican.tfg.service;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.unican.tfg.DTOs.ResultGraph;
+import es.unican.tfg.DTOs.ResultGraphItem;
 import es.unican.tfg.model.Measure;
 import es.unican.tfg.model.Measurement;
 import es.unican.tfg.model.ResearchCenter;
@@ -87,6 +97,52 @@ public class MeasurementService implements IMeasurementService{
 
 	public Result addResult(Result result) {
 		return resultRepository.save(result);
+	}
+	
+	
+	public ResultGraph csvReader (String absolutePath) throws IOException {
+		Reader reader = new FileReader(absolutePath);
+		CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreHeaderCase().withTrim());
+
+		String xAxisName = null;
+		String yAxisName = null;
+
+		List <ResultGraphItem> values = new ArrayList<ResultGraphItem>();
+
+		boolean nameStored = false;
+		//String specialChars = "!@#$%&*()'+-/:;<=>?[]^_`{|}";
+		//boolean check = false;
+		double xValue = 0;
+		double yValue = 0;
+
+		//iterate the file
+		for (CSVRecord csvRecord: csvParser) {
+			//To check if current line begin with especial characters such as '########'
+			//if (specialChars.contains(Character.toString(csvRecord.get(0).charAt(0))))
+			//	break;
+
+			if(nameStored == false) {
+				xAxisName = csvRecord.get(0);
+				yAxisName = csvRecord.get(1);
+				nameStored = true;
+			} else {
+				if(csvRecord.get(0).length() >= 5) {
+					xValue = Double.parseDouble(csvRecord.get(0).substring(0, 5));
+				}else {
+					xValue = Double.parseDouble(csvRecord.get(0));					
+				}
+
+				if(csvRecord.get(1).length() >= 5) {
+					yValue = Double.parseDouble(csvRecord.get(1).substring(0, 5));					
+				} else {
+					yValue = Double.parseDouble(csvRecord.get(1));										
+				}
+				values.add(new ResultGraphItem(xValue, yValue));
+
+			}
+		}
+
+		return new ResultGraph(xAxisName, yAxisName, values);
 	}
 
 
