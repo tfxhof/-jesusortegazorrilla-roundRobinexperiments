@@ -110,7 +110,7 @@ export function ParticipantMeasurementOverview() {
                                         </Button>
                                     </div>
                                     <div className='column-button'>
-                                        <Button variant="contained" style={{ backgroundColor: "red", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addResult}>
+                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addResult}>
                                             ADD RESULT
                                         </Button>
                                     </div>

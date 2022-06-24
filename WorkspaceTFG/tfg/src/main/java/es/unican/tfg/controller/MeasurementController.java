@@ -132,8 +132,8 @@ public class MeasurementController implements IMeasurementController{
 	 * @param file
 	 * @return
 	 */
-	@PostMapping("/{name}/results/files")
-	public ResponseEntity<Long> addResultFile(@PathVariable String name, @RequestParam("file") MultipartFile file){
+	@PostMapping("/resultfiles")
+	public ResponseEntity<Long> addResultFile(@RequestParam("file") MultipartFile file){
 		try {
 			ResultFile r = resultFileService.store(file);
 			return ResponseEntity.ok(r.getId());
@@ -144,18 +144,6 @@ public class MeasurementController implements IMeasurementController{
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
 		}
 	}
-
-
-
-	@GetMapping("/{name}/results/files/{id}")
-	public ResponseEntity<byte[]> getFile(@PathVariable long id) {
-		ResultFile file = resultFileService.getFile(id);
-		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
-				.body(file.getData());
-	}
-
-
 
 
 	@PostMapping("/{name}/results")
@@ -193,6 +181,13 @@ public class MeasurementController implements IMeasurementController{
 	}
 
 
+	@GetMapping("/{name}/results/files/{id}")
+	public ResponseEntity<byte[]> getFile(@PathVariable long id) {
+		ResultFile file = resultFileService.getFile(id);
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+				.body(file.getData());
+	}
 
 
 

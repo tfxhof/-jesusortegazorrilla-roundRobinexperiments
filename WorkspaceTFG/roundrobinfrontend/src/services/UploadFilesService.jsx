@@ -4,9 +4,8 @@ import http from "../http-common";
 async function upload (file, onUploadProgress) {
     let formData = new FormData();
     formData.append("file", file);
-    let url = "/measurements/";
-    url = url.concat("a");
-    url = url.concat("/results/files");
+    let url = "/measurements";
+    url = url.concat("/resultfiles");
 
     const res = await http.post(url, formData, {
         headers: {
