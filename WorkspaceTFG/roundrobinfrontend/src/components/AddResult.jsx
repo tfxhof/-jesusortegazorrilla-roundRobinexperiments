@@ -16,12 +16,25 @@ import { CenterContext } from '../providers/CenterContext';
 import { ExpContext } from '../providers/ExperimentContext';
 
 
+import UploadFiles from "./UploadFiles";
+import UploadService from "../services/UploadFilesService";
+import { AlignHorizontalLeft } from '@mui/icons-material';
+
+
 
 export function AddResult() {
 
   const [name, setName] = useState('');
   const [comments, setComments] = useState('');
   const [sampleCode, setSampleCode] = useState('');
+
+  //For file uploading
+  const [selectedFiles, setSelectedFiles] = useState(undefined);
+  const [currentFile, setCurrentFile] = useState(undefined);
+  const [progress, setProgress] = useState(0);
+  const [message, setMessage] = useState("");
+  const [fileInfos, setFileInfos] = useState([]);
+
 
   const { centerEmail, setCenterEmail } = useContext(CenterContext);
   const { expName, setExpName } = useContext(ExpContext);
@@ -47,13 +60,14 @@ export function AddResult() {
   //const [pdfFile, setPdfFile] = useState(null);
   const { register, handleSubmit } = useForm();
   //url = url.concat(String(expName));
-  
-  
-  async function onSubmit(data) {
+
+
+  async function onSubmit(id) {
     let url = "http://localhost:8080/measurements/";
     url = url.concat(String(measurementName));
     url = url.concat("/results");
-    console.log(data);
+    console.log("id:");
+    console.log(id);
     console.log(url);
 
     // const storageRef = app.storage().ref();
@@ -62,9 +76,9 @@ export function AddResult() {
       name,
       comments,
       successful: values.satisfactory,
-      file: data.file[0] //Dont know if this is correct
+      fileId: id,
+      //fileString: String(data.file[0]), //Dont know if this is correct
     }
-    console.log(result.successful);
 
     let response = await fetch(url, {
       method: "POST",
@@ -76,13 +90,76 @@ export function AddResult() {
 
     if (response.ok) {
       console.log("Result Added");
-      navigate('/ParticipantOverview');
+      navigate("/ParticipantMeasurementOverview")
     } else {
       console.log(result.file);
       console.log("Cannot add Result");
     }
 
   }
+
+  function onChange(e) {
+    let files = e.target.files;
+    console.warm("data file: ", files);
+  }
+
+  const selectFile = (event) => {
+    setSelectedFiles(event.target.files);
+  };
+
+  /**
+   * To upload ONLY FILE(BLOB) & NAME to Database
+   */
+  async function upload() {
+    let currentFile = selectedFiles[0];
+    setProgress(0);
+    setCurrentFile(currentFile);
+
+    console.log("probando")
+
+    // let response = await fetch("http://localhost:8080/measurements/a/results/files", {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json;charset=utf-8'
+    //   },
+    //   body: formData
+    // });
+
+    let response = await UploadService.upload(currentFile, (event) => {
+      setProgress(Math.round((100 * event.loaded) / event.total));
+    })
+
+    console.log("Response de vuelta");
+    console.log(response);
+    await onSubmit(response);
+    
+    //   .then((response) => {
+    //     setMessage(response.data.message);
+    //     console.log("Respuesta del post:")
+    //     console.log(response)
+    //     onSubmit(response);
+    //   })
+
+    //   .then((files) => {
+    //   setFileInfos(files.data);
+    // })
+    //   .catch(() => {
+    //     setProgress(0);
+    //     setMessage("Could not upload the file!");
+    //     setCurrentFile(undefined);
+    //   });
+
+      if (response.ok) {
+        console.log("Respuesta del post:")
+        console.log(response)
+        onSubmit(response);  
+      }
+    setSelectedFiles(undefined);
+  };
+
+
+
+
 
   return (
 
@@ -91,16 +168,15 @@ export function AddResult() {
         Add result to '{measurementName}'
       </div>
 
+
       {/* Call this method automatically when button is clicked */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '60%' }, }} noValidate autoComplete="off">
-
 
           <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-
 
           <TextField id="outlined-basic" label="Comments" variant="outlined" fullWidth
             value={comments}
@@ -124,25 +200,73 @@ export function AddResult() {
           </FormControl>
 
 
-          {/* Field to upload result file */}
+          {/* Field to upload result file
           <FormControl>
             <div id="form-file">
               <FormLabel id="demo-row-radio-buttons-group-label">Result file:</FormLabel>
             </div>
             <input type="file" name="fileResult" {...register('file')} />
+            {/* <input type="file" name="fileResult" onChange={(e) => this.onChange(e)} />
 
-          </FormControl>
+          </FormControl> */}
 
 
         </Box>
 
-        <button
-          variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto" }}
-        >
+        {/* <button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto" }} >
           Submit
-        </button>
+        </button> */}
 
       </form>
+
+
+
+      {/* To upload the file */}
+      <div>
+        {currentFile && (
+          <div className="progress">
+            <div
+              className="progress-bar progress-bar-info progress-bar-striped"
+              role="progressbar"
+              aria-valuenow={progress}
+              aria-valuemin="0"
+              aria-valuemax="100"
+              style={{ width: progress + "%" }}
+            >
+              {progress}%
+            </div>
+          </div>
+        )}
+
+        {/* Input to upload the file */}
+        <label className="btn btn-default">
+          <input type="file" onChange={selectFile} />
+        </label>
+
+        {/* Button to add the result file to Database */}
+        {/* <button className="btn btn-success" disabled={!selectedFiles} onClick={upload} > */}
+        <button className="btn btn-success" onClick={upload} >
+          Upload
+        </button>
+
+        <div className="alert alert-light" role="alert">
+          {message}
+        </div>
+
+        {/* <div className="card">
+          <div className="card-header">List of Files</div>
+          <ul className="list-group list-group-flush">
+            {fileInfos &&
+              fileInfos.map((file, index) => (
+                <li className="list-group-item" key={index}>
+                  <a href={file.url}>{file.name}</a>
+                </li>
+              ))}
+          </ul>
+        </div> */}
+      </div>
+
+
 
     </Fragment>
 

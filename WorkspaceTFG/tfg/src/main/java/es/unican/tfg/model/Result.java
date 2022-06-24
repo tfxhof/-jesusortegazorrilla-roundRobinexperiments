@@ -3,13 +3,16 @@ package es.unican.tfg.model;
 import java.sql.Blob;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 
@@ -31,8 +34,12 @@ public class Result {
 	@Transient
 	private String successful;
 		
-	@Lob
-    private byte[] file;
+	@Transient
+	private Long fileId;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="result_file_fk")
+    private ResultFile file;
 
 
 	//Empty constructor
@@ -43,7 +50,7 @@ public class Result {
 	 * @param comments
 	 * @param satisfactory
 	 */
-	public Result(String name, String comments, boolean satisfactory, byte[] file) {
+	public Result(String name, String comments, boolean satisfactory, ResultFile file) {
 		super();
 		this.name = name;
 		this.comments = comments;
@@ -83,11 +90,11 @@ public class Result {
 		this.satisfactory = satisfactory;
 	}
 
-	public byte[] getFile() {
+	public ResultFile getFile() {
 		return file;
 	}
 
-	public void setFile(byte[] file) {
+	public void setFile(ResultFile file) {
 		this.file = file;
 	}
 
@@ -98,6 +105,18 @@ public class Result {
 	public void setSuccessful(String successful) {
 		this.successful = successful;
 	}
+
+	public Long getFileId() {
+		return fileId;
+	}
+
+	public void setFileId(Long fileId) {
+		this.fileId = fileId;
+	}
+
+
+	
+	
 
 	
 	

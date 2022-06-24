@@ -16,7 +16,7 @@ select * from parameter;
 select * from research_center;
 select * from contactData;
 select * from result;
-select * from sample;
+select * from result_file;
 select * from experiment_research_center;
 
 insert into measure (name, instructions, experiment_fk) values ('Dureza', 'Probar a 50 grados', 2);

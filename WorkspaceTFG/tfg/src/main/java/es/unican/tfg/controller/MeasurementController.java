@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.unican.tfg.DTOs.MeasurementDTO;
@@ -23,7 +26,9 @@ import es.unican.tfg.model.Instrument;
 import es.unican.tfg.model.Measurement;
 import es.unican.tfg.model.Parameter;
 import es.unican.tfg.model.Result;
+import es.unican.tfg.model.ResultFile;
 import es.unican.tfg.service.MeasurementService;
+import es.unican.tfg.service.ResultFileService;
 
 @RestController
 @RequestMapping("/measurements")
@@ -32,7 +37,9 @@ public class MeasurementController implements IMeasurementController{
 
 	@Autowired
 	private MeasurementService measurementService;
-	
+
+	@Autowired
+	private ResultFileService resultFileService;
 
 
 	@GetMapping
@@ -52,7 +59,7 @@ public class MeasurementController implements IMeasurementController{
 		return ResponseEntity.ok(created);
 	}
 
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Measurement> getOne(@PathVariable Long id) throws InterruptedException, ExecutionException {
 		Measurement m = measurementService.findById(id);
@@ -62,17 +69,17 @@ public class MeasurementController implements IMeasurementController{
 	}
 
 
-//	@PostMapping
-//	public ResponseEntity<Measurement> create(@RequestBody Measurement m) throws InterruptedException, ExecutionException {
-//		Measurement me = measurementService.createMeasurement(m);
-//		if (me == null)
-//			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-//		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-//		return ResponseEntity.created(location).body(me);
-//	}
+	//	@PostMapping
+	//	public ResponseEntity<Measurement> create(@RequestBody Measurement m) throws InterruptedException, ExecutionException {
+	//		Measurement me = measurementService.createMeasurement(m);
+	//		if (me == null)
+	//			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+	//		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+	//		return ResponseEntity.created(location).body(me);
+	//	}
 
-	
-	
+
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Measurement> delete(@PathVariable Long id) {
 		Measurement m = measurementService.delete(id);
@@ -99,54 +106,94 @@ public class MeasurementController implements IMeasurementController{
 		return ResponseEntity.ok(measurement.getParameters());
 	}
 
-	
+
 	@GetMapping("/{id}/instrument")
 	public ResponseEntity<Instrument> getInstrument(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@PostMapping("/{name}/instruments")
 	public ResponseEntity<MeasurementDTO> addInstrument(@PathVariable String name, @RequestBody Instrument i){
-		
+
 		Measurement m = measurementService.findByName(name);
 		if (m == null) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		m.setInstrument(i);
 		measurementService.modifyMeasurement(m);
-		
+
 		return ResponseEntity.ok(new MeasurementDTO(m));
 	}
 
-	
+	/**
+	 * Store the file(byte[]) and fileName in the database
+	 * @param file
+	 * @return
+	 */
+	@PostMapping("/{name}/results/files")
+	public ResponseEntity<Long> addResultFile(@PathVariable String name, @RequestParam("file") MultipartFile file){
+		try {
+			ResultFile r = resultFileService.store(file);
+			return ResponseEntity.ok(r.getId());
+			//return ResponseEntity.status(HttpStatus.OK).build();
+
+		} catch (Exception e) {
+			System.out.println("He fallado");
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+		}
+	}
+
+
+
+	@GetMapping("/{name}/results/files/{id}")
+	public ResponseEntity<byte[]> getFile(@PathVariable long id) {
+		ResultFile file = resultFileService.getFile(id);
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+				.body(file.getData());
+	}
+
+
+
+
 	@PostMapping("/{name}/results")
 	public ResponseEntity<MeasurementDTO> addResult(@PathVariable String name, @RequestBody Result r){
-		
+
+		ResultFile rf = resultFileService.findById(r.getFileId());
+		r.setFile(rf);
+
 		//Check if the measurement exists in the database
 		Measurement m = measurementService.findByName(name);
 		if (m == null) {
 			return ResponseEntity.notFound().build();
 		}
-		
-		//Dont need this SYSO, it is to try to see the uploaded file
-		System.out.println("File: " + r.getFile());
+
+
 		//To set if the result was successful or not
 		if (r.getSuccessful().equals("yes")) {
 			r.setSatisfactory(true);
 		} else 
 			r.setSatisfactory(false);
+
+
+		//Dont need this SYSO, it is to try to see the uploaded file
+		System.out.println("Result Name: " + r.getName());
+		System.out.println("Result Comments: " + r.getComments());
+		System.out.println("Result Successful: " + r.isSatisfactory());
+		System.out.println("Result File Name: " + r.getFile().getName());
 		
+		//Esta en cascade pero igual hay que añadir el resultado a la BBDD antes
 		
 		m.getResults().add(r);
 		measurementService.modifyMeasurement(m);
-		
+
 		return ResponseEntity.ok(new MeasurementDTO(m));
 	}
-	
-	
-	
+
+
+
 
 
 
@@ -154,5 +201,5 @@ public class MeasurementController implements IMeasurementController{
 	public String getHolaMundo() {
 		return "Hola Mundo!";
 	}
-	
+
 }
