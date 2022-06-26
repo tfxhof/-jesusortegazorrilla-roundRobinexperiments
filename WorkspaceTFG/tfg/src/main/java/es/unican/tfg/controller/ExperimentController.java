@@ -196,7 +196,15 @@ public class ExperimentController {
 					return ResponseEntity.status(409).build();
 			}
 			//Send email with *the link to accept invitation*
-			String link = "http://localhost:3000/ConfirmParticipant";
+			String queryName = name.replaceAll(" ", "%20");
+			EmailCode ec = new EmailCode(rc.getEmail(), name);
+			emailCodeService.createEmailCode(ec);
+			System.out.println("Codigo: " + ec.getCode());
+			
+			String link = "http://localhost:3000/ConfirmAssistance"
+			+ "?centerEmail=" + rc.getEmail() 
+			+ "&expName=" + queryName 
+			+ "&code=" + ec.getCode();
 
 			emailService.sendSimpleEmail(rc.getEmail(), "Invitation to participate in '" + name + "' experiment", 
 					"Click this link below to accept the invitation to participate in '" + name + "' experiment:" + 

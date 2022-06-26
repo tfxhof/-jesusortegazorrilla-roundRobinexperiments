@@ -32,6 +32,7 @@ export { default as AddResult } from "./AddResult";
 
 export { default as SignUpParticipant } from "./SignUpParticipant";
 export { default as ConfirmParticipant } from "./ConfirmParticipant";
+export { default as ConfirmAssistance } from "./ConfirmAssistance";
 
 // export { default as ExperimentList } from "./ExperimentList";
 // export { default as ExperimentItem } from "./ExperimentItem";

@@ -10,7 +10,8 @@ import {
   ParticipantMeasurementOverview, 
   AddParameter, 
   CreatorMeasureOverview, 
-  CreatorMeasurementOverview } from "./components";
+  CreatorMeasurementOverview,
+  ConfirmAssistance } from "./components";
   
 
 import SignUp from './components/SignUp';
@@ -74,6 +75,7 @@ function App() {
             
             <Route path="/SignUpParticipant" element={<SignUpParticipant />} />
             <Route path="/ConfirmParticipant" element={<ConfirmParticipant/>} />
+            <Route path="/ConfirmAssistance" element={<ConfirmAssistance/>} />
 
           </Routes>
 

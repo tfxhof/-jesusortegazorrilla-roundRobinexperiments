@@ -78,9 +78,7 @@ export function SignUpParticipant() {
         <Fragment>
             <Paper elevation={3} style={paperStyle}>
                 <div class="page-titles">
-                    Register new Research Center - {centerEmailQuery} - {expNameQuery}
-                    <br />
-                    {codeQuery}
+                    Register new Research Center
                 </div>
 
                 <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '95%' }, }} noValidate autoComplete="off">
@@ -113,7 +111,7 @@ export function SignUpParticipant() {
                 </Box>
 
                 {/* Button to register the center */}
-                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }}
+                <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto" }}
                     onClick={handleClick}>
                     Submit
                 </Button>

@@ -112,6 +112,13 @@ code {
     margin-bottom: 0px;
   }
 
+  .left-align{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+
   .page-titles {
     font-size: 30px;
     margin-top: 20px;

@@ -1,4 +1,4 @@
-import React, {useEffect, useContext, Fragment, useState} from 'react';
+import React, { useEffect, useContext, Fragment, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { CenterContext } from '../providers/CenterContext';
 import { ExpContext } from '../providers/ExperimentContext';
@@ -8,7 +8,7 @@ import { Paper, Button } from '@material-ui/core';
 
 export function ConfirmParticipant(props) {
 
-    const {propsMail} = props;
+    const { propsMail } = props;
 
     const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
 
@@ -17,10 +17,10 @@ export function ConfirmParticipant(props) {
 
     let navigate = useNavigate();
 
-    function navigateHome(){
+    function navigateHome() {
         navigate('/CenterHome');
     }
-    
+
     return (
         <Fragment>
             <Paper elevation={3} style={paperStyle}>
@@ -31,7 +31,7 @@ export function ConfirmParticipant(props) {
                 </Box>
 
                 {/* Button to register the center */}
-                <Button variant="contained" style={{ backgroundColor: "blue", color: "white", margin: "20px auto auto auto" }}
+                <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto" }}
                     onClick={navigateHome}>
                     Home
                 </Button>
