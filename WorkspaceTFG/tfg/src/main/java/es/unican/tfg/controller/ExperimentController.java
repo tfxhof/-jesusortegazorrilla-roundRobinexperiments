@@ -30,6 +30,7 @@ import es.unican.tfg.DTOs.ResultGraph;
 import es.unican.tfg.DTOs.ResultGraphItem;
 import es.unican.tfg.email.EmailSender;
 import es.unican.tfg.email.EmailService;
+import es.unican.tfg.model.EmailCode;
 import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.ExperimentStatus;
 import es.unican.tfg.model.Measure;
@@ -37,6 +38,7 @@ import es.unican.tfg.model.Measurement;
 import es.unican.tfg.model.ResearchCenter;
 import es.unican.tfg.model.Result;
 import es.unican.tfg.model.Sample;
+import es.unican.tfg.service.EmailCodeService;
 import es.unican.tfg.service.ExperimentService;
 import es.unican.tfg.service.MeasurementService;
 import es.unican.tfg.service.ResearchCenterService;
@@ -60,6 +62,9 @@ public class ExperimentController {
 
 	@Autowired
 	private EmailService emailService;
+
+	@Autowired
+	private EmailCodeService emailCodeService;
 
 
 	/**
@@ -201,7 +206,14 @@ public class ExperimentController {
 		} else { //if the center is not registered
 			//TODO:
 			//Esta llamada igual se tiene que hacer desde la web y que el link solo lleve a la web y al clickar en un boton se llame a este metodo
-			String link = "http://localhost:3000/SignUpParticipant/";
+			String queryName = name.replaceAll(" ", "%20");
+			EmailCode ec = new EmailCode(rc.getEmail(), name);
+			emailCodeService.createEmailCode(ec);
+			System.out.println("Codigo: " + ec.getCode());
+
+			String link = "http://localhost:3000/SignUpParticipant?centerEmail=" + rc.getEmail() 
+			+ "&expName=" + queryName 
+			+ "&code=" + ec.getCode();
 
 			//TODO: complete the email with *the link to accept invitation* an go to a screen to enter their data(not done yet)
 			//this links will have to call something like expService.addParticipantFromEmail(ResearchCenter)
@@ -216,13 +228,22 @@ public class ExperimentController {
 
 	@PostMapping("/{name}/participants/{email}/confirm")
 	public ResponseEntity<ExperimentDTO> confirmParticipant(@PathVariable String name, 
-			@PathVariable String email, @RequestBody ResearchCenter rc){
+			@PathVariable String email, @RequestBody ResearchCenter rc, @RequestParam(value="code", required=true) String code){
 
-		Experiment e = experimentService.addParticipantFromEmail(name, email, rc);
-		if (e == null) {
-			return ResponseEntity.status(409).build();
-		}
-		return ResponseEntity.ok(new ExperimentDTO(e));
+		List<EmailCode> codes = emailCodeService.findByCenterEmail(email);
+		for (EmailCode ec: codes) {
+			if(ec.getCode().equals(code) && ec.getExpName().equals(name)) {
+				//If the code matches
+				emailCodeService.deleteEmailCode(ec.getId());
+				Experiment e = experimentService.addParticipantFromEmail(name, email, rc);
+				if (e == null) {
+					return ResponseEntity.status(409).build();
+				}
+				return ResponseEntity.ok(new ExperimentDTO(e));
+			}
+		}//for
+		
+		return ResponseEntity.notFound().build();
 
 	}
 
@@ -277,7 +298,7 @@ public class ExperimentController {
 	}
 
 
-	
+
 
 	/**
 	 * To show only the measures asociated to the given center
@@ -390,13 +411,9 @@ public class ExperimentController {
 	@PostMapping("/{name}/measures/{mName}/measurements")
 	public ResponseEntity<MeasurementDTO> addMeasurement(@PathVariable String name, @PathVariable String mName, @RequestBody Measurement measurement){
 
-		System.out.println("Centro email: " + measurement.getExecutingCenter().getEmail());
-		System.out.println("Nombre falso: " + measurement.getName());
-		System.out.println("Nombre Measure real: " + measurement.getMeasureName());
-		
 		ResearchCenter rc = centerService.researchCenterByEmail(measurement.getExecutingCenter().getEmail());
 		measurement.setExecutingCenter(rc);
-		
+
 
 
 		//Check if exist an experiment with given name
@@ -418,12 +435,12 @@ public class ExperimentController {
 		if(mea == null) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-		
+
 		//To associate the measurement with the measure in database
 		Measure measure = measurementService.findMeasureByname(mName);
 		measure.getMeasurements().add(mea);
 		experimentService.modifyMeasure(measure);
-		
+
 		MeasurementDTO mDTO = new MeasurementDTO(mea);
 
 		return ResponseEntity.ok(mDTO);
@@ -469,42 +486,42 @@ public class ExperimentController {
 		return ResponseEntity.ok(true);
 	}
 
-	
-	
-	
-//	@PostMapping("/{expName}/measures/{measureName}/measurements/{measurementName}/results")
-//	public ResponseEntity<Result> addResult(@PathVariable String expName, 
-//			@PathVariable String measureName, 
-//			@PathVariable String measurementName, 
-//			@RequestBody Result result){
-//
-//		if (result.getSuccessful().equals("yes")) {
-//			result.setSatisfactory(true);
-//		} else 
-//			result.setSatisfactory(false);			
-//
-//		
-//		
-//
-//		Experiment e = experimentService.experimentByName(expName);
-//		if (e == null)
-//			return ResponseEntity.notFound().build();
-//
-//		Measure m = experimentService.measureByNameAndExperiment(e, measureName);
-//		if (m == null)
-//			return ResponseEntity.notFound().build();
-//
-//		Measurement me = experimentService.measurementByNameAndMeasure(m, measurementName);
-//		if (me == null)
-//			return ResponseEntity.notFound().build();
-//
-//		Result r = measurementService.addResult(result);
-//		me = measurementService.findByName(measurementName);
-//		me.getResults().add(r);
-//		measurementService.modifyMeasurement(me);
-//
-//		return ResponseEntity.ok(r);
-//	}
+
+
+
+	//	@PostMapping("/{expName}/measures/{measureName}/measurements/{measurementName}/results")
+	//	public ResponseEntity<Result> addResult(@PathVariable String expName, 
+	//			@PathVariable String measureName, 
+	//			@PathVariable String measurementName, 
+	//			@RequestBody Result result){
+	//
+	//		if (result.getSuccessful().equals("yes")) {
+	//			result.setSatisfactory(true);
+	//		} else 
+	//			result.setSatisfactory(false);			
+	//
+	//		
+	//		
+	//
+	//		Experiment e = experimentService.experimentByName(expName);
+	//		if (e == null)
+	//			return ResponseEntity.notFound().build();
+	//
+	//		Measure m = experimentService.measureByNameAndExperiment(e, measureName);
+	//		if (m == null)
+	//			return ResponseEntity.notFound().build();
+	//
+	//		Measurement me = experimentService.measurementByNameAndMeasure(m, measurementName);
+	//		if (me == null)
+	//			return ResponseEntity.notFound().build();
+	//
+	//		Result r = measurementService.addResult(result);
+	//		me = measurementService.findByName(measurementName);
+	//		me.getResults().add(r);
+	//		measurementService.modifyMeasurement(me);
+	//
+	//		return ResponseEntity.ok(r);
+	//	}
 
 
 

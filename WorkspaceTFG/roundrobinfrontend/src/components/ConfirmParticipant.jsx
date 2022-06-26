@@ -17,27 +17,6 @@ export function ConfirmParticipant(props) {
 
     let navigate = useNavigate();
 
-    useEffect(() => {
-        let url = "http://localhost:8080/experiments/";
-        url = url.concat("Resistencia del Carbono");                 //have to change this to the actual exp Name
-        url = url.concat("/participants/");
-        url = url.concat("joz826@alumnos.unican.es");                //have to change this to the actual center email
-        url = url.concat("/confirm");
-        setCenterEmail("joz826@alumnos.unican.es");
-        const researchCenter = { 
-            email: "joz826@alumnos.unican.es",
-        }
-        // fetch("http://localhost:8080/experiments/{name}/participants/{email}/confirm")
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(researchCenter)
-        })
-    }, [])
-
-
     function navigateHome(){
         navigate('/CenterHome');
     }

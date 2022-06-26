@@ -6,22 +6,30 @@ import { Paper, Button } from '@material-ui/core';
 import { CenterContext } from '../providers/CenterContext';
 import { ExpContext } from '../providers/ExperimentContext';
 
+import {useLocation} from "react-router-dom";
+
 
 export function SignUpParticipant() {
    
     const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
 
     const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
     const [country, setCountry] = useState('')
     const [city, setCity] = useState('')
     const [address, setAddress] = useState('')
     const [dutyManagerName, setDutyManagerName] = useState('')
 
 
+    //To get the query params
+    const search = useLocation().search;
+    const centerEmailQuery = new URLSearchParams(search).get('centerEmail');
+    const expNameQuery = new URLSearchParams(search).get('expName');
+    const codeQuery = new URLSearchParams(search).get('code');
 
-    const { centerEmail, setCenterEmail } = useContext(CenterContext);
-    const { expName, setExpName } = useContext(ExpContext);
+    //To set the center and experiment data
+    const { setCenterEmail } = useContext(CenterContext);
+    const { setExpName } = useContext(ExpContext);
+
 
     let navigate = useNavigate();
 
@@ -30,7 +38,7 @@ export function SignUpParticipant() {
         //e.preventDefault();
         const researchCenter = { 
             name, 
-            email, 
+            email: centerEmailQuery, 
             contactInfo: { 
                 country, 
                 city, 
@@ -40,10 +48,11 @@ export function SignUpParticipant() {
         }
 
         let url = "http://localhost:8080/experiments/";
-        url = url.concat("Resistencia del Carbono");              //have to change this to the actual exp Name
+        url = url.concat(expNameQuery);
         url = url.concat("/participants/");
-        url = url.concat(email);
-        url = url.concat("/confirm");
+        url = url.concat(centerEmailQuery);
+        url = url.concat("/confirm?code=");
+        url = url.concat(codeQuery);
         console.log(url);
         let response = await fetch(url, {
             method: "POST",
@@ -54,8 +63,8 @@ export function SignUpParticipant() {
         })
         
         if (response.ok) {
-            setCenterEmail(email);
-            //setExpName(expName);                                //have to change this to the actual exp Name
+            setCenterEmail(centerEmailQuery);
+            setExpName(expNameQuery);
             navigate('/ConfirmParticipant');
         } else {
             // TODO: advertise that there is already a center with given email or name
@@ -69,7 +78,9 @@ export function SignUpParticipant() {
         <Fragment>
             <Paper elevation={3} style={paperStyle}>
                 <div class="page-titles">
-                    Register new Research Center
+                    Register new Research Center - {centerEmailQuery} - {expNameQuery}
+                    <br />
+                    {codeQuery}
                 </div>
 
                 <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '95%' }, }} noValidate autoComplete="off">
@@ -77,11 +88,6 @@ export function SignUpParticipant() {
                     <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                    />
-
-                    <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
                     />
 
                     <TextField id="outlined-basic" label="Address" variant="outlined" fullWidth

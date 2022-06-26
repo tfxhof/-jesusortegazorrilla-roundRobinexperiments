@@ -10,7 +10,7 @@ export function Home() {
   const [email, setEmail] = useState('')
 
   const { centerEmail, setCenterEmail } = useContext(CenterContext);
-  const { centerName, setCenterName } = useContext(CenterContext);
+  const { setCenterName } = useContext(CenterContext);
 
   let navigate = useNavigate();
 
@@ -66,11 +66,6 @@ export function Home() {
   function signUp() {
     navigate('/SignUp');
   }
-  
-  //To sign up
-  function graph() {
-    navigate('/results');
-  }
 
   return (
     <Fragment>
@@ -98,10 +93,6 @@ export function Home() {
 
                 <div id="sign-up-button">
                   <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", margin: "auto" }} onClick={signUp}>Sign Up</Button>
-                </div>
-
-                <div id="sign-up-button">
-                  <Button variant="contained" className="buttons" style={{ backgroundColor: "blue", margin: "auto" }} onClick={graph}>Try graphs</Button>
                 </div>
 
               </Paper>
