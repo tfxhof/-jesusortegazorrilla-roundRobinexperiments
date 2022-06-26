@@ -1,4 +1,6 @@
 - Este hook nos permite agregar efectos secundarios a un componente funcional dado, es decir,
  nos permite realizar modificaciones en nuestra lógica una vez se haya realizado el renderizado.
 
--
+- Mencionar que con la creacción de los codigos para los emails, delego la seguridad en el servidor
+de correo ya que tan solo en la bandeja del participante y en la BBDD es donde se puede obtener
+dicho codigo para acceder a un experimento como participante.
