@@ -32,9 +32,6 @@ export function ParticipantMeasurementOverview() {
 
     let navigate = useNavigate();
 
-    function addPersonalInfo() {
-        navigate('/AddPersonalInfo');
-    }
     function addInstrument() {
         navigate('/AddInstrument');
     }
@@ -94,18 +91,14 @@ export function ParticipantMeasurementOverview() {
 
                                 // To modify the experiment lists (add samples, test, participants...)
                                 <Fragment>
-                                    <div className='column-button'>
-                                        <Button variant="contained" style={{ backgroundColor: "red", color: "white", margin: "0px auto auto auto", width: "200px" }} onClick={addPersonalInfo}>
-                                            ADD PERSONAL INFO
-                                        </Button>
-                                    </div>
+                                    
                                     <div className='column-button'>
                                         <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addInstrument}>
                                             ADD INSTRUMENT
                                         </Button>
                                     </div>
                                     <div className='column-button'>
-                                        <Button variant="contained" style={{ backgroundColor: "red", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addParameter}>
+                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={addParameter}>
                                             ADD PARAMETERS
                                         </Button>
                                     </div>

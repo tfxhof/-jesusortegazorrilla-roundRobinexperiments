@@ -2,34 +2,29 @@ import React, { Fragment, useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Paper, Button } from '@material-ui/core';
-import { NavLink } from "react-router-dom";
-import { CenterContext } from '../providers/CenterContext';
+import { Button } from '@material-ui/core';
 import { ExpContext } from '../providers/ExperimentContext';
 
 export function AddParameter() {
 
-  const [name, setName] = useState('');
-  const [brand, setBrand] = useState('');
-  const [model, setModel] = useState('');
+  const [magnitude, setMagnitude] = useState('');
+  const [value, setValue] = useState('');
 
-  const { centerEmail, setCenterEmail } = useContext(CenterContext);
-  const { expName, setExpName } = useContext(ExpContext);
-  const { measurementName, setMeasurementName } = useContext(ExpContext);
+  const { measurementName } = useContext(ExpContext);
 
 
   let navigate = useNavigate();
 
 
-  let url = "http://localhost:8080/experiments/";
-  url = url.concat(String(expName));
-  url = url.concat("/measures/");
-
   async function handleClick() {
-    const instrument = {
-      name,
-      brand,
-      model
+
+    let url = "http://localhost:8080/measurements/";
+    url = url.concat(String(measurementName));
+    url = url.concat("/parameters");
+    
+    const parameter = {
+      magnitude,
+      value,
     }
 
     let response = await fetch(url, {
@@ -37,15 +32,15 @@ export function AddParameter() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(instrument)
+      body: JSON.stringify(parameter)
     })
 
     if (response.ok) {
-      console.log("Parameter Added ");
+      console.log("Parameter Added");
       navigate('/ParticipantMeasurementOverview');
     } else {
       // TODO: advertise that there is already a center with given email or name
-      console.log("Cannot add Instrument");
+      console.log("Cannot add Parameter");
     }
   }
 
@@ -57,20 +52,14 @@ export function AddParameter() {
 
       <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '60%' }, }} noValidate autoComplete="off">
 
-        <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+        <TextField id="outlined-basic" label="Magnitude" variant="outlined" fullWidth
+          value={magnitude}
+          onChange={(e) => setMagnitude(e.target.value)}
         />
-        <TextField id="outlined-basic" label="Brand" variant="outlined" fullWidth
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}
+        <TextField id="outlined-basic" label="Value" variant="outlined" fullWidth
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
         />
-
-        <TextField id="outlined-basic" label="Model" variant="outlined" fullWidth
-          value={model}
-          onChange={(e) => setModel(e.target.value)}
-        />
-
 
       </Box>
 

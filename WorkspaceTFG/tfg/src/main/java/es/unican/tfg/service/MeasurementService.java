@@ -17,10 +17,12 @@ import es.unican.tfg.DTOs.ResultGraph;
 import es.unican.tfg.DTOs.ResultGraphItem;
 import es.unican.tfg.model.Measure;
 import es.unican.tfg.model.Measurement;
+import es.unican.tfg.model.Parameter;
 import es.unican.tfg.model.ResearchCenter;
 import es.unican.tfg.model.Result;
 import es.unican.tfg.repository.MeasureRepository;
 import es.unican.tfg.repository.MeasurementRepository;
+import es.unican.tfg.repository.ParameterRepository;
 import es.unican.tfg.repository.ResearchCenterRepository;
 import es.unican.tfg.repository.ResultRepository;
 
@@ -33,6 +35,9 @@ public class MeasurementService implements IMeasurementService{
 	@Autowired
 	private MeasureRepository measureRepository;
 
+	@Autowired
+	private ParameterRepository parameterRepository;
+	
 	@Autowired
 	private ResultRepository resultRepository;
 
@@ -94,15 +99,21 @@ public class MeasurementService implements IMeasurementService{
 		return m;
 	}
 
+	
+	public Parameter createParameter(Parameter parameter) {
+		return parameterRepository.save(parameter);
+	}
 
 	public Result addResult(Result result) {
 		return resultRepository.save(result);
 	}
+
 	
 	
 	public ResultGraph csvReader (String absolutePath, String resultName) throws IOException {
 		Reader reader = new FileReader(absolutePath);
 		CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreHeaderCase().withTrim());
+		//CSVParser csvParser = new CSVParser();
 
 		String xAxisName = null;
 		String yAxisName = null;
@@ -112,6 +123,7 @@ public class MeasurementService implements IMeasurementService{
 		boolean nameStored = false;
 		//String specialChars = "!@#$%&*()'+-/:;<=>?[]^_`{|}";
 		//boolean check = false;
+		int contador = 0;
 		double xValue = 0;
 		double yValue = 0;
 
@@ -138,6 +150,10 @@ public class MeasurementService implements IMeasurementService{
 					yValue = Double.parseDouble(csvRecord.get(1));										
 				}
 				values.add(new ResultGraphItem(xValue, yValue));
+				contador++;
+//				if (contador == 6) {
+//					break;
+//				}
 			}
 		}
 

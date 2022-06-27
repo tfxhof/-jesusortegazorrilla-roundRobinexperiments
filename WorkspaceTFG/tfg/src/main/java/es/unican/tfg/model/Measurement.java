@@ -27,6 +27,8 @@ public class Measurement {
 	 
 	private String name;
 	
+	private String comments;
+	
 	@OneToOne
 	@JoinColumn(name="researchCenter_fk")
 	private ResearchCenter executingCenter;
@@ -150,6 +152,16 @@ public class Measurement {
 	public void setMeasureName(String measureName) {
 		this.measureName = measureName;
 	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+	
+	
 	
 	
 	

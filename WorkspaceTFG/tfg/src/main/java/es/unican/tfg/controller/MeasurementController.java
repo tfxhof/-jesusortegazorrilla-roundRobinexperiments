@@ -1,6 +1,7 @@
 package es.unican.tfg.controller;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -142,6 +143,23 @@ public class MeasurementController implements IMeasurementController{
 		return ResponseEntity.ok(new MeasurementDTO(m));
 	}
 
+
+	@PostMapping("/{name}/parameters")
+	public ResponseEntity<MeasurementDTO> addParameter(@PathVariable String name, @RequestBody Parameter p){
+
+		Measurement m = measurementService.findByName(name);
+		if (m == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		measurementService.createParameter(p);
+
+		m.getParameters().add(p);
+		measurementService.modifyMeasurement(m);
+
+		return ResponseEntity.ok(new MeasurementDTO(m));
+	}
+
 	/**
 	 * Store the file(byte[]) and fileName in the database
 	 * @param file
@@ -181,12 +199,6 @@ public class MeasurementController implements IMeasurementController{
 			r.setSatisfactory(false);
 
 
-		//Dont need this SYSO, it is to try to see the uploaded file
-		System.out.println("Result Name: " + r.getName());
-		System.out.println("Result Comments: " + r.getComments());
-		System.out.println("Result Successful: " + r.isSatisfactory());
-		System.out.println("Result File Name: " + r.getFile().getName());
-
 		//Esta en cascade pero igual hay que añadir el resultado a la BBDD antes
 
 		m.getResults().add(r);
@@ -219,14 +231,57 @@ public class MeasurementController implements IMeasurementController{
 		//To write the byte[] to the tmp file
 		try (FileOutputStream fileOuputStream = new FileOutputStream(tmpFile)){
 			fileOuputStream.write(file.getData());
+			//Probar esto new ByteArrayInputStream(file.getData());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		//To read the file and generate a ResultGraph which contains the values to draw the graphic
 		ResultGraph rg = measurementService.csvReader(absolutePath, resultName);
 
 		return ResponseEntity.ok(rg);
+	}
+
+
+
+	@GetMapping("/{name}/resultss")
+	public ResponseEntity<List<ResultGraph>> getResults(@PathVariable String name) throws IOException {
+
+		Measurement m = measurementService.findByName(name);
+		if (m == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		List<Result> results = m.getResults();
+		if (results == null)
+			return ResponseEntity.notFound().build();
+
+		//Get the name of the result
+		List<ResultFile> resultFiles = new ArrayList<ResultFile>();
+		List<ResultGraph> graphData = new ArrayList<ResultGraph>();
+		ResultGraph rg = null;
+		for(Result r: results) {
+			String resultName = r.getName();
+			ResultFile file = r.getFile();
+			resultFiles.add(r.getFile());
+
+			File tmpFile = File.createTempFile("temp", ".csv");
+			String absolutePath = tmpFile.getAbsolutePath();
+			System.out.println("File path: " + absolutePath);
+
+			//To write the byte[] to the tmp file
+			try (FileOutputStream fileOuputStream = new FileOutputStream(tmpFile)){
+				fileOuputStream.write(file.getData());
+				//Probar esto new ByteArrayInputStream(file.getData());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			//To read the file and generate a ResultGraph which contains the values to draw the graphic
+			rg = measurementService.csvReader(absolutePath, resultName);
+			graphData.add(rg);
+		}
+		return ResponseEntity.ok(graphData);
 	}
 
 

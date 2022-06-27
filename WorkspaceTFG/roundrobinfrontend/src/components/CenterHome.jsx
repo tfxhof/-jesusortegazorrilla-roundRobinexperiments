@@ -83,12 +83,12 @@ function CenterHome() {
                     Create Experiment
                 </Button>
             </div>
-            <div>
+            {/* <div>
                 {centerEmail}
             </div>
             <div>
                 Session storage: {localStorage.getItem("email")};
-            </div>
+            </div> */}
 
 
 
