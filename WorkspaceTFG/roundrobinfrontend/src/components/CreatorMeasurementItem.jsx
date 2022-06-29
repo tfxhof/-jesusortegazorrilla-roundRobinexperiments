@@ -8,11 +8,11 @@ export function CreatorMeasurementItem({ measurement }) {
 
     const { name } = measurement;
     //this component subscribe to the context
-    const { expName } = useContext(ExpContext);
-    const { measureName, setMeasureName } = useContext(ExpContext);
-    const { setMeasureInstructions } = useContext(ExpContext);
+    // const { expName } = useContext(ExpContext);
+    // const { measureName, setMeasureName } = useContext(ExpContext);
+    // const { setMeasureInstructions } = useContext(ExpContext);
     const { setMeasurementName } = useContext(ExpContext);
-    const { centerEmail } = useContext(CenterContext);
+    // const { centerEmail } = useContext(CenterContext);
 
     let navigate = useNavigate();
 

@@ -10,7 +10,10 @@ import java.io.Reader;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
@@ -50,7 +53,9 @@ import es.unican.tfg.service.ResultFileService;
 @RequestMapping("/measurements")
 @CrossOrigin
 public class MeasurementController implements IMeasurementController{
-
+	
+	//private static final DecimalFormat df = new DecimalFormat("0,00");
+	
 	@Autowired
 	private MeasurementService measurementService;
 
@@ -282,6 +287,68 @@ public class MeasurementController implements IMeasurementController{
 			graphData.add(rg);
 		}
 		return ResponseEntity.ok(graphData);
+	}
+	
+	
+	
+	@GetMapping("/{name}/results/average")
+	public ResponseEntity<ResultGraph> getResultsAverage(@PathVariable String name) throws IOException {
+
+		Measurement m = measurementService.findByName(name);
+		if (m == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		List<Result> results = m.getResults();
+		if (results == null)
+			return ResponseEntity.notFound().build();
+
+		//Get the name of the result
+		List<ResultFile> resultFiles = new ArrayList<ResultFile>();
+		List<ResultGraph> graphData = new ArrayList<ResultGraph>();
+		ResultGraph rg = null;
+		int numFiles = 0;
+		for(Result r: results) {
+			String resultName = r.getName();
+			ResultFile file = r.getFile();
+			resultFiles.add(r.getFile());
+
+			File tmpFile = File.createTempFile("temp", ".csv");
+			String absolutePath = tmpFile.getAbsolutePath();
+			System.out.println("File path: " + absolutePath);
+
+			//To write the byte[] to the tmp file
+			try (FileOutputStream fileOuputStream = new FileOutputStream(tmpFile)){
+				fileOuputStream.write(file.getData());
+				//Probar esto new ByteArrayInputStream(file.getData());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			//To read the file and generate a ResultGraph which contains the values to draw the graphic
+			rg = measurementService.csvReader(absolutePath, resultName);
+			graphData.add(rg);
+			numFiles++;
+		}
+		
+		int numRows = graphData.get(0).getValues().size();
+		double x = 0;
+		double y = 0;
+		List<ResultGraphItem> values = new ArrayList<ResultGraphItem>(); 
+		ResultGraph result = new ResultGraph("Average", graphData.get(0).getxAxisName(), graphData.get(0).getyAxisName(), values);
+		
+		for (int i = 0; i < numRows; i++) {
+			x = 0;
+			y = 0;
+			for (int j = 0; j < numFiles; j++) {
+				x = graphData.get(j).getValues().get(i).getxAxisValue();
+				y += graphData.get(j).getValues().get(i).getyAxisValue();
+			}
+			y = y / numFiles;
+			result.getValues().add(new ResultGraphItem(x, y));
+		}
+		
+		return ResponseEntity.ok(result);
 	}
 
 

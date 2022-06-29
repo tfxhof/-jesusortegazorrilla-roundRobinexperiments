@@ -5,13 +5,17 @@ import { Button } from '@material-ui/core';
 
 export function Results() {
 
-    const [experiment, setExperiment] = useState('');
-    const [status, setStatus] = useState('');
     const [xAxisName, setXAxisName] = useState('');
     const [yAxisName, setYAxisName] = useState('');
     const [values, setValues] = useState([]);
     const [numResults, setNumResults] = useState('');
     const [numRows, setNumRows] = useState('');
+ 
+    const [averageXAxisName, setAverageXAxisName] = useState('');
+    const [averageYAxisName, setAverageYAxisName] = useState('');
+    const [averageValues, setAverageValues] = useState([]);
+    const [averageNumResults, setAverageNumResults] = useState('');
+    const [averageNumRows, setAverageNumRows] = useState('');
 
     const [graphNum, setGraphNum] = useState(0);
     const [resultName, setResultName] = useState('');
@@ -36,16 +40,10 @@ export function Results() {
     }
 
     async function loadGraphData() {
-        // let url = "http://localhost:8080/measurements/"
-        // url = url.concat(measurementName)
-        // url = url.concat("/results?resultGraphNum=")
-        // url = url.concat(num)
 
         let url = "http://localhost:8080/measurements/"
         url = url.concat(measurementName)
         url = url.concat("/resultss")
-        console.log(url);
-        //http://localhost:8080/measurements/'Dureza del Carbono' in 'Universidad del Atlantico'/results?resultGraphNum=0
         let response = await fetch(url)
 
         if (response.ok) {
@@ -58,30 +56,34 @@ export function Results() {
             //Clear the array to insert data from zero
             setValues([]);
             json.map((item) => (
-                // console.log(item.values)
                 setValues((values) => {
                     return [...values, item.values];
                 })
-                // setValues(...values, item.values)
             ))
-
-            // console.log("values:");
-            // console.log(values[0][0].yAxisValue);
-            // console.log(values[1][0].yAxisValue);
-            // console.log(values[1]);
-            // console.log(values);
-
-            // setValues(json.values)
-            //setResultName(json.resultName)
         }
-        // else {
-        //     console.log("fallo: ", graphNum)
-        //     if (num === -1) {
-        //         setGraphNum(num + 1);
-        //     } else {
-        //         setGraphNum(num - 1);
-        //     }
-        // }
+
+        //To obtain the average
+        url = "http://localhost:8080/measurements/"
+        url = url.concat(measurementName)
+        url = url.concat("/results/average")
+        response = await fetch(url)
+
+        if (response.ok) {
+            let json = await response.json();
+            setAverageXAxisName(json.xAxisName)
+            setAverageYAxisName(json.yAxisName)
+            setAverageNumResults(json.length)
+            setAverageNumRows(json.values.length)
+
+            //Clear the array to insert data from zero
+            setAverageValues(json.values);
+            // json.map((item) => (
+            //     setAverageValues((values) => {
+            //         return [...values, item.values];
+            //     })
+            // ))
+        }
+
     }
 
     function right() {
@@ -128,15 +130,19 @@ export function Results() {
                                     yAxisName={yAxisName}
                                     values={values}
                                     numResults={numResults}
-                                    numRows={numRows} />
+                                    numRows={numRows} 
+                                    
+                                    averageXAxisName={averageXAxisName} 
+                                    averageYAxisName={averageYAxisName} 
+                                    averageValues={averageValues}
+                                    />
                             </div>
                             :
 
-                            <div>
+                            <div class="col-lg-12">
                                 <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto" }} onClick={load}>
                                     load graph
                                 </Button>
-                                estoy clicked? {clicked}
                             </div>
 
 
