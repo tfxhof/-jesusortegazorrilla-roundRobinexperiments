@@ -10,7 +10,9 @@ export function ResultsMeasure() {
     const [values, setValues] = useState([]);
     const [numResults, setNumResults] = useState('');
     const [numRows, setNumRows] = useState('');
- 
+    const [colors, setColors] = useState([]);
+
+
     const [averageXAxisName, setAverageXAxisName] = useState('');
     const [averageYAxisName, setAverageYAxisName] = useState('');
     const [averageValues, setAverageValues] = useState([]);
@@ -36,6 +38,7 @@ export function ResultsMeasure() {
 
     async function load() {
         await loadGraphData();
+        randomColors();
         setClicked('true');
     }
 
@@ -90,6 +93,20 @@ export function ResultsMeasure() {
 
     }
 
+    function randomColors() {
+        setColors([]);
+        for (let i = 0; i < numResults; i++) {
+            let maxVal = 0xFFFFFF; // 16777215
+            let randomNumber = Math.random() * maxVal;
+            randomNumber = Math.floor(randomNumber);
+            randomNumber = randomNumber.toString(16);
+            let randColor = randomNumber.padStart(6, 0);
+            setColors((colors) => {
+                return [...colors, randColor];
+            })
+        }
+    }
+
 
     return (
         <Fragment>
@@ -103,9 +120,9 @@ export function ResultsMeasure() {
 
 
             <div>
-                <div class="container">
+                <div class="graph-container">
                     <div class="row my-4 columns-center-vertical">
-                        
+
                         {clicked === 'true' ?
                             <div class="col-lg-12">
                                 <ResultGraphMeasure
@@ -113,12 +130,13 @@ export function ResultsMeasure() {
                                     yAxisName={yAxisName}
                                     values={values}
                                     numResults={numResults}
-                                    numRows={numRows} 
-                                    
-                                    // averageXAxisName={averageXAxisName} 
-                                    // averageYAxisName={averageYAxisName} 
-                                    // averageValues={averageValues}
-                                    />
+                                    numRows={numRows}
+                                    colors={colors}
+
+                                // averageXAxisName={averageXAxisName} 
+                                // averageYAxisName={averageYAxisName} 
+                                // averageValues={averageValues}
+                                />
                             </div>
                             :
                             <div class="col-lg-12">
