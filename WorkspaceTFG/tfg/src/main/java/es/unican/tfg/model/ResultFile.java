@@ -17,6 +17,7 @@ public class ResultFile {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	//Name of the file
 	private String name;
 	
 	@Lob

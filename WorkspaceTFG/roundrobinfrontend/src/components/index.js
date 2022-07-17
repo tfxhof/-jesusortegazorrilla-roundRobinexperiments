@@ -16,8 +16,9 @@ export { default as CreateExperiment } from "./CreateExperiment";
 export { default as AddParticipant } from "./AddParticipant";
 export { default as AddSample } from "./AddSample";
 export { default as AddMeasure } from "./AddMeasure";
-export { default as Results } from "./Results";
-export { default as ResultGraph } from "./ResultGraph";
+export { default as ResultsMeasurement } from "./ResultsMeasurement";
+export { default as ResultGraphMeasurement } from "./ResultGraphMeasurement";
+export { default as ResultsMeasure } from "./ResultsMeasure";
 
 
 //Participant

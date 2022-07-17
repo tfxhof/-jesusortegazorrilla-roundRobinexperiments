@@ -27,6 +27,7 @@ public class Result {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	//Name of the result
 	private String name;
 	private String comments;
 	private boolean satisfactory;

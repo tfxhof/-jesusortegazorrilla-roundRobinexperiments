@@ -1,5 +1,8 @@
 package es.unican.tfg.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -37,6 +40,7 @@ import es.unican.tfg.model.Measure;
 import es.unican.tfg.model.Measurement;
 import es.unican.tfg.model.ResearchCenter;
 import es.unican.tfg.model.Result;
+import es.unican.tfg.model.ResultFile;
 import es.unican.tfg.model.Sample;
 import es.unican.tfg.service.EmailCodeService;
 import es.unican.tfg.service.ExperimentService;
@@ -530,6 +534,98 @@ public class ExperimentController {
 	//
 	//		return ResponseEntity.ok(r);
 	//	}
+	
+	
+	/**
+	 * return the average result of every measurement associated to 1 measure.
+	 * @param name
+	 * @return
+	 * @throws IOException
+	 */
+	@GetMapping("/{name}/measures/{mName}/results")
+	public ResponseEntity<List<ResultGraph>> getComparedResults(@PathVariable String name, @PathVariable String mName) throws IOException {
+		//check if the exp exists
+		Experiment e = experimentService.experimentByName(name);
+		if (e == null)
+			return ResponseEntity.notFound().build();
+
+		List<Measure> measures = e.getMeasures();
+		if (measures == null)
+			return ResponseEntity.notFound().build();
+		
+		Measure m = experimentService.measureByNameAndExperiment(e, mName);
+		if (m == null) {
+			return ResponseEntity.notFound().build();
+		}
+		//I have the measure which i want to get the results
+		
+		List<Measurement> measurements = m.getMeasurements();
+		
+		List <ResultGraph> averages = new ArrayList<ResultGraph>();
+		
+		//Para cada uno de los measurements calculo la media
+		for(Measurement me: measurements) {
+			List<Result> results = me.getResults();
+			if (results == null)
+				return ResponseEntity.notFound().build();
+
+			//Get the name of the result
+			List<ResultFile> resultFiles = new ArrayList<ResultFile>();
+			List<ResultGraph> graphData = new ArrayList<ResultGraph>();
+			ResultGraph rg = null;
+			int numFiles = 0;
+			
+			//First of all I get all the data from the files stored in the DB
+			for(Result r: results) {
+				String resultName = r.getName();
+				ResultFile file = r.getFile();
+				resultFiles.add(r.getFile());
+
+				File tmpFile = File.createTempFile("temp", ".csv");
+				String absolutePath = tmpFile.getAbsolutePath();
+				//System.out.println("File path: " + absolutePath);
+
+				//To write the byte[] to the tmp file
+				try (FileOutputStream fileOuputStream = new FileOutputStream(tmpFile)){
+					fileOuputStream.write(file.getData());
+					//Probar esto new ByteArrayInputStream(file.getData());
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+
+				//To read the file and generate a ResultGraph which contains the values to draw the graphic
+				rg = measurementService.csvReader(absolutePath, resultName);
+				graphData.add(rg);
+				numFiles++;
+			}
+			
+			//graphData has all the results from the actual measurement stored
+			
+			int numRows = graphData.get(0).getValues().size();
+			double x = 0;
+			double y = 0;
+			List<ResultGraphItem> values = new ArrayList<ResultGraphItem>(); 
+			ResultGraph result = new ResultGraph("Average", graphData.get(0).getxAxisName(), graphData.get(0).getyAxisName(), values);
+			
+			//This for calculates the average yValue for all existing xValues
+			for (int i = 0; i < numRows; i++) {
+				x = 0;
+				y = 0;
+				for (int j = 0; j < numFiles; j++) {
+					x = graphData.get(j).getValues().get(i).getxAxisValue();
+					y += graphData.get(j).getValues().get(i).getyAxisValue();
+				}
+				y = y / numFiles;
+				result.getValues().add(new ResultGraphItem(x, y));
+			}
+			
+			averages.add(result);
+			//return ResponseEntity.ok(result);
+		}
+		
+		
+		return ResponseEntity.ok(averages);
+	}
 
 
 

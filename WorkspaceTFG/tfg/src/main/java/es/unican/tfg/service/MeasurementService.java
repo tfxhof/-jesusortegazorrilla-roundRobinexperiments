@@ -159,6 +159,7 @@ public class MeasurementService implements IMeasurementService{
 
 		return new ResultGraph(resultName, xAxisName, yAxisName, values);
 	}
+	
 
 
 

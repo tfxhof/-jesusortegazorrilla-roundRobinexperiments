@@ -214,7 +214,7 @@ public class MeasurementController implements IMeasurementController{
 
 
 	//For the moment it return only 1 result but will have to return more
-	@GetMapping("/{name}/results")
+	@GetMapping("/{name}/result")
 	public ResponseEntity<ResultGraph> getResult(@PathVariable String name/*, @PathVariable long id*/, @RequestParam(value="resultGraphNum", required=true) int resultGraphNum) throws IOException {
 
 		Measurement m = measurementService.findByName(name);
@@ -248,8 +248,13 @@ public class MeasurementController implements IMeasurementController{
 	}
 
 
-
-	@GetMapping("/{name}/resultss")
+	/**
+	 * return all the result associated to 1 measurement.
+	 * @param name
+	 * @return
+	 * @throws IOException
+	 */
+	@GetMapping("/{name}/results")
 	public ResponseEntity<List<ResultGraph>> getResults(@PathVariable String name) throws IOException {
 
 		Measurement m = measurementService.findByName(name);

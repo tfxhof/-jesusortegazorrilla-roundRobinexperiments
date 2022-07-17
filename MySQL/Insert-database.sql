@@ -3,6 +3,10 @@ use round_robin;
 insert into research_center (address, email, city, country, duty_manager_name, instructions, name) values ('Los castro sn', 'UC@gmail.com', 'Santander', 'Esp', 'Jesus', 'no se', 'UC');
 insert into research_center (address, email, city, country, duty_manager_name, instructions, name) values ('PCTCAN', 'atlantico@gmail.com', 'Santander', 'Esp', 'Javier', 'no se', 'Universidad del Atlantico');
 insert into research_center (address, email, city, country, duty_manager_name, instructions, name) values ('Gran Via', 'madrid@gmail.com', 'Madrid', 'Esp', 'Alicia', 'no se', 'Universidad de Madrid');
+insert into research_center (address, email, city, country, duty_manager_name, instructions, name) values ('Mortera', 'jesus@gmail.com', 'Madrid', 'Esp', 'Jesus', 'no se', 'Mi casa');
+insert into research_center (address, email, city, country, duty_manager_name, instructions, name) values ('Liencres', 'ruben@gmail.com', 'Liencres', 'Esp', 'Ruben', 'no se', 'Casa de Ruben');
+
+
 
 insert into experiment (name, description, creator_center_fk, status) values 
 ('Resistencia del Carbono', 'Se quiere probar cual es la maxima resistencia que soporta el carbono bajo diferentes situaciones', 1, 1);
@@ -19,6 +23,8 @@ insert into experiment (name, description, creator_center_fk, status) values
 #Add participants
 insert into experiment_research_center (research_center_fk, experiment_fk) values (2, 1);
 insert into experiment_research_center (research_center_fk, experiment_fk) values (3, 1);
+insert into experiment_research_center (research_center_fk, experiment_fk) values (4, 1);
+insert into experiment_research_center (research_center_fk, experiment_fk) values (5, 1);
 insert into experiment_research_center (research_center_fk, experiment_fk) values (2, 2);
 insert into experiment_research_center (research_center_fk, experiment_fk) values (3, 2);
 insert into experiment_research_center (research_center_fk, experiment_fk) values (2, 3);

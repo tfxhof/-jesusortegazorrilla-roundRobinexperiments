@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useState, useEffect } from 'react';
 import { ExpContext } from '../providers/ExperimentContext';
 import { Button } from '@material-ui/core';
 import { useNavigate } from 'react-router';
-import ResultGraph from './ResultGraph';
+import ResultGraph from './ResultGraphMeasurement';
 // import TextField from '@mui/material/TextField';
 // import EditIcon from '@mui/icons-material/Edit';
 
@@ -34,7 +34,7 @@ export function CreatorMeasurementOverview() {
     let navigate = useNavigate();
 
     function showResults() {
-        navigate('/Results');
+        navigate('/ResultsMeasurement');
     }
 
 

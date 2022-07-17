@@ -27,8 +27,9 @@ import AddResult from './components/AddResult';
 import SignUpParticipant from './components/SignUpParticipant';
 
 import ConfirmParticipant from './components/ConfirmParticipant';
-import Results from './components/Results';
-import ResultGraph from './components/ResultGraph';
+import ResultsMeasurement from './components/ResultsMeasurement';
+import ResultGraphMeasurement from './components/ResultGraphMeasurement';
+import ResultsMeasure from './components/ResultsMeasure';
 
 import { ExpContextProvider } from './providers/ExperimentContext';
 import { CenterContextProvider } from './providers/CenterContext';
@@ -60,8 +61,9 @@ function App() {
             <Route path="/AddMeasure" element={<AddMeasure />} />
             <Route path="/CreatorMeasureOverview" element={<CreatorMeasureOverview />} />
             <Route path="/CreatorMeasurementOverview" element={<CreatorMeasurementOverview />} />
-            <Route path="/Results" element={<Results/>} />
-            <Route path="/ResultGraph" element={<ResultGraph />} />
+            <Route path="/ResultsMeasurement" element={<ResultsMeasurement/>} />
+            <Route path="/ResultGraphMeasurement" element={<ResultGraphMeasurement />} />
+            <Route path="/ResultsMeasure" element={<ResultsMeasure/>} />
 
 
             <Route path="/ParticipantOverview" element={<ParticipantOverview />} />
@@ -81,7 +83,7 @@ function App() {
 
           </CenterContextProvider>
         </ExpContextProvider>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </Router>
 

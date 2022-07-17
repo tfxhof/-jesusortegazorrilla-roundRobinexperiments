@@ -1,9 +1,9 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { ExpContext } from '../providers/ExperimentContext';
-import ResultGraph from './ResultGraph';
+import ResultGraphMeasurement from './ResultGraphMeasurement';
 import { Button } from '@material-ui/core';
 
-export function Results() {
+export function ResultsMeasurement() {
 
     const [xAxisName, setXAxisName] = useState('');
     const [yAxisName, setYAxisName] = useState('');
@@ -43,7 +43,7 @@ export function Results() {
 
         let url = "http://localhost:8080/measurements/"
         url = url.concat(measurementName)
-        url = url.concat("/resultss")
+        url = url.concat("/results")
         let response = await fetch(url)
 
         if (response.ok) {
@@ -86,19 +86,6 @@ export function Results() {
 
     }
 
-    function right() {
-        setGraphNum(graphNum + 1);
-        let num = graphNum + 1;
-        loadGraphData(num);
-    }
-
-    function left() {
-        setGraphNum(graphNum - 1);
-        let num = graphNum - 1;
-        loadGraphData(num);
-    }
-
-
 
     return (
         <Fragment>
@@ -115,17 +102,10 @@ export function Results() {
             <div>
                 <div class="container">
                     <div class="row my-4 columns-center-vertical">
-
-                        {/* <div class="col-lg-1">
-                            <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto" }} onClick={left}>
-                                Previous
-                            </Button>
-                        </div> */}
-
+                        
                         {clicked === 'true' ?
-
                             <div class="col-lg-12">
-                                <ResultGraph
+                                <ResultGraphMeasurement
                                     xAxisName={xAxisName}
                                     yAxisName={yAxisName}
                                     values={values}
@@ -138,14 +118,11 @@ export function Results() {
                                     />
                             </div>
                             :
-
                             <div class="col-lg-12">
                                 <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto" }} onClick={load}>
                                     load graph
                                 </Button>
                             </div>
-
-
                         }
 
                     </div>
@@ -157,4 +134,4 @@ export function Results() {
     )
 }
 
-export default Results;
+export default ResultsMeasurement;

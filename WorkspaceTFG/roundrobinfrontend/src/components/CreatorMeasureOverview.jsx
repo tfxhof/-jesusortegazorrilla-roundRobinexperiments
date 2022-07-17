@@ -89,6 +89,10 @@ export function MeasureOverview() {
     }
 
 
+    function compareResults() {
+        navigate('/ResultsMeasure');
+    }
+
 
     return (
         <Fragment>
@@ -102,7 +106,7 @@ export function MeasureOverview() {
                     <div class="row my-4 columns">
 
                         {/* To show the experiment main info */}
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="column-title">
                                 <b>Experiment Data</b>
                                 {/* <h3>Measures</h3> */}
@@ -129,7 +133,7 @@ export function MeasureOverview() {
                         </div>
 
                         {/* To show the experiment created measures */}
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="column-title">
                                 <b>Measurements</b>
                                 {/* <h3>Measures</h3> */}
@@ -137,6 +141,31 @@ export function MeasureOverview() {
                             <Paper elevation={3} style={paperStyle}>
                                 <CreatorMeasurementsList measurements={measurements} />
                             </Paper>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="column-title">
+                                <b>Compare Results</b>
+                                <br />
+                            </div>
+                            {expStatus === "STARTED" || expStatus === "FINISHED"  ?
+
+                                // To modify the experiment lists (add samples, test, participants...)
+                                <Fragment>
+                                    <div className='column-button'>
+                                        <Button variant="contained" style={{ backgroundColor: "#4488f0", color: "white", margin: "20px auto auto auto", width: "200px" }} onClick={compareResults}>
+                                            Compare results
+                                        </Button>
+                                    </div>
+                                </Fragment>
+                                :
+                                <div className='column-button finished-label'>
+                                    This experiment is not running right now.
+                                    <br />
+                                    It is '{experiment.status}'
+                                </div>
+                            }
+
                         </div>
 
                     </div>
