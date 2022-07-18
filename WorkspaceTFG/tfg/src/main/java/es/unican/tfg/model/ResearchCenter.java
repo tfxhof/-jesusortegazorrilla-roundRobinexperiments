@@ -37,8 +37,11 @@ public class ResearchCenter implements Serializable{
 	private Long id;
 	@Column(unique=true) 
 	private String name;
+	
 	@Column(unique=true) 
 	private String email;
+	private String password;	
+	
 	private String instructions;
 	@Embedded
 	private ContactData contactInfo;
