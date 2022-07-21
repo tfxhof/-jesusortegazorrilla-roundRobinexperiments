@@ -5,6 +5,8 @@ export { default as Footer } from "./Footer";
 export { default as Home } from "./Home";
 export { default as SignUp} from "./SignUp";
 export { default as CenterHome } from "./CenterHome";
+export { default as CheckRegistrationEmail } from "./CheckRegistrationEmail";
+export { default as ConfirmRegistration } from "./ConfirmRegistration";
 
 export { default as ExperimentOverview} from "./ExperimentOverview";
 

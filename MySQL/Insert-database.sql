@@ -6,6 +6,11 @@ insert into research_center (address, email, city, country, duty_manager_name, i
 insert into research_center (address, email, city, country, duty_manager_name, instructions, name) values ('Mortera', 'jesus@gmail.com', 'Madrid', 'Esp', 'Jesus', 'no se', 'Mi casa');
 insert into research_center (address, email, city, country, duty_manager_name, instructions, name) values ('Liencres', 'ruben@gmail.com', 'Liencres', 'Esp', 'Ruben', 'no se', 'Casa de Ruben');
 
+update research_center set password = 'dbdbc8ce6333f81b460c72bf6fdc4e3c37903773aab075474eaa21bf7b7ce595' where id = 1; #uc
+update research_center set password = 'cdefdfc1b5f1c676af2d6d9eae8b2bc6092ebc55d8c32ee8825ccce80cacfca8' where id = 2; #atlantico
+update research_center set password = '1579a6e3112caba1b6031ef7c507f3014d7b0a408fefd1b4d4a2c8c32d2274ff' where id = 3; #madrid
+
+
 
 
 insert into experiment (name, description, creator_center_fk, status) values 
@@ -49,8 +54,6 @@ insert into measurement (name, research_center_fk, measure_fk) values ('\'Dureza
 insert into measurement (name, research_center_fk, measure_fk) values ('\'Presion del Carbono\' in \'Universidad de Madrid\'', 3, 2);
 insert into measurement (name, research_center_fk, measure_fk) values ('\'Presion del Diamante\' in \'Universidad de Madrid\'', 3, 5);
 
-
-
 insert into sample (material_name, code, composition, description, measurement_fk, experiment_fk) values
 ('Carbono', 'Carbono 1', 'C', 'Descripcion del carbono', 1, 1);
 insert into sample (material_name, code, composition, description, measurement_fk, experiment_fk) values
@@ -62,6 +65,7 @@ insert into sample (material_name, code, composition, description, measurement_f
 
 delete from experiment_research_center where research_center_fk=7;
 delete from research_center where id=7;
+
 
 #insert into result (name, comments, satisfactory, measurement_fk) values ('Resultado de la prueba 1', 'La muestra mostro debilidad a mas de 130 grados', true, 1);
 #select * from experiment;

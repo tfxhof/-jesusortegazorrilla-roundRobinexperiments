@@ -11,6 +11,7 @@ export function SignUp() {
     //margin goes like up-left-down-right
 
     const [name, setName] = useState('')
+    const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
     const [country, setCountry] = useState('')
     const [city, setCity] = useState('')
@@ -26,7 +27,7 @@ export function SignUp() {
     //To add a new research center
     async function handleClick() {
         //e.preventDefault();
-        const researchCenter = { name: name, email, contactInfo: { country, city, address, dutyManagerName } }
+        const researchCenter = { name: name, password, email, contactInfo: { country, city, address, dutyManagerName } }
 
         let response = await fetch("http://localhost:8080/centers", {
             method: "POST",
@@ -44,7 +45,7 @@ export function SignUp() {
         if (response.ok) {
             setCenterEmail(email);
             console.log("Research Center Added " + centerEmail);
-            navigate('/CenterHome');
+            navigate('/CheckRegistrationEmail');
         } else {
             // TODO: advertise that there is already a center with given email or name
             console.log("Cannot add Research Center");
@@ -88,6 +89,11 @@ export function SignUp() {
                     <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                    />
+
+                    <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
 
                     <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth

@@ -1,9 +1,14 @@
 package es.unican.tfg.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.google.common.hash.Hashing;
 
 import es.unican.tfg.model.Experiment;
 import es.unican.tfg.model.ResearchCenter;
@@ -31,6 +36,17 @@ public class ResearchCenterService implements IResearchCenterService{
 	public ResearchCenter researchCenterByEmail(String email) {
 		ResearchCenter rc = centerRepository.findByEmail(email);
 		return rc;
+	}
+	
+	
+	public boolean checkPassword (String introducedPassword, String storedPassword) {
+		String hashedPassword = Hashing.sha256()
+				  .hashString(introducedPassword, StandardCharsets.UTF_8)
+				  .toString();
+		//Check if the password matches the stored one
+		if (storedPassword.equals(hashedPassword))
+			return true;
+		return false;
 	}
 	
 	

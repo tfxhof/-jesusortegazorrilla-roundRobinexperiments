@@ -14,6 +14,7 @@ export function SignUpParticipant() {
     const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
 
     const [name, setName] = useState('')
+    const [password, setPassword] = useState('')
     const [country, setCountry] = useState('')
     const [city, setCity] = useState('')
     const [address, setAddress] = useState('')
@@ -37,7 +38,8 @@ export function SignUpParticipant() {
     async function handleClick() {
         //e.preventDefault();
         const researchCenter = { 
-            name, 
+            name,
+            password,
             email: centerEmailQuery, 
             contactInfo: { 
                 country, 
@@ -86,6 +88,11 @@ export function SignUpParticipant() {
                     <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                    />
+
+                    <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
 
                     <TextField id="outlined-basic" label="Address" variant="outlined" fullWidth

@@ -19,6 +19,7 @@ select * from result_file;
 select * from research_center;
 select * from experiment_research_center;
 select * from email_code;
+#delete from email_code where id = 3;
 
 insert into measure (name, instructions, experiment_fk) values ('Dureza', 'Probar a 50 grados', 2);
 insert into measure (name, instructions, experiment_fk) values ('Reflectancia', 'Probar el angula maximo de reflectancia', 2);

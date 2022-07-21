@@ -11,7 +11,11 @@ import {
   AddParameter, 
   CreatorMeasureOverview, 
   CreatorMeasurementOverview,
-  ConfirmAssistance } from "./components";
+  ConfirmAssistance,
+  CheckRegistrationEmail, 
+  ConfirmRegistration,
+  
+  } from "./components";
   
 
 import SignUp from './components/SignUp';
@@ -78,6 +82,9 @@ function App() {
             <Route path="/SignUpParticipant" element={<SignUpParticipant />} />
             <Route path="/ConfirmParticipant" element={<ConfirmParticipant/>} />
             <Route path="/ConfirmAssistance" element={<ConfirmAssistance/>} />
+            <Route path="/ConfirmRegistration" element={<ConfirmRegistration/>} />
+            <Route path="/CheckRegistrationEmail" element={<CheckRegistrationEmail/>} />
+
 
           </Routes>
 

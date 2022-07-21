@@ -8,9 +8,12 @@ import { CenterContext } from '../providers/CenterContext';
 export function Home() {
   const paperStyle = { padding: '20px', width: 600, margin: "20px auto" }
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const { centerEmail, setCenterEmail } = useContext(CenterContext);
   const { setCenterName } = useContext(CenterContext);
+
+
 
   let navigate = useNavigate();
 
@@ -39,12 +42,20 @@ export function Home() {
   }
 
   async function checkCenterExists() {
-    if (email === "") {
+    if (email === "" || password ==="") {
       return false;
     }
+    
+    const researchCenter = { 
+      email,
+      password
+    }
+
     setCenterEmail(email);
     let url = "http://localhost:8080/centers/";
     url = url.concat(email);
+    url = url.concat("/");
+    url = url.concat(password);
     // fetch("http://localhost:8080/centers/{id}/experiments?creator=true")
     let response = await fetch(url)
 
@@ -83,6 +94,11 @@ export function Home() {
                   <TextField required id="outlined-basic" label="Email" variant="outlined" fullWidth
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                  />
+
+                  <TextField required id="outlined-basic" label="Password" variant="outlined" fullWidth
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
 
                 </Box>
