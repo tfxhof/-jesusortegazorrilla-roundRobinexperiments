@@ -232,7 +232,7 @@ export function AddResult() {
 
         {/* Button to add the result file to Database */}
         {/* <button className="btn btn-success" disabled={!selectedFiles} onClick={upload} > */}
-        <button className="btn btn-success" onClick={upload} >
+        <button className="btn btn-success botonn" onClick={upload} >
           Upload
         </button>
 

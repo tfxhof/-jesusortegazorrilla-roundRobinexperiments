@@ -70,6 +70,10 @@ code {
     max-width: 100%;
   }
 
+  .botonn{
+    background-color: #4488f0;
+  }
+
   .result-container {
     max-width: 95%;
     justify-content: center;
