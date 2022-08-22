@@ -42,7 +42,7 @@ public class ResearchCenter implements Serializable{
 	private String email;
 	private String password;	
 	
-	private String instructions;
+	//private String instructions;
 	@Embedded
 	private ContactData contactInfo;
 	
@@ -61,7 +61,7 @@ public class ResearchCenter implements Serializable{
 		super();
 		this.name = name;
 		this.email = email;
-		this.instructions = instructions;
+		//this.instructions = instructions;
 		this.contactInfo = contactInfo;
 	}
 
@@ -74,13 +74,13 @@ public class ResearchCenter implements Serializable{
 		this.id = id;
 	}
 	
-	public String getInstructions() {
-		return instructions;
-	}
-
-	public void setInstructions(String instructions) {
-		this.instructions = instructions;
-	}
+//	public String getInstructions() {
+//		return instructions;
+//	}
+//
+//	public void setInstructions(String instructions) {
+//		this.instructions = instructions;
+//	}
 
 	public ContactData getContactInfo() {
 		return contactInfo;
