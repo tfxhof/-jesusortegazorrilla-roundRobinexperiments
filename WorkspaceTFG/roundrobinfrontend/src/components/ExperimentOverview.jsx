@@ -145,9 +145,9 @@ export function ExperimentOverview() {
                             <br></br>
                             <div class="description">
                                 {experiment.description}
-                                <Button onClick={changeEditMode}>
+                                {/* <Button onClick={changeEditMode}>
                                     <EditIcon />
-                                </Button>
+                                </Button> */}
                             </div>
 
                             <br></br>

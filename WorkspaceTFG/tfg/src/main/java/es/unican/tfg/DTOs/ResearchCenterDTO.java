@@ -45,7 +45,7 @@ public class ResearchCenterDTO implements Serializable{
 		this.id = r.getId();
 		this.name = r.getName();
 		this.email = r.getEmail();
-		this.instructions = r.getInstructions();
+		//this.instructions = r.getInstructions();
 		this.contactInfo = r.getContactInfo();
 	}
 

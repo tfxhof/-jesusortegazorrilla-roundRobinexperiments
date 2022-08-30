@@ -64,7 +64,7 @@ public class ResearchCenterController {
 		experiments = centerService.experiments(email, creator);
 
 		if(experiments == null)
-			return null;
+			return ResponseEntity.notFound().build();
 
 		List<ExperimentDTO> exp = new ArrayList<ExperimentDTO>();
 		for(Experiment e: experiments) {

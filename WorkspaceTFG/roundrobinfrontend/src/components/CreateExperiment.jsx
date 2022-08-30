@@ -106,9 +106,9 @@ export function CreateExperiment() {
                 Create Experiment
             </div>
 
-            <div>
+            {/* <div>
                 {centerEmail}
-            </div>
+            </div> */}
 
             {/* Text Fields to introduce the data */}
             <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '50%' }, marginTop: "20px" }} noValidate autoComplete="off">

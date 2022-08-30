@@ -96,7 +96,7 @@ export function Home() {
                     onChange={(e) => setEmail(e.target.value)}
                   />
 
-                  <TextField type="password" required id="outlined-basic" label="Password" variant="outlined" fullWidth
+                  <TextField type="password" required id="outlined-basic2" label="Password" variant="outlined" fullWidth
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
