@@ -427,7 +427,6 @@ public class ExperimentController {
 		measurement.setExecutingCenter(rc);
 
 
-
 		//Check if exist an experiment with given name
 		Experiment e = experimentService.experimentByName(name);
 		if (e == null)
