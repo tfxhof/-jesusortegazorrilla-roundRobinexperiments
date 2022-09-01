@@ -26,6 +26,8 @@ insert into experiment (name, description, creator_center_fk, status) values
 
 
 #Add participants
+insert into experiment_research_center (research_center_fk, experiment_fk) values (1, 1);
+#delete from experiment_research_center where research_center_fk=7;
 insert into experiment_research_center (research_center_fk, experiment_fk) values (2, 1);
 insert into experiment_research_center (research_center_fk, experiment_fk) values (3, 1);
 insert into experiment_research_center (research_center_fk, experiment_fk) values (4, 1);
@@ -47,6 +49,8 @@ insert into measure (name, instructions, experiment_fk) values ('Resistencia al 
 
 
 
+
+delete from measurement where id=6;
 insert into measurement (name, research_center_fk, measure_fk) values ('\'Dureza del Carbono\' in \'Universidad del Atlantico\'', 2, 1);
 insert into measurement (name, research_center_fk, measure_fk) values ('\'Presion del Carbono\' in \'Universidad del Atlantico\'', 2, 2);
 insert into measurement (name, research_center_fk, measure_fk) values ('\'Dureza del Diamante\' in \'Universidad del Atlantico\'', 2, 4);
