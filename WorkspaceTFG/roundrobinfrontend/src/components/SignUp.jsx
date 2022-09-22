@@ -91,7 +91,7 @@ export function SignUp() {
                         onChange={(e) => setName(e.target.value)}
                     />
 
-                    <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth
+                    <TextField type="password" id="outlined-basic" label="Password" variant="outlined" fullWidth
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
