@@ -1,4 +1,15 @@
 # TFGJesusOrtegaZorrilla
+
+---
+
+## Metadatos TfxHoF
+
+- Autor: [Jesús Ortega Zorrilla](https://www.linkedin.com/in/jesus-ortega-zorrilla-19b6131a2/)
+- Título: [Plataforma para la gestión de experimentos de medición roundrobin](https://repositorio.unican.es/xmlui/handle/10902/26367)
+- Fecha: Septiembre 2022
+
+---
+
 Repository to store all the documents, files and code about Jesús Ortega Zorrilla TFG, which is related to developing a web platform to manage round-robin experiments.
 
 
